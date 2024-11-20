@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hack_u_app/moti.dart';
 import 'select_game.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF2196f3),
         canvasColor: const Color(0xFFfafafa),
       ),
-      home: KeyWordPage(),
+      home: GamePage(),
     );
   }
 }
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("title_screen/background.png"),
+          image: AssetImage("assets/title_screen/background.png"), // 背景
           fit: BoxFit.cover,
         ),
       ),
@@ -49,11 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 320,
             height: 60,
           ),
+          // タイトル
           SizedBox(
             width: 320,
             height: 100,
             child: Image.asset(
-              "title_screen/title.png",
+              "assets/title_screen/title.png",
               fit: BoxFit.fill,
             ),
           ),
@@ -61,6 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 320,
             height: 250,
           ),
+          // スタートボタン
           Container(
             padding: const EdgeInsets.all(0.0),
             alignment: Alignment.center,
@@ -68,13 +71,31 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 100,
             child: IconButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ModePage()));
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return const ModePage();
+                    },
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      final Animatable<Offset> tween =
+                          Tween(begin: const Offset(1.0, 0.0), end: Offset.zero)
+                              .chain(CurveTween(curve: Curves.easeInOut));
+                      final Animation<Offset> offsetAnimation =
+                          animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
               },
-              icon: Image.asset("title_screen/start.png"),
+              icon: Image.asset("assets/title_screen/start.png"),
               iconSize: 100,
             ),
           ),
+          // オプションボタン
           Container(
             padding: const EdgeInsets.all(0.0),
             alignment: Alignment.center,
@@ -88,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       return const AlertDialogSample();
                     });
               },
-              icon: Image.asset("title_screen/option.png"),
+              icon: Image.asset("assets/title_screen/option.png"),
               iconSize: 100,
             ),
           )
@@ -112,7 +133,7 @@ class _ModePageState extends State<ModePage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("title_screen/background_gray.png"),
+              image: AssetImage("assets/title_screen/background_gray.png"),
               fit: BoxFit.cover), // 背景
         ),
         child: Column(
@@ -128,8 +149,8 @@ class _ModePageState extends State<ModePage> {
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
               width: 200,
-              child:
-                  Image.asset("title_screen/mode_title.png", fit: BoxFit.fill),
+              child: Image.asset("assets/title_screen/mode_title.png",
+                  fit: BoxFit.fill),
             ),
             const SizedBox(
               width: 320,
@@ -140,12 +161,27 @@ class _ModePageState extends State<ModePage> {
               alignment: Alignment.center,
               height: 100,
               child: IconButton(
-                icon: Image.asset("title_screen/single.png"),
+                icon: Image.asset("assets/title_screen/single.png"),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const GameMode("Single")));
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return const GameMode("Single");
+                      },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        final Animatable<Offset> tween = Tween(
+                                begin: const Offset(1.0, 0.0), end: Offset.zero)
+                            .chain(CurveTween(curve: Curves.easeInOut));
+                        final Animation<Offset> offsetAnimation =
+                            animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
                 },
               ),
             ),
@@ -154,12 +190,27 @@ class _ModePageState extends State<ModePage> {
               alignment: Alignment.center,
               height: 100,
               child: IconButton(
-                icon: Image.asset("title_screen/party.png"),
+                icon: Image.asset("assets/title_screen/party.png"),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const GameMode("Party")));
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return const GameMode("Party");
+                      },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        final Animatable<Offset> tween = Tween(
+                                begin: const Offset(1.0, 0.0), end: Offset.zero)
+                            .chain(CurveTween(curve: Curves.easeInOut));
+                        final Animation<Offset> offsetAnimation =
+                            animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
                 },
               ),
             ),
@@ -168,36 +219,72 @@ class _ModePageState extends State<ModePage> {
               alignment: Alignment.center,
               height: 100,
               child: IconButton(
-                icon: Image.asset("title_screen/select.png"),
+                icon: Image.asset("assets/title_screen/select.png"),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const GameMode("Select")));
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return const GameMode("Select");
+                      },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        final Animatable<Offset> tween = Tween(
+                                begin: const Offset(1.0, 0.0), end: Offset.zero)
+                            .chain(CurveTween(curve: Curves.easeInOut));
+                        final Animation<Offset> offsetAnimation =
+                            animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
                 },
               ),
             ),
+            // 戻るボタン
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(
-                  width: 320,
+                  width: 290,
                   height: 50,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(0.0),
-                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(0),
+                  alignment: Alignment.topLeft,
                   width: 100,
                   height: 100,
                   child: IconButton(
-                    icon: Image.asset("title_screen/return.png"),
+                    icon: Image.asset(
+                      "assets/title_screen/return.png",
+                      fit: BoxFit.fill,
+                    ),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyHomePage()));
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) {
+                            return MyHomePage();
+                          },
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            final Animatable<Offset> tween = Tween(
+                                    begin: const Offset(-1.0, 0.0),
+                                    end: Offset.zero)
+                                .chain(CurveTween(curve: Curves.easeInOut));
+                            final Animation<Offset> offsetAnimation =
+                                animation.drive(tween);
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
                     },
                   ),
                 )
@@ -225,7 +312,7 @@ class _GameModePageState extends State<GameMode> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("title_screen/background_gray.png"),
+              image: AssetImage("assets/title_screen/background_gray.png"),
               fit: BoxFit.cover), // 背景
         ),
         child: Column(
@@ -242,22 +329,23 @@ class _GameModePageState extends State<GameMode> {
                 alignment: Alignment.center,
                 width: 250,
                 child: (widget.mode == "Single")
-                    ? Image.asset("title_screen/single_title.png",
+                    ? Image.asset("assets/title_screen/single_title.png",
                         fit: BoxFit.fill)
                     : (widget.mode == "Party")
-                        ? Image.asset("title_screen/party_title.png",
+                        ? Image.asset("assets/title_screen/party_title.png",
                             fit: BoxFit.fill)
-                        : Image.asset("title_screen/select_title.png",
+                        : Image.asset("assets/title_screen/select_title.png",
                             fit: BoxFit.fill)),
             Container(
                 padding: const EdgeInsets.all(0.0),
                 alignment: Alignment.center,
                 width: 310,
                 child: (widget.mode == "Single")
-                    ? Image.asset("title_screen/single_explain.png")
+                    ? Image.asset("assets/title_screen/single_explain.png")
                     : (widget.mode == "Party")
-                        ? Image.asset("title_screen/party_explain.png")
-                        : Image.asset("title_screen/select_explain.png")),
+                        ? Image.asset("assets/title_screen/party_explain.png")
+                        : Image.asset(
+                            "assets/title_screen/select_explain.png")),
             const SizedBox(
               width: 320,
               height: 50,
@@ -267,14 +355,48 @@ class _GameModePageState extends State<GameMode> {
               alignment: Alignment.center,
               height: 80,
               child: IconButton(
-                icon: Image.asset("title_screen/start_mode.png"),
+                icon: Image.asset("assets/title_screen/start_mode.png"),
                 onPressed: () {
                   if (widget.mode == "Select") {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SelectPage()));
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return SelectPage();
+                        },
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          final Animatable<Offset> tween = Tween(
+                                  begin: const Offset(1.0, 0.0),
+                                  end: Offset.zero)
+                              .chain(CurveTween(curve: Curves.easeInOut));
+                          final Animation<Offset> offsetAnimation =
+                              animation.drive(tween);
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
                   } else if (widget.mode == "Party") {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => KeyWordPage()));
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const KeyWordPage(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              return const FadeUpwardsPageTransitionsBuilder()
+                                  .buildTransitions(
+                                MaterialPageRoute(
+                                    builder: (context) => const KeyWordPage()),
+                                context,
+                                animation,
+                                secondaryAnimation,
+                                child,
+                              );
+                            }));
                   } else {
                     showDialog(
                         context: context,
@@ -291,7 +413,7 @@ class _GameModePageState extends State<GameMode> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(
-                  width: 320,
+                  width: 290,
                   height: 50,
                 ),
                 Container(
@@ -300,12 +422,29 @@ class _GameModePageState extends State<GameMode> {
                   width: 100,
                   height: 100,
                   child: IconButton(
-                    icon: Image.asset("title_screen/return.png"),
+                    icon: Image.asset("assets/title_screen/return.png"),
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ModePage()));
+                      Navigator.of(context).push(
+                        PageRouteBuilder(
+                          pageBuilder:
+                              (context, animation, secondaryAnimation) {
+                            return const ModePage();
+                          },
+                          transitionsBuilder:
+                              (context, animation, secondaryAnimation, child) {
+                            final Animatable<Offset> tween = Tween(
+                                    begin: const Offset(-1.0, 0.0),
+                                    end: Offset.zero)
+                                .chain(CurveTween(curve: Curves.easeInOut));
+                            final Animation<Offset> offsetAnimation =
+                                animation.drive(tween);
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                        ),
+                      );
                     },
                   ),
                 )
@@ -333,7 +472,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("title_screen/background_gray.png"),
+              image: AssetImage("assets/title_screen/background_gray.png"),
               fit: BoxFit.cover), // 背景
         ),
         padding: const EdgeInsets.all(0.0),
@@ -351,7 +490,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
               width: 250,
-              child: Image.asset("title_screen/keyword_title.png",
+              child: Image.asset("assets/title_screen/keyword_title.png",
                   fit: BoxFit.fill),
             ),
             const SizedBox(
@@ -364,7 +503,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
               child: Stack(
                 alignment: AlignmentDirectional.center,
                 children: <Widget>[
-                  Image.asset("title_screen/keyword_field.png"),
+                  Image.asset("assets/title_screen/keyword_field.png"),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.max,
@@ -390,10 +529,10 @@ class _KeyWordPageState extends State<KeyWordPage> {
                             ),
                           ),
                           style: const TextStyle(
-                              fontSize: 12.0,
-                              color: Color(0xFF000000),
-                              fontWeight: FontWeight.w200,
-                              fontFamily: "Roboto"),
+                            fontSize: .0,
+                            color: Color(0xFF000000),
+                            fontWeight: FontWeight.w200,
+                          ),
                         ),
                       ),
                       // 文字数カウント入れる場合はここに
@@ -411,7 +550,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
               alignment: Alignment.center,
               height: 80,
               child: IconButton(
-                icon: Image.asset("title_screen/keyword_enter.png"),
+                icon: Image.asset("assets/title_screen/keyword_enter.png"),
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -431,7 +570,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 const SizedBox(
-                  width: 320,
+                  width: 290,
                   height: 50,
                 ),
                 Container(
@@ -440,7 +579,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
                   width: 100,
                   height: 100,
                   child: IconButton(
-                    icon: Image.asset("title_screen/return.png"),
+                    icon: Image.asset("assets/title_screen/return.png"),
                     onPressed: () {
                       Navigator.push(
                           context,

@@ -30,11 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.0.0
-  path: ^1.8.0
-  firebase_core: ^2.15.0
-  cloud_firestore: ^4.11.0
-  cupertino_icons: ^1.0.6
+  grpc: ^3.0.0
+  protobuf: ^3.0.0
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:

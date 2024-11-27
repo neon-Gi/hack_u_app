@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/select_game.dart';
 
 // プレイヤークラス
 class Player {
@@ -20,13 +21,17 @@ class Game {
 String timerUrl = "assets/timer/time64_";
 
 // ゲーム画面
-class GamePage extends StatefulWidget {
-  GamePage({Key? key}) : super(key: key);
+class MotiGamePage extends StatefulWidget {
+  MotiGamePage(
+    this.child, {
+    Key? key,
+  }) : super(key: key);
+  final String child;
   @override
-  _GamePageState createState() => _GamePageState();
+  _MotiGamePageState createState() => _MotiGamePageState();
 }
 
-class _GamePageState extends State<GamePage> {
+class _MotiGamePageState extends State<MotiGamePage> {
   Game game = Game();
   Timer? _timer;
   Timer? _motiTimer;
@@ -124,7 +129,14 @@ class _GamePageState extends State<GamePage> {
                     children: <Widget>[
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          if (widget.child == "Select") {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SelectPage(),
+                              ),
+                            );
+                          }
                         },
                         child: const Text('やめる'),
                       ),
@@ -352,7 +364,7 @@ class _GamePageState extends State<GamePage> {
                     Container(
                       padding: const EdgeInsets.all(0),
                       alignment: Alignment.center,
-                      child: (!game.start || game.mistake)
+                      child: (!game.start || game.mistake || game.timerSec <= 0)
                           // アイドル状態
                           ? IconButton(
                               onPressed: null,

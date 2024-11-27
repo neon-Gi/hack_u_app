@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package multiplayer;
+
+
+// 部屋関連のメッセージ
+message Room {
+  string serverID = 1;
+  repeated string players = 2;
+}
+
+// ルーム作成リクエスト
+message CreateRoomRequest {
+  string hostname = 1;
+}
+
+// ルーム作成完了
+message CreateRoomResponse {
+  Room room = 1;
+  string hostname = 2;
+}
+
+// ルーム更新データリクエスト
+message RoomDataRequest {
+  string hostname = 1;
+}
+
+// ルーム更新データ取得
+message RoomDataResponse {
+  Room room = 1;
+  string hostname = 2;
+}
+
+// ルーム加入
+message JoinRoomRequest {
+  string hostname = 1;
+  string playername = 2;
+}
+
+// ルーム加入完了
+message JoinRoomResponse {
+  bool success = 1;
+  Room room = 2;
+  string hostname = 3;
+}
+
+// ルーム退出
+message ExitRoomRequest {
+  string hostname = 1;
+  string playername = 2;
+}
+
+message ExitRoomResponse {
+  bool success = 1;
+}
+
+// サービス定義
+service MultiplayerService {
+    rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
+    rpc RoomData (RoomDataRequest) returns (RoomDataResponse);      // 2秒ごとに取得
+    rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);
+    rpc ExitRoom (ExitRoomRequest) returns (ExitRoomResponse);
+    // rpc StartGame (StartGameRequest) returns (StartGameResponse);
+
+    // ストリーミングAPI: ゲームのアクション同期
+    // rpc GamePlay (stream GameAction) returns (stream GameState);
+}

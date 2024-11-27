@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
+import 'moti.dart';
 
 class SelectPage extends StatefulWidget {
   SelectPage({Key? key}) : super(key: key);
@@ -323,7 +324,26 @@ class _SelectPageState extends State<SelectPage> {
                 alignment: Alignment.center,
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) {
+                          return const ModePage();
+                        },
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          final Animatable<Offset> tween = Tween(
+                                  begin: const Offset(-1.0, 0.0),
+                                  end: Offset.zero)
+                              .chain(CurveTween(curve: Curves.easeInOut));
+                          final Animation<Offset> offsetAnimation =
+                              animation.drive(tween);
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
                   },
                   icon:
                       Image.asset("assets/select_screen/game_icon_return.png"),
@@ -406,7 +426,8 @@ class _GameDetailState extends State<GameDetail> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ModePage()),
+                    MaterialPageRoute(
+                        builder: (context) => MotiGamePage("Select")),
                   );
                 },
               ),
@@ -432,7 +453,7 @@ class _GameDetailState extends State<GameDetail> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) {
-                            return const ModePage();
+                            return SelectPage();
                           },
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {

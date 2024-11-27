@@ -1,6 +1,8 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hack_u_app/moti.dart';
+import 'package:hack_u_app/multi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'select_game.dart';
 
 void main() {
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF2196f3),
         canvasColor: const Color(0xFFfafafa),
       ),
-      home: GamePage(),
+      home: MyHomePage(),
     );
   }
 }
@@ -466,6 +468,94 @@ class KeyWordPage extends StatefulWidget {
 
 class _KeyWordPageState extends State<KeyWordPage> {
   String keyword = "";
+  String? _playerId;
+  String? _playerName;
+
+  Future<void> _TextDialog() async {
+    final TextEditingController nameController = TextEditingController();
+    final result = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('名前を決めよう！'),
+          content: TextField(
+            controller: nameController,
+            decoration: const InputDecoration(hintText: 'ここに名前を入力'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) {
+                      return const ModePage();
+                    },
+                    transitionsBuilder:
+                        (context, animation, secondaryAnimation, child) {
+                      final Animatable<Offset> tween = Tween(
+                              begin: const Offset(-1.0, 0.0), end: Offset.zero)
+                          .chain(CurveTween(curve: Curves.easeInOut));
+                      final Animation<Offset> offsetAnimation =
+                          animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(nameController.text); // 入力値を返す
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    // 結果を処理
+    if (result != null && result.isNotEmpty) {
+      _savePlayerData(result);
+    }
+  }
+
+  // プレイヤーデータをロード
+  Future<void> _loadPlayerData() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("playerId") == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _TextDialog();
+      });
+    } else {
+      setState(() {
+        _playerId = prefs.getString("playerId");
+        _playerName = prefs.getString("playerName");
+      });
+    }
+  }
+
+  Future<void> _savePlayerData(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    final randomId = List.generate(8, (index) => Random().nextInt(10)).join();
+    await prefs.setString('playerId', randomId);
+    await prefs.setString("playerName", name);
+    setState(() {
+      _playerId = randomId;
+      _playerName = name;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPlayerData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -543,7 +633,43 @@ class _KeyWordPageState extends State<KeyWordPage> {
             ),
             const SizedBox(
               width: 320,
-              height: 60,
+              height: 30,
+            ),
+            Container(
+              padding: const EdgeInsets.all(0),
+              alignment: Alignment.center,
+              child: IconButton(
+                icon: Image.asset(
+                  "assets/title_screen/keyword_create.png",
+                  width: 280,
+                  height: 60,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return roomView("Create", _playerName as String);
+                      },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        final Animatable<Offset> tween = Tween(
+                                begin: const Offset(1.0, 0.0), end: Offset.zero)
+                            .chain(CurveTween(curve: Curves.easeInOut));
+                        final Animation<Offset> offsetAnimation =
+                            animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(
+              width: 320,
+              height: 30,
             ),
             Container(
               padding: const EdgeInsets.all(0.0),
@@ -588,6 +714,15 @@ class _KeyWordPageState extends State<KeyWordPage> {
                     },
                   ),
                 )
+              ],
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("PlayerId: $_playerId, PlayerName: $_playerName"),
               ],
             )
           ],

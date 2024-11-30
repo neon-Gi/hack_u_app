@@ -5,30 +5,37 @@ package multiplayer;
 
 // 部屋関連のメッセージ
 message Room {
-  string serverID = 1;
-  repeated string players = 2;
+  string serverID = 1;            // エラー処理用(ランダム)
+  string hostname = 2;            // ルーム識別用
+  string status = 3;              // "waiting":開始待機、"on game":ゲーム中、"kill":ホストプレイヤーが退出
+  repeated string players = 4;    // 参加しているプレイヤー
+}
+
+// ゲーム関連のメッセージ
+message Game {
+  string hostname = 1;        // ルーム識別用
+  string title = 2;           // ゲームタイトル
+  string game_status = 3;     // "ready":ルール説明・準備、"on game":制限時間内、"finish":終了
+  int32 remaining_time = 4;   // 残り時間
+  string player_action = 5;   // 餅つき用:プレイヤーアクション
 }
 
 // ルーム作成リクエスト
 message CreateRoomRequest {
   string hostname = 1;
 }
-
 // ルーム作成完了
 message CreateRoomResponse {
   Room room = 1;
-  string hostname = 2;
 }
 
-// ルーム更新データリクエスト
-message RoomDataRequest {
+// ルーム更新データリクエスト(クライアントから自動でリクエスト、ルーム状態がゲーム中ならStartGameRequestを送る)
+message UpdateRequest {
   string hostname = 1;
 }
-
 // ルーム更新データ取得
-message RoomDataResponse {
+message UpdateResponse {
   Room room = 1;
-  string hostname = 2;
 }
 
 // ルーム加入
@@ -36,12 +43,9 @@ message JoinRoomRequest {
   string hostname = 1;
   string playername = 2;
 }
-
 // ルーム加入完了
 message JoinRoomResponse {
-  bool success = 1;
-  Room room = 2;
-  string hostname = 3;
+  Room room = 1;
 }
 
 // ルーム退出
@@ -49,19 +53,40 @@ message ExitRoomRequest {
   string hostname = 1;
   string playername = 2;
 }
-
+// ルーム退出完了
 message ExitRoomResponse {
   bool success = 1;
 }
 
+// ゲーム開始リクエスト(ホスト名とプレイヤー名が一緒ならルーム状態をゲーム中にする)
+message StartGameRequest {
+  string hostname = 1;
+  string playername = 2;
+}
+// ゲーム開始処理(ゲームはサーバから自動で決定)
+message StartGameResponse {
+  Room room = 1;
+  Game game = 2;
+}
+
+// ゲーム情報更新
+message UpdateGameRequest {
+  string hostname = 1;
+  string playername = 2;
+  bool action = 3;
+}
+// ゲーム情報更新結果
+message UpdateGameResponse {
+  Room room = 1;
+  Game game = 2;
+}
+
 // サービス定義
 service MultiplayerService {
-    rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);
-    rpc RoomData (RoomDataRequest) returns (RoomDataResponse);      // 2秒ごとに取得
-    rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);
-    rpc ExitRoom (ExitRoomRequest) returns (ExitRoomResponse);
-    // rpc StartGame (StartGameRequest) returns (StartGameResponse);
-
-    // ストリーミングAPI: ゲームのアクション同期
-    // rpc GamePlay (stream GameAction) returns (stream GameState);
+    rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);  // ルーム作成
+    rpc UpdateRoom (UpdateRequest) returns (UpdateResponse);          // ルーム情報更新 3秒ごとに取得
+    rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);        // ルーム入室
+    rpc ExitRoom (ExitRoomRequest) returns (ExitRoomResponse);        // ルーム退出
+    rpc StartGame (StartGameRequest) returns (StartGameResponse);     // ゲーム開始
+    rpc UpdateGame (UpdateGameRequest) returns (UpdateGameResponse);  // ゲーム情報更新 0.5秒ごとに取得
 }

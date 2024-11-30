@@ -619,7 +619,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
                             ),
                           ),
                           style: const TextStyle(
-                            fontSize: .0,
+                            fontSize: 20,
                             color: Color(0xFF000000),
                             fontWeight: FontWeight.w200,
                           ),
@@ -679,10 +679,11 @@ class _KeyWordPageState extends State<KeyWordPage> {
                 icon: Image.asset("assets/title_screen/keyword_enter.png"),
                 onPressed: () {
                   showDialog(
-                      context: context,
-                      builder: (_) {
-                        return const AlertDialogSample();
-                      });
+                    context: context,
+                    builder: (_) {
+                      return const AlertDialogSample();
+                    },
+                  );
                 },
               ),
             ),

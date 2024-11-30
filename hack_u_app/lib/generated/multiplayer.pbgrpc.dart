@@ -25,10 +25,10 @@ class MultiplayerServiceClient extends $grpc.Client {
       '/multiplayer.MultiplayerService/CreateRoom',
       ($0.CreateRoomRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.CreateRoomResponse.fromBuffer(value));
-  static final _$roomData = $grpc.ClientMethod<$0.RoomDataRequest, $0.RoomDataResponse>(
-      '/multiplayer.MultiplayerService/RoomData',
-      ($0.RoomDataRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.RoomDataResponse.fromBuffer(value));
+  static final _$updateRoom = $grpc.ClientMethod<$0.UpdateRequest, $0.UpdateResponse>(
+      '/multiplayer.MultiplayerService/UpdateRoom',
+      ($0.UpdateRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.UpdateResponse.fromBuffer(value));
   static final _$joinRoom = $grpc.ClientMethod<$0.JoinRoomRequest, $0.JoinRoomResponse>(
       '/multiplayer.MultiplayerService/JoinRoom',
       ($0.JoinRoomRequest value) => value.writeToBuffer(),
@@ -37,6 +37,14 @@ class MultiplayerServiceClient extends $grpc.Client {
       '/multiplayer.MultiplayerService/ExitRoom',
       ($0.ExitRoomRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.ExitRoomResponse.fromBuffer(value));
+  static final _$startGame = $grpc.ClientMethod<$0.StartGameRequest, $0.StartGameResponse>(
+      '/multiplayer.MultiplayerService/StartGame',
+      ($0.StartGameRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.StartGameResponse.fromBuffer(value));
+  static final _$updateGame = $grpc.ClientMethod<$0.UpdateGameRequest, $0.UpdateGameResponse>(
+      '/multiplayer.MultiplayerService/UpdateGame',
+      ($0.UpdateGameRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.UpdateGameResponse.fromBuffer(value));
 
   MultiplayerServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -48,8 +56,8 @@ class MultiplayerServiceClient extends $grpc.Client {
     return $createUnaryCall(_$createRoom, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.RoomDataResponse> roomData($0.RoomDataRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$roomData, request, options: options);
+  $grpc.ResponseFuture<$0.UpdateResponse> updateRoom($0.UpdateRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$updateRoom, request, options: options);
   }
 
   $grpc.ResponseFuture<$0.JoinRoomResponse> joinRoom($0.JoinRoomRequest request, {$grpc.CallOptions? options}) {
@@ -58,6 +66,14 @@ class MultiplayerServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.ExitRoomResponse> exitRoom($0.ExitRoomRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$exitRoom, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.StartGameResponse> startGame($0.StartGameRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$startGame, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.UpdateGameResponse> updateGame($0.UpdateGameRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$updateGame, request, options: options);
   }
 }
 
@@ -73,13 +89,13 @@ abstract class MultiplayerServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.CreateRoomRequest.fromBuffer(value),
         ($0.CreateRoomResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.RoomDataRequest, $0.RoomDataResponse>(
-        'RoomData',
-        roomData_Pre,
+    $addMethod($grpc.ServiceMethod<$0.UpdateRequest, $0.UpdateResponse>(
+        'UpdateRoom',
+        updateRoom_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.RoomDataRequest.fromBuffer(value),
-        ($0.RoomDataResponse value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.UpdateRequest.fromBuffer(value),
+        ($0.UpdateResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$0.JoinRoomRequest, $0.JoinRoomResponse>(
         'JoinRoom',
         joinRoom_Pre,
@@ -94,14 +110,28 @@ abstract class MultiplayerServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.ExitRoomRequest.fromBuffer(value),
         ($0.ExitRoomResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.StartGameRequest, $0.StartGameResponse>(
+        'StartGame',
+        startGame_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.StartGameRequest.fromBuffer(value),
+        ($0.StartGameResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.UpdateGameRequest, $0.UpdateGameResponse>(
+        'UpdateGame',
+        updateGame_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.UpdateGameRequest.fromBuffer(value),
+        ($0.UpdateGameResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.CreateRoomResponse> createRoom_Pre($grpc.ServiceCall call, $async.Future<$0.CreateRoomRequest> request) async {
     return createRoom(call, await request);
   }
 
-  $async.Future<$0.RoomDataResponse> roomData_Pre($grpc.ServiceCall call, $async.Future<$0.RoomDataRequest> request) async {
-    return roomData(call, await request);
+  $async.Future<$0.UpdateResponse> updateRoom_Pre($grpc.ServiceCall call, $async.Future<$0.UpdateRequest> request) async {
+    return updateRoom(call, await request);
   }
 
   $async.Future<$0.JoinRoomResponse> joinRoom_Pre($grpc.ServiceCall call, $async.Future<$0.JoinRoomRequest> request) async {
@@ -112,8 +142,18 @@ abstract class MultiplayerServiceBase extends $grpc.Service {
     return exitRoom(call, await request);
   }
 
+  $async.Future<$0.StartGameResponse> startGame_Pre($grpc.ServiceCall call, $async.Future<$0.StartGameRequest> request) async {
+    return startGame(call, await request);
+  }
+
+  $async.Future<$0.UpdateGameResponse> updateGame_Pre($grpc.ServiceCall call, $async.Future<$0.UpdateGameRequest> request) async {
+    return updateGame(call, await request);
+  }
+
   $async.Future<$0.CreateRoomResponse> createRoom($grpc.ServiceCall call, $0.CreateRoomRequest request);
-  $async.Future<$0.RoomDataResponse> roomData($grpc.ServiceCall call, $0.RoomDataRequest request);
+  $async.Future<$0.UpdateResponse> updateRoom($grpc.ServiceCall call, $0.UpdateRequest request);
   $async.Future<$0.JoinRoomResponse> joinRoom($grpc.ServiceCall call, $0.JoinRoomRequest request);
   $async.Future<$0.ExitRoomResponse> exitRoom($grpc.ServiceCall call, $0.ExitRoomRequest request);
+  $async.Future<$0.StartGameResponse> startGame($grpc.ServiceCall call, $0.StartGameRequest request);
+  $async.Future<$0.UpdateGameResponse> updateGame($grpc.ServiceCall call, $0.UpdateGameRequest request);
 }

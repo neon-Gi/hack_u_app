@@ -1,83 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:grpc/grpc.dart';
-import 'package:hack_u_app/main.dart';
-import '../generated/multiplayer.pbgrpc.dart';
-
-class GrpcService {
-  // シングルトンインスタンス
-  static final GrpcService _instance = GrpcService._internal();
-
-  // ファクトリーメソッド
-  factory GrpcService() => _instance;
-
-  // プライベートコンストラクタ
-  GrpcService._internal();
-
-  // gRPCのクライアントとチャンネル
-  late MultiplayerServiceClient _client;
-  late ClientChannel _channel;
-  Timer? timer;
-
-  // 初期化
-  Future<void> init({
-    int port = 50051,
-    bool useSecure = false,
-  }) async {
-    _channel = ClientChannel(
-      'localhost',
-      port: port,
-      options: ChannelOptions(
-        credentials: useSecure
-            ? const ChannelCredentials.secure()
-            : const ChannelCredentials.insecure(),
-      ),
-    );
-    _client = MultiplayerServiceClient(_channel); // クライアント名を修正
-  }
-
-  // Create Room
-  Future<CreateRoomResponse> createRoom(String hostname) async {
-    final request = CreateRoomRequest()..hostname = hostname;
-    final response = await _client.createRoom(request);
-    // ログ表示(リクエスト結果も)
-    print('CreateRoomResponse $response');
-    return response;
-  }
-
-  // Update Room Data
-  Future<RoomDataResponse> roomData(String hostname) async {
-    final request = RoomDataRequest()..hostname = hostname;
-    while (true) {
-      await Future.delayed(const Duration(seconds: 3));
-      try {
-        final response = await _client.roomData(request);
-        print(response);
-      } catch (e) {
-        print("Error: $e");
-      }
-    }
-  }
-
-  // Join Room
-  Future<JoinRoomResponse> joinRoom(String hostname) async {
-    final request = JoinRoomRequest()..hostname = hostname;
-    return await _client.joinRoom(request);
-  }
-
-  Future<ExitRoomResponse> exitRoom(String hostname, String playername) async {
-    final request = ExitRoomRequest()
-      ..hostname = hostname
-      ..playername = playername;
-    return await _client.exitRoom(request);
-  }
-
-  // Channel Shutdown
-  Future<void> shutdown() async {
-    await _channel.shutdown();
-  }
-}
+import 'main.dart';
+import 'grpcService.dart';
+import 'generated/multiplayer.pb.dart';
 
 class roomView extends StatefulWidget {
   roomView(this.mode, this.name, {Key? key}) : super(key: key);
@@ -88,44 +12,47 @@ class roomView extends StatefulWidget {
 }
 
 class _roomViewState extends State<roomView> {
-  Timer? timer;
-  String? _hostname;
+  final GrpcClient grpcClient = GrpcClient();
+  Room currentRoom = Room();
+  String _hostname = "";
   String _member = "募集中";
-  final grpcService = GrpcService();
+
   @override
   void initState() {
     super.initState();
-    grpcService.init();
     if (widget.mode == "Create") {
-      final _ = grpcService.createRoom(widget.name).then(
-            (value) => setState(
-              () {
-                _hostname = value.hostname;
-              },
-            ),
-          );
-      timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-        final update = grpcService.roomData(_hostname!).then(
-              (value) => setState(() {
-                if (value.room.players[1] != "") {
-                  _member = value.room.players[1];
-                }
-              }),
-            );
+      _hostname = widget.name;
+    }
+    createRoom();
+  }
+
+  // ルーム作成
+  Future<void> createRoom() async {
+    if (_hostname == "") return;
+    try {
+      final room = await grpcClient.createRoom(_hostname);
+      setState(() {
+        currentRoom = room;
       });
+    } catch (e) {
+      print('Failed to create room: $e');
     }
   }
 
-  void disposeConnect() {
-    if (_hostname == widget.name) {
-      grpcService.shutdown();
-      print("Shut down room");
-    } else {
-      grpcService.exitRoom(_hostname!, widget.name);
-      print("Exit room");
+  Future<void> updateRoom() async {
+    try {
+      final room = await grpcClient.updateRoom(_hostname);
+      setState(() {
+        currentRoom = room as Room;
+        if (currentRoom.players[1].isEmpty) {
+          _member = "募集中";
+        } else {
+          _member = currentRoom.players[1];
+        }
+      });
+    } catch (e) {
+      print('Failed to update room: $e');
     }
-    timer!.cancel();
-    timer = null;
   }
 
   @override
@@ -160,8 +87,8 @@ class _roomViewState extends State<roomView> {
                     bottom: 0,
                     child: Center(
                       child: Text(
-                        "$_hostname の部屋",
-                        style: const TextStyle(
+                        currentRoom.hostname,
+                        style: TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -229,7 +156,7 @@ class _roomViewState extends State<roomView> {
                         },
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {
-                          disposeConnect();
+                          null;
                           final Animatable<Offset> tween = Tween(
                                   begin: const Offset(-1.0, 0.0),
                                   end: Offset.zero)
@@ -254,6 +181,46 @@ class _roomViewState extends State<roomView> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _TextDialog() async {
+    final _ = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('見つかりませんでした'),
+          content: const Text("検索しましたが見つかりませんでした。"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // 入力値を返す
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _ExitDialog() async {
+    final _ = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('ルーム退出'),
+          content: const Text("ホストがルームを終了したので退出しました。"),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // 入力値を返す
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

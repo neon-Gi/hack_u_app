@@ -1,12 +1,14 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'grpcService.dart';
 import 'generated/multiplayer.pb.dart';
 
 class roomView extends StatefulWidget {
-  roomView(this.mode, this.name, {Key? key}) : super(key: key);
+  roomView(this.mode, this.name, this.host, {Key? key}) : super(key: key);
   String mode;
   String name;
+  String host;
   @override
   _roomViewState createState() => _roomViewState();
 }
@@ -16,14 +18,23 @@ class _roomViewState extends State<roomView> {
   Room currentRoom = Room();
   String _hostname = "";
   String _member = "募集中";
+  Timer? _time;
 
   @override
   void initState() {
     super.initState();
     if (widget.mode == "Create") {
       _hostname = widget.name;
+      createRoom();
+    } else if (widget.mode == "Join") {
+      _member = widget.name;
+      if (widget.host == "") return;
+      _hostname = widget.host;
+      joinRoom();
     }
-    createRoom();
+    _time = Timer.periodic(const Duration(seconds: 3), (Timer t) {
+      updateRoom();
+    });
   }
 
   // ルーム作成
@@ -39,6 +50,7 @@ class _roomViewState extends State<roomView> {
     }
   }
 
+  // ルーム情報更新
   Future<void> updateRoom() async {
     try {
       final room = await grpcClient.updateRoom(_hostname);
@@ -52,6 +64,18 @@ class _roomViewState extends State<roomView> {
       });
     } catch (e) {
       print('Failed to update room: $e');
+    }
+  }
+
+  // ルーム参加
+  Future<void> joinRoom() async {
+    try {
+      final room = await grpcClient.joinRoom(_hostname, _member);
+      setState(() {
+        currentRoom = room;
+      });
+    } catch (e) {
+      print('Failed to join room: $e');
     }
   }
 
@@ -88,7 +112,7 @@ class _roomViewState extends State<roomView> {
                     child: Center(
                       child: Text(
                         currentRoom.hostname,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -115,7 +139,7 @@ class _roomViewState extends State<roomView> {
                         alignment: Alignment.center,
                         children: [
                           Image.asset("assets/title_screen/white_name.png"),
-                          Text("$_hostname",
+                          Text("${currentRoom.hostname}",
                               style: const TextStyle(fontSize: 24))
                         ],
                       ),

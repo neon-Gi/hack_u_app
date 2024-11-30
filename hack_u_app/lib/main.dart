@@ -648,7 +648,7 @@ class _KeyWordPageState extends State<KeyWordPage> {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return roomView("Create", _playerName as String);
+                        return roomView("Create", _playerName as String, "");
                       },
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
@@ -678,11 +678,24 @@ class _KeyWordPageState extends State<KeyWordPage> {
               child: IconButton(
                 icon: Image.asset("assets/title_screen/keyword_enter.png"),
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) {
-                      return const AlertDialogSample();
-                    },
+                  Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) {
+                        return roomView("Join", _playerName as String, keyword);
+                      },
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        final Animatable<Offset> tween = Tween(
+                                begin: const Offset(1.0, 0.0), end: Offset.zero)
+                            .chain(CurveTween(curve: Curves.easeInOut));
+                        final Animation<Offset> offsetAnimation =
+                            animation.drive(tween);
+                        return SlideTransition(
+                          position: offsetAnimation,
+                          child: child,
+                        );
+                      },
+                    ),
                   );
                 },
               ),

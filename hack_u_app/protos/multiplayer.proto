@@ -2,91 +2,89 @@ syntax = "proto3";
 
 package multiplayer;
 
-
-// 部屋関連のメッセージ
+// Room型
 message Room {
-  string serverID = 1;            // エラー処理用(ランダム)
-  string hostname = 2;            // ルーム識別用
-  string status = 3;              // "waiting":開始待機、"on game":ゲーム中、"kill":ホストプレイヤーが退出
-  repeated string players = 4;    // 参加しているプレイヤー
+  string hostname = 1;            // ルーム識別
+  string status = 2;              // "waiting":開始待機、"on game":ゲーム中、"kill":ホストプレイヤーが退出
+  repeated string players = 3;    // 参加しているプレイヤー
 }
 
-// ゲーム関連のメッセージ
 message Game {
-  string hostname = 1;        // ルーム識別用
-  string title = 2;           // ゲームタイトル
-  string game_status = 3;     // "ready":ルール説明・準備、"on game":制限時間内、"finish":終了
-  int32 remaining_time = 4;   // 残り時間
-  string player_action = 5;   // 餅つき用:プレイヤーアクション
+	string hostname = 1;
+	string status = 2;  // "ready":ルール説明・準備中、"on game":ゲーム中、"finish":ゲーム終了
+	repeated string players = 3;
+	string title = 4; // ゲーム名
+	string host_action = 5;
+	string player_action = 6;
+	int32 timer = 7;
+	int32 host_point = 8;
+	int32 player_point = 9;
 }
 
-// ルーム作成リクエスト
-message CreateRoomRequest {
-  string hostname = 1;
-}
-// ルーム作成完了
-message CreateRoomResponse {
-  Room room = 1;
+// ルーム作成
+message createRoomRequest {
+	string hostname = 1; // 作成者
 }
 
-// ルーム更新データリクエスト(クライアントから自動でリクエスト、ルーム状態がゲーム中ならStartGameRequestを送る)
-message UpdateRequest {
-  string hostname = 1;
-}
-// ルーム更新データ取得
-message UpdateResponse {
-  Room room = 1;
+message createRoomResponse {
+	Room room = 1;
 }
 
-// ルーム加入
-message JoinRoomRequest {
-  string hostname = 1;
-  string playername = 2;
+// ルーム参加
+message joinRoomRequest {
+	string hostname = 1; // 作成者
+	string currentname = 2; // リクエストを送るプレイヤー
 }
-// ルーム加入完了
-message JoinRoomResponse {
-  Room room = 1;
+
+message joinRoomResponse {
+	Room room = 1;
+}
+
+// ルーム情報更新受け取り
+message updateRoomRequest {
+	string hostname = 1; // 作成者
+}
+
+message updateRoomResponse {
+	Room room = 1;
 }
 
 // ルーム退出
-message ExitRoomRequest {
-  string hostname = 1;
-  string playername = 2;
-}
-// ルーム退出完了
-message ExitRoomResponse {
-  bool success = 1;
+message exitRoomRequest {
+	string hostname = 1;
+	string currentname = 2;
 }
 
-// ゲーム開始リクエスト(ホスト名とプレイヤー名が一緒ならルーム状態をゲーム中にする)
-message StartGameRequest {
-  string hostname = 1;
-  string playername = 2;
+message exitRoomResponse {
+	bool success = 1;
 }
-// ゲーム開始処理(ゲームはサーバから自動で決定)
-message StartGameResponse {
-  Room room = 1;
-  Game game = 2;
+
+// ゲーム開始
+message startGameRequest {
+	string hostname = 1;
+	string currentname = 2;
+}
+
+message startGameResponse {
+	Game game = 1;
 }
 
 // ゲーム情報更新
-message UpdateGameRequest {
-  string hostname = 1;
-  string playername = 2;
-  bool action = 3;
-}
-// ゲーム情報更新結果
-message UpdateGameResponse {
-  Room room = 1;
-  Game game = 2;
+message updateGameRequest {
+	string hostname = 1;
+	string currentname = 2;
+	string action = 3; // ready wait:準備中、ready:開始待機、no:未行動、action:行動、stop:同時行動ペナルティ
 }
 
-// サービス定義
+message updateGameResponse {
+	Game game = 1;
+}
+
 service MultiplayerService {
-    rpc CreateRoom (CreateRoomRequest) returns (CreateRoomResponse);  // ルーム作成
-    rpc UpdateRoom (UpdateRequest) returns (UpdateResponse);          // ルーム情報更新 3秒ごとに取得
-    rpc JoinRoom (JoinRoomRequest) returns (JoinRoomResponse);        // ルーム入室
-    rpc ExitRoom (ExitRoomRequest) returns (ExitRoomResponse);        // ルーム退出
-    rpc StartGame (StartGameRequest) returns (StartGameResponse);     // ゲーム開始
-    rpc UpdateGame (UpdateGameRequest) returns (UpdateGameResponse);  // ゲーム情報更新 0.5秒ごとに取得
+    rpc CreateRoom (createRoomRequest) returns (createRoomResponse);  // ルーム作成
+    rpc JoinRoom (joinRoomRequest) returns (joinRoomResponse); // ルーム参加
+    rpc UpdateRoom (updateRoomRequest) returns (updateRoomResponse); // ルームデータ更新
+    rpc ExitRoom (exitRoomRequest) returns (exitRoomResponse); // ルームデータ更新
+    rpc StartGame (startGameRequest) returns (startGameResponse); // ゲーム開始
+    rpc UpdateGame (updateGameRequest) returns (updateGameResponse); // ゲームデータ更新
 }

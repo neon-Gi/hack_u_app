@@ -13,18 +13,14 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-/// 部屋関連のメッセージ
+/// Room型
 class Room extends $pb.GeneratedMessage {
   factory Room({
-    $core.String? serverID,
     $core.String? hostname,
     $core.String? status,
     $core.Iterable<$core.String>? players,
   }) {
     final $result = create();
-    if (serverID != null) {
-      $result.serverID = serverID;
-    }
     if (hostname != null) {
       $result.hostname = hostname;
     }
@@ -41,10 +37,9 @@ class Room extends $pb.GeneratedMessage {
   factory Room.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Room', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'serverID', protoName: 'serverID')
-    ..aOS(2, _omitFieldNames ? '' : 'hostname')
-    ..aOS(3, _omitFieldNames ? '' : 'status')
-    ..pPS(4, _omitFieldNames ? '' : 'players')
+    ..aOS(1, _omitFieldNames ? '' : 'hostname')
+    ..aOS(2, _omitFieldNames ? '' : 'status')
+    ..pPS(3, _omitFieldNames ? '' : 'players')
     ..hasRequiredFields = false
   ;
 
@@ -70,60 +65,66 @@ class Room extends $pb.GeneratedMessage {
   static Room? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get serverID => $_getSZ(0);
+  $core.String get hostname => $_getSZ(0);
   @$pb.TagNumber(1)
-  set serverID($core.String v) { $_setString(0, v); }
+  set hostname($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasServerID() => $_has(0);
+  $core.bool hasHostname() => $_has(0);
   @$pb.TagNumber(1)
-  void clearServerID() => clearField(1);
+  void clearHostname() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get hostname => $_getSZ(1);
+  $core.String get status => $_getSZ(1);
   @$pb.TagNumber(2)
-  set hostname($core.String v) { $_setString(1, v); }
+  set status($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasHostname() => $_has(1);
+  $core.bool hasStatus() => $_has(1);
   @$pb.TagNumber(2)
-  void clearHostname() => clearField(2);
+  void clearStatus() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get status => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set status($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasStatus() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearStatus() => clearField(3);
-
-  @$pb.TagNumber(4)
-  $core.List<$core.String> get players => $_getList(3);
+  $core.List<$core.String> get players => $_getList(2);
 }
 
-/// ゲーム関連のメッセージ
 class Game extends $pb.GeneratedMessage {
   factory Game({
     $core.String? hostname,
+    $core.String? status,
+    $core.Iterable<$core.String>? players,
     $core.String? title,
-    $core.String? gameStatus,
-    $core.int? remainingTime,
+    $core.String? hostAction,
     $core.String? playerAction,
+    $core.int? timer,
+    $core.int? hostPoint,
+    $core.int? playerPoint,
   }) {
     final $result = create();
     if (hostname != null) {
       $result.hostname = hostname;
     }
+    if (status != null) {
+      $result.status = status;
+    }
+    if (players != null) {
+      $result.players.addAll(players);
+    }
     if (title != null) {
       $result.title = title;
     }
-    if (gameStatus != null) {
-      $result.gameStatus = gameStatus;
-    }
-    if (remainingTime != null) {
-      $result.remainingTime = remainingTime;
+    if (hostAction != null) {
+      $result.hostAction = hostAction;
     }
     if (playerAction != null) {
       $result.playerAction = playerAction;
+    }
+    if (timer != null) {
+      $result.timer = timer;
+    }
+    if (hostPoint != null) {
+      $result.hostPoint = hostPoint;
+    }
+    if (playerPoint != null) {
+      $result.playerPoint = playerPoint;
     }
     return $result;
   }
@@ -133,10 +134,14 @@ class Game extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Game', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'hostname')
-    ..aOS(2, _omitFieldNames ? '' : 'title')
-    ..aOS(3, _omitFieldNames ? '' : 'gameStatus')
-    ..a<$core.int>(4, _omitFieldNames ? '' : 'remainingTime', $pb.PbFieldType.O3)
-    ..aOS(5, _omitFieldNames ? '' : 'playerAction')
+    ..aOS(2, _omitFieldNames ? '' : 'status')
+    ..pPS(3, _omitFieldNames ? '' : 'players')
+    ..aOS(4, _omitFieldNames ? '' : 'title')
+    ..aOS(5, _omitFieldNames ? '' : 'hostAction')
+    ..aOS(6, _omitFieldNames ? '' : 'playerAction')
+    ..a<$core.int>(7, _omitFieldNames ? '' : 'timer', $pb.PbFieldType.O3)
+    ..a<$core.int>(8, _omitFieldNames ? '' : 'hostPoint', $pb.PbFieldType.O3)
+    ..a<$core.int>(9, _omitFieldNames ? '' : 'playerPoint', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -171,45 +176,75 @@ class Game extends $pb.GeneratedMessage {
   void clearHostname() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get title => $_getSZ(1);
+  $core.String get status => $_getSZ(1);
   @$pb.TagNumber(2)
-  set title($core.String v) { $_setString(1, v); }
+  set status($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasTitle() => $_has(1);
+  $core.bool hasStatus() => $_has(1);
   @$pb.TagNumber(2)
-  void clearTitle() => clearField(2);
+  void clearStatus() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.String get gameStatus => $_getSZ(2);
-  @$pb.TagNumber(3)
-  set gameStatus($core.String v) { $_setString(2, v); }
-  @$pb.TagNumber(3)
-  $core.bool hasGameStatus() => $_has(2);
-  @$pb.TagNumber(3)
-  void clearGameStatus() => clearField(3);
+  $core.List<$core.String> get players => $_getList(2);
 
   @$pb.TagNumber(4)
-  $core.int get remainingTime => $_getIZ(3);
+  $core.String get title => $_getSZ(3);
   @$pb.TagNumber(4)
-  set remainingTime($core.int v) { $_setSignedInt32(3, v); }
+  set title($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasRemainingTime() => $_has(3);
+  $core.bool hasTitle() => $_has(3);
   @$pb.TagNumber(4)
-  void clearRemainingTime() => clearField(4);
+  void clearTitle() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get playerAction => $_getSZ(4);
+  $core.String get hostAction => $_getSZ(4);
   @$pb.TagNumber(5)
-  set playerAction($core.String v) { $_setString(4, v); }
+  set hostAction($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPlayerAction() => $_has(4);
+  $core.bool hasHostAction() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPlayerAction() => clearField(5);
+  void clearHostAction() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get playerAction => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set playerAction($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasPlayerAction() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearPlayerAction() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.int get timer => $_getIZ(6);
+  @$pb.TagNumber(7)
+  set timer($core.int v) { $_setSignedInt32(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasTimer() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearTimer() => clearField(7);
+
+  @$pb.TagNumber(8)
+  $core.int get hostPoint => $_getIZ(7);
+  @$pb.TagNumber(8)
+  set hostPoint($core.int v) { $_setSignedInt32(7, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasHostPoint() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearHostPoint() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.int get playerPoint => $_getIZ(8);
+  @$pb.TagNumber(9)
+  set playerPoint($core.int v) { $_setSignedInt32(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasPlayerPoint() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearPlayerPoint() => clearField(9);
 }
 
-/// ルーム作成リクエスト
-class CreateRoomRequest extends $pb.GeneratedMessage {
-  factory CreateRoomRequest({
+/// ルーム作成
+class createRoomRequest extends $pb.GeneratedMessage {
+  factory createRoomRequest({
     $core.String? hostname,
   }) {
     final $result = create();
@@ -218,11 +253,11 @@ class CreateRoomRequest extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  CreateRoomRequest._() : super();
-  factory CreateRoomRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CreateRoomRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  createRoomRequest._() : super();
+  factory createRoomRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory createRoomRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateRoomRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'createRoomRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'hostname')
     ..hasRequiredFields = false
   ;
@@ -231,22 +266,22 @@ class CreateRoomRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  CreateRoomRequest clone() => CreateRoomRequest()..mergeFromMessage(this);
+  createRoomRequest clone() => createRoomRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  CreateRoomRequest copyWith(void Function(CreateRoomRequest) updates) => super.copyWith((message) => updates(message as CreateRoomRequest)) as CreateRoomRequest;
+  createRoomRequest copyWith(void Function(createRoomRequest) updates) => super.copyWith((message) => updates(message as createRoomRequest)) as createRoomRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CreateRoomRequest create() => CreateRoomRequest._();
-  CreateRoomRequest createEmptyInstance() => create();
-  static $pb.PbList<CreateRoomRequest> createRepeated() => $pb.PbList<CreateRoomRequest>();
+  static createRoomRequest create() => createRoomRequest._();
+  createRoomRequest createEmptyInstance() => create();
+  static $pb.PbList<createRoomRequest> createRepeated() => $pb.PbList<createRoomRequest>();
   @$core.pragma('dart2js:noInline')
-  static CreateRoomRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateRoomRequest>(create);
-  static CreateRoomRequest? _defaultInstance;
+  static createRoomRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<createRoomRequest>(create);
+  static createRoomRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get hostname => $_getSZ(0);
@@ -258,9 +293,8 @@ class CreateRoomRequest extends $pb.GeneratedMessage {
   void clearHostname() => clearField(1);
 }
 
-/// ルーム作成完了
-class CreateRoomResponse extends $pb.GeneratedMessage {
-  factory CreateRoomResponse({
+class createRoomResponse extends $pb.GeneratedMessage {
+  factory createRoomResponse({
     Room? room,
   }) {
     final $result = create();
@@ -269,11 +303,11 @@ class CreateRoomResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  CreateRoomResponse._() : super();
-  factory CreateRoomResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CreateRoomResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  createRoomResponse._() : super();
+  factory createRoomResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory createRoomResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateRoomResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'createRoomResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOM<Room>(1, _omitFieldNames ? '' : 'room', subBuilder: Room.create)
     ..hasRequiredFields = false
   ;
@@ -282,22 +316,22 @@ class CreateRoomResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  CreateRoomResponse clone() => CreateRoomResponse()..mergeFromMessage(this);
+  createRoomResponse clone() => createRoomResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  CreateRoomResponse copyWith(void Function(CreateRoomResponse) updates) => super.copyWith((message) => updates(message as CreateRoomResponse)) as CreateRoomResponse;
+  createRoomResponse copyWith(void Function(createRoomResponse) updates) => super.copyWith((message) => updates(message as createRoomResponse)) as createRoomResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static CreateRoomResponse create() => CreateRoomResponse._();
-  CreateRoomResponse createEmptyInstance() => create();
-  static $pb.PbList<CreateRoomResponse> createRepeated() => $pb.PbList<CreateRoomResponse>();
+  static createRoomResponse create() => createRoomResponse._();
+  createRoomResponse createEmptyInstance() => create();
+  static $pb.PbList<createRoomResponse> createRepeated() => $pb.PbList<createRoomResponse>();
   @$core.pragma('dart2js:noInline')
-  static CreateRoomResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateRoomResponse>(create);
-  static CreateRoomResponse? _defaultInstance;
+  static createRoomResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<createRoomResponse>(create);
+  static createRoomResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   Room get room => $_getN(0);
@@ -311,23 +345,28 @@ class CreateRoomResponse extends $pb.GeneratedMessage {
   Room ensureRoom() => $_ensure(0);
 }
 
-/// ルーム更新データリクエスト(クライアントから自動でリクエスト、ルーム状態がゲーム中ならStartGameRequestを送る)
-class UpdateRequest extends $pb.GeneratedMessage {
-  factory UpdateRequest({
+/// ルーム参加
+class joinRoomRequest extends $pb.GeneratedMessage {
+  factory joinRoomRequest({
     $core.String? hostname,
+    $core.String? currentname,
   }) {
     final $result = create();
     if (hostname != null) {
       $result.hostname = hostname;
     }
+    if (currentname != null) {
+      $result.currentname = currentname;
+    }
     return $result;
   }
-  UpdateRequest._() : super();
-  factory UpdateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  joinRoomRequest._() : super();
+  factory joinRoomRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory joinRoomRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'joinRoomRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'hostname')
+    ..aOS(2, _omitFieldNames ? '' : 'currentname')
     ..hasRequiredFields = false
   ;
 
@@ -335,22 +374,22 @@ class UpdateRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpdateRequest clone() => UpdateRequest()..mergeFromMessage(this);
+  joinRoomRequest clone() => joinRoomRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpdateRequest copyWith(void Function(UpdateRequest) updates) => super.copyWith((message) => updates(message as UpdateRequest)) as UpdateRequest;
+  joinRoomRequest copyWith(void Function(joinRoomRequest) updates) => super.copyWith((message) => updates(message as joinRoomRequest)) as joinRoomRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UpdateRequest create() => UpdateRequest._();
-  UpdateRequest createEmptyInstance() => create();
-  static $pb.PbList<UpdateRequest> createRepeated() => $pb.PbList<UpdateRequest>();
+  static joinRoomRequest create() => joinRoomRequest._();
+  joinRoomRequest createEmptyInstance() => create();
+  static $pb.PbList<joinRoomRequest> createRepeated() => $pb.PbList<joinRoomRequest>();
   @$core.pragma('dart2js:noInline')
-  static UpdateRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateRequest>(create);
-  static UpdateRequest? _defaultInstance;
+  static joinRoomRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<joinRoomRequest>(create);
+  static joinRoomRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get hostname => $_getSZ(0);
@@ -360,11 +399,19 @@ class UpdateRequest extends $pb.GeneratedMessage {
   $core.bool hasHostname() => $_has(0);
   @$pb.TagNumber(1)
   void clearHostname() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get currentname => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set currentname($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasCurrentname() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearCurrentname() => clearField(2);
 }
 
-/// ルーム更新データ取得
-class UpdateResponse extends $pb.GeneratedMessage {
-  factory UpdateResponse({
+class joinRoomResponse extends $pb.GeneratedMessage {
+  factory joinRoomResponse({
     Room? room,
   }) {
     final $result = create();
@@ -373,11 +420,11 @@ class UpdateResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  UpdateResponse._() : super();
-  factory UpdateResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  joinRoomResponse._() : super();
+  factory joinRoomResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory joinRoomResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'joinRoomResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOM<Room>(1, _omitFieldNames ? '' : 'room', subBuilder: Room.create)
     ..hasRequiredFields = false
   ;
@@ -386,22 +433,22 @@ class UpdateResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpdateResponse clone() => UpdateResponse()..mergeFromMessage(this);
+  joinRoomResponse clone() => joinRoomResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpdateResponse copyWith(void Function(UpdateResponse) updates) => super.copyWith((message) => updates(message as UpdateResponse)) as UpdateResponse;
+  joinRoomResponse copyWith(void Function(joinRoomResponse) updates) => super.copyWith((message) => updates(message as joinRoomResponse)) as joinRoomResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UpdateResponse create() => UpdateResponse._();
-  UpdateResponse createEmptyInstance() => create();
-  static $pb.PbList<UpdateResponse> createRepeated() => $pb.PbList<UpdateResponse>();
+  static joinRoomResponse create() => joinRoomResponse._();
+  joinRoomResponse createEmptyInstance() => create();
+  static $pb.PbList<joinRoomResponse> createRepeated() => $pb.PbList<joinRoomResponse>();
   @$core.pragma('dart2js:noInline')
-  static UpdateResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateResponse>(create);
-  static UpdateResponse? _defaultInstance;
+  static joinRoomResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<joinRoomResponse>(create);
+  static joinRoomResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   Room get room => $_getN(0);
@@ -415,28 +462,23 @@ class UpdateResponse extends $pb.GeneratedMessage {
   Room ensureRoom() => $_ensure(0);
 }
 
-/// ルーム加入
-class JoinRoomRequest extends $pb.GeneratedMessage {
-  factory JoinRoomRequest({
+/// ルーム情報更新受け取り
+class updateRoomRequest extends $pb.GeneratedMessage {
+  factory updateRoomRequest({
     $core.String? hostname,
-    $core.String? playername,
   }) {
     final $result = create();
     if (hostname != null) {
       $result.hostname = hostname;
     }
-    if (playername != null) {
-      $result.playername = playername;
-    }
     return $result;
   }
-  JoinRoomRequest._() : super();
-  factory JoinRoomRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory JoinRoomRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  updateRoomRequest._() : super();
+  factory updateRoomRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory updateRoomRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'JoinRoomRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'updateRoomRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'hostname')
-    ..aOS(2, _omitFieldNames ? '' : 'playername')
     ..hasRequiredFields = false
   ;
 
@@ -444,22 +486,22 @@ class JoinRoomRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  JoinRoomRequest clone() => JoinRoomRequest()..mergeFromMessage(this);
+  updateRoomRequest clone() => updateRoomRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  JoinRoomRequest copyWith(void Function(JoinRoomRequest) updates) => super.copyWith((message) => updates(message as JoinRoomRequest)) as JoinRoomRequest;
+  updateRoomRequest copyWith(void Function(updateRoomRequest) updates) => super.copyWith((message) => updates(message as updateRoomRequest)) as updateRoomRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static JoinRoomRequest create() => JoinRoomRequest._();
-  JoinRoomRequest createEmptyInstance() => create();
-  static $pb.PbList<JoinRoomRequest> createRepeated() => $pb.PbList<JoinRoomRequest>();
+  static updateRoomRequest create() => updateRoomRequest._();
+  updateRoomRequest createEmptyInstance() => create();
+  static $pb.PbList<updateRoomRequest> createRepeated() => $pb.PbList<updateRoomRequest>();
   @$core.pragma('dart2js:noInline')
-  static JoinRoomRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<JoinRoomRequest>(create);
-  static JoinRoomRequest? _defaultInstance;
+  static updateRoomRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<updateRoomRequest>(create);
+  static updateRoomRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get hostname => $_getSZ(0);
@@ -469,20 +511,10 @@ class JoinRoomRequest extends $pb.GeneratedMessage {
   $core.bool hasHostname() => $_has(0);
   @$pb.TagNumber(1)
   void clearHostname() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.String get playername => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set playername($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasPlayername() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearPlayername() => clearField(2);
 }
 
-/// ルーム加入完了
-class JoinRoomResponse extends $pb.GeneratedMessage {
-  factory JoinRoomResponse({
+class updateRoomResponse extends $pb.GeneratedMessage {
+  factory updateRoomResponse({
     Room? room,
   }) {
     final $result = create();
@@ -491,11 +523,11 @@ class JoinRoomResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  JoinRoomResponse._() : super();
-  factory JoinRoomResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory JoinRoomResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  updateRoomResponse._() : super();
+  factory updateRoomResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory updateRoomResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'JoinRoomResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'updateRoomResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOM<Room>(1, _omitFieldNames ? '' : 'room', subBuilder: Room.create)
     ..hasRequiredFields = false
   ;
@@ -504,22 +536,22 @@ class JoinRoomResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  JoinRoomResponse clone() => JoinRoomResponse()..mergeFromMessage(this);
+  updateRoomResponse clone() => updateRoomResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  JoinRoomResponse copyWith(void Function(JoinRoomResponse) updates) => super.copyWith((message) => updates(message as JoinRoomResponse)) as JoinRoomResponse;
+  updateRoomResponse copyWith(void Function(updateRoomResponse) updates) => super.copyWith((message) => updates(message as updateRoomResponse)) as updateRoomResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static JoinRoomResponse create() => JoinRoomResponse._();
-  JoinRoomResponse createEmptyInstance() => create();
-  static $pb.PbList<JoinRoomResponse> createRepeated() => $pb.PbList<JoinRoomResponse>();
+  static updateRoomResponse create() => updateRoomResponse._();
+  updateRoomResponse createEmptyInstance() => create();
+  static $pb.PbList<updateRoomResponse> createRepeated() => $pb.PbList<updateRoomResponse>();
   @$core.pragma('dart2js:noInline')
-  static JoinRoomResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<JoinRoomResponse>(create);
-  static JoinRoomResponse? _defaultInstance;
+  static updateRoomResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<updateRoomResponse>(create);
+  static updateRoomResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   Room get room => $_getN(0);
@@ -534,27 +566,27 @@ class JoinRoomResponse extends $pb.GeneratedMessage {
 }
 
 /// ルーム退出
-class ExitRoomRequest extends $pb.GeneratedMessage {
-  factory ExitRoomRequest({
+class exitRoomRequest extends $pb.GeneratedMessage {
+  factory exitRoomRequest({
     $core.String? hostname,
-    $core.String? playername,
+    $core.String? currentname,
   }) {
     final $result = create();
     if (hostname != null) {
       $result.hostname = hostname;
     }
-    if (playername != null) {
-      $result.playername = playername;
+    if (currentname != null) {
+      $result.currentname = currentname;
     }
     return $result;
   }
-  ExitRoomRequest._() : super();
-  factory ExitRoomRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ExitRoomRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  exitRoomRequest._() : super();
+  factory exitRoomRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory exitRoomRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ExitRoomRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'exitRoomRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'hostname')
-    ..aOS(2, _omitFieldNames ? '' : 'playername')
+    ..aOS(2, _omitFieldNames ? '' : 'currentname')
     ..hasRequiredFields = false
   ;
 
@@ -562,22 +594,22 @@ class ExitRoomRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  ExitRoomRequest clone() => ExitRoomRequest()..mergeFromMessage(this);
+  exitRoomRequest clone() => exitRoomRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ExitRoomRequest copyWith(void Function(ExitRoomRequest) updates) => super.copyWith((message) => updates(message as ExitRoomRequest)) as ExitRoomRequest;
+  exitRoomRequest copyWith(void Function(exitRoomRequest) updates) => super.copyWith((message) => updates(message as exitRoomRequest)) as exitRoomRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static ExitRoomRequest create() => ExitRoomRequest._();
-  ExitRoomRequest createEmptyInstance() => create();
-  static $pb.PbList<ExitRoomRequest> createRepeated() => $pb.PbList<ExitRoomRequest>();
+  static exitRoomRequest create() => exitRoomRequest._();
+  exitRoomRequest createEmptyInstance() => create();
+  static $pb.PbList<exitRoomRequest> createRepeated() => $pb.PbList<exitRoomRequest>();
   @$core.pragma('dart2js:noInline')
-  static ExitRoomRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExitRoomRequest>(create);
-  static ExitRoomRequest? _defaultInstance;
+  static exitRoomRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<exitRoomRequest>(create);
+  static exitRoomRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get hostname => $_getSZ(0);
@@ -589,18 +621,17 @@ class ExitRoomRequest extends $pb.GeneratedMessage {
   void clearHostname() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get playername => $_getSZ(1);
+  $core.String get currentname => $_getSZ(1);
   @$pb.TagNumber(2)
-  set playername($core.String v) { $_setString(1, v); }
+  set currentname($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasPlayername() => $_has(1);
+  $core.bool hasCurrentname() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPlayername() => clearField(2);
+  void clearCurrentname() => clearField(2);
 }
 
-/// ルーム退出完了
-class ExitRoomResponse extends $pb.GeneratedMessage {
-  factory ExitRoomResponse({
+class exitRoomResponse extends $pb.GeneratedMessage {
+  factory exitRoomResponse({
     $core.bool? success,
   }) {
     final $result = create();
@@ -609,11 +640,11 @@ class ExitRoomResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  ExitRoomResponse._() : super();
-  factory ExitRoomResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ExitRoomResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  exitRoomResponse._() : super();
+  factory exitRoomResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory exitRoomResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ExitRoomResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'exitRoomResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'success')
     ..hasRequiredFields = false
   ;
@@ -622,22 +653,22 @@ class ExitRoomResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  ExitRoomResponse clone() => ExitRoomResponse()..mergeFromMessage(this);
+  exitRoomResponse clone() => exitRoomResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  ExitRoomResponse copyWith(void Function(ExitRoomResponse) updates) => super.copyWith((message) => updates(message as ExitRoomResponse)) as ExitRoomResponse;
+  exitRoomResponse copyWith(void Function(exitRoomResponse) updates) => super.copyWith((message) => updates(message as exitRoomResponse)) as exitRoomResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static ExitRoomResponse create() => ExitRoomResponse._();
-  ExitRoomResponse createEmptyInstance() => create();
-  static $pb.PbList<ExitRoomResponse> createRepeated() => $pb.PbList<ExitRoomResponse>();
+  static exitRoomResponse create() => exitRoomResponse._();
+  exitRoomResponse createEmptyInstance() => create();
+  static $pb.PbList<exitRoomResponse> createRepeated() => $pb.PbList<exitRoomResponse>();
   @$core.pragma('dart2js:noInline')
-  static ExitRoomResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ExitRoomResponse>(create);
-  static ExitRoomResponse? _defaultInstance;
+  static exitRoomResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<exitRoomResponse>(create);
+  static exitRoomResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.bool get success => $_getBF(0);
@@ -649,28 +680,28 @@ class ExitRoomResponse extends $pb.GeneratedMessage {
   void clearSuccess() => clearField(1);
 }
 
-/// ゲーム開始リクエスト(ホスト名とプレイヤー名が一緒ならルーム状態をゲーム中にする)
-class StartGameRequest extends $pb.GeneratedMessage {
-  factory StartGameRequest({
+/// ゲーム開始
+class startGameRequest extends $pb.GeneratedMessage {
+  factory startGameRequest({
     $core.String? hostname,
-    $core.String? playername,
+    $core.String? currentname,
   }) {
     final $result = create();
     if (hostname != null) {
       $result.hostname = hostname;
     }
-    if (playername != null) {
-      $result.playername = playername;
+    if (currentname != null) {
+      $result.currentname = currentname;
     }
     return $result;
   }
-  StartGameRequest._() : super();
-  factory StartGameRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory StartGameRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  startGameRequest._() : super();
+  factory startGameRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory startGameRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'StartGameRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'startGameRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'hostname')
-    ..aOS(2, _omitFieldNames ? '' : 'playername')
+    ..aOS(2, _omitFieldNames ? '' : 'currentname')
     ..hasRequiredFields = false
   ;
 
@@ -678,22 +709,22 @@ class StartGameRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  StartGameRequest clone() => StartGameRequest()..mergeFromMessage(this);
+  startGameRequest clone() => startGameRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  StartGameRequest copyWith(void Function(StartGameRequest) updates) => super.copyWith((message) => updates(message as StartGameRequest)) as StartGameRequest;
+  startGameRequest copyWith(void Function(startGameRequest) updates) => super.copyWith((message) => updates(message as startGameRequest)) as startGameRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static StartGameRequest create() => StartGameRequest._();
-  StartGameRequest createEmptyInstance() => create();
-  static $pb.PbList<StartGameRequest> createRepeated() => $pb.PbList<StartGameRequest>();
+  static startGameRequest create() => startGameRequest._();
+  startGameRequest createEmptyInstance() => create();
+  static $pb.PbList<startGameRequest> createRepeated() => $pb.PbList<startGameRequest>();
   @$core.pragma('dart2js:noInline')
-  static StartGameRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StartGameRequest>(create);
-  static StartGameRequest? _defaultInstance;
+  static startGameRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<startGameRequest>(create);
+  static startGameRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get hostname => $_getSZ(0);
@@ -705,37 +736,31 @@ class StartGameRequest extends $pb.GeneratedMessage {
   void clearHostname() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get playername => $_getSZ(1);
+  $core.String get currentname => $_getSZ(1);
   @$pb.TagNumber(2)
-  set playername($core.String v) { $_setString(1, v); }
+  set currentname($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasPlayername() => $_has(1);
+  $core.bool hasCurrentname() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPlayername() => clearField(2);
+  void clearCurrentname() => clearField(2);
 }
 
-/// ゲーム開始処理(ゲームはサーバから自動で決定)
-class StartGameResponse extends $pb.GeneratedMessage {
-  factory StartGameResponse({
-    Room? room,
+class startGameResponse extends $pb.GeneratedMessage {
+  factory startGameResponse({
     Game? game,
   }) {
     final $result = create();
-    if (room != null) {
-      $result.room = room;
-    }
     if (game != null) {
       $result.game = game;
     }
     return $result;
   }
-  StartGameResponse._() : super();
-  factory StartGameResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory StartGameResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  startGameResponse._() : super();
+  factory startGameResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory startGameResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'StartGameResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
-    ..aOM<Room>(1, _omitFieldNames ? '' : 'room', subBuilder: Room.create)
-    ..aOM<Game>(2, _omitFieldNames ? '' : 'game', subBuilder: Game.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'startGameResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+    ..aOM<Game>(1, _omitFieldNames ? '' : 'game', subBuilder: Game.create)
     ..hasRequiredFields = false
   ;
 
@@ -743,73 +768,62 @@ class StartGameResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  StartGameResponse clone() => StartGameResponse()..mergeFromMessage(this);
+  startGameResponse clone() => startGameResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  StartGameResponse copyWith(void Function(StartGameResponse) updates) => super.copyWith((message) => updates(message as StartGameResponse)) as StartGameResponse;
+  startGameResponse copyWith(void Function(startGameResponse) updates) => super.copyWith((message) => updates(message as startGameResponse)) as startGameResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static StartGameResponse create() => StartGameResponse._();
-  StartGameResponse createEmptyInstance() => create();
-  static $pb.PbList<StartGameResponse> createRepeated() => $pb.PbList<StartGameResponse>();
+  static startGameResponse create() => startGameResponse._();
+  startGameResponse createEmptyInstance() => create();
+  static $pb.PbList<startGameResponse> createRepeated() => $pb.PbList<startGameResponse>();
   @$core.pragma('dart2js:noInline')
-  static StartGameResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<StartGameResponse>(create);
-  static StartGameResponse? _defaultInstance;
+  static startGameResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<startGameResponse>(create);
+  static startGameResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  Room get room => $_getN(0);
+  Game get game => $_getN(0);
   @$pb.TagNumber(1)
-  set room(Room v) { setField(1, v); }
+  set game(Game v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasRoom() => $_has(0);
+  $core.bool hasGame() => $_has(0);
   @$pb.TagNumber(1)
-  void clearRoom() => clearField(1);
+  void clearGame() => clearField(1);
   @$pb.TagNumber(1)
-  Room ensureRoom() => $_ensure(0);
-
-  @$pb.TagNumber(2)
-  Game get game => $_getN(1);
-  @$pb.TagNumber(2)
-  set game(Game v) { setField(2, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasGame() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearGame() => clearField(2);
-  @$pb.TagNumber(2)
-  Game ensureGame() => $_ensure(1);
+  Game ensureGame() => $_ensure(0);
 }
 
 /// ゲーム情報更新
-class UpdateGameRequest extends $pb.GeneratedMessage {
-  factory UpdateGameRequest({
+class updateGameRequest extends $pb.GeneratedMessage {
+  factory updateGameRequest({
     $core.String? hostname,
-    $core.String? playername,
-    $core.bool? action,
+    $core.String? currentname,
+    $core.String? action,
   }) {
     final $result = create();
     if (hostname != null) {
       $result.hostname = hostname;
     }
-    if (playername != null) {
-      $result.playername = playername;
+    if (currentname != null) {
+      $result.currentname = currentname;
     }
     if (action != null) {
       $result.action = action;
     }
     return $result;
   }
-  UpdateGameRequest._() : super();
-  factory UpdateGameRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateGameRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  updateGameRequest._() : super();
+  factory updateGameRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory updateGameRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateGameRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'updateGameRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'hostname')
-    ..aOS(2, _omitFieldNames ? '' : 'playername')
-    ..aOB(3, _omitFieldNames ? '' : 'action')
+    ..aOS(2, _omitFieldNames ? '' : 'currentname')
+    ..aOS(3, _omitFieldNames ? '' : 'action')
     ..hasRequiredFields = false
   ;
 
@@ -817,22 +831,22 @@ class UpdateGameRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpdateGameRequest clone() => UpdateGameRequest()..mergeFromMessage(this);
+  updateGameRequest clone() => updateGameRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpdateGameRequest copyWith(void Function(UpdateGameRequest) updates) => super.copyWith((message) => updates(message as UpdateGameRequest)) as UpdateGameRequest;
+  updateGameRequest copyWith(void Function(updateGameRequest) updates) => super.copyWith((message) => updates(message as updateGameRequest)) as updateGameRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UpdateGameRequest create() => UpdateGameRequest._();
-  UpdateGameRequest createEmptyInstance() => create();
-  static $pb.PbList<UpdateGameRequest> createRepeated() => $pb.PbList<UpdateGameRequest>();
+  static updateGameRequest create() => updateGameRequest._();
+  updateGameRequest createEmptyInstance() => create();
+  static $pb.PbList<updateGameRequest> createRepeated() => $pb.PbList<updateGameRequest>();
   @$core.pragma('dart2js:noInline')
-  static UpdateGameRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateGameRequest>(create);
-  static UpdateGameRequest? _defaultInstance;
+  static updateGameRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<updateGameRequest>(create);
+  static updateGameRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get hostname => $_getSZ(0);
@@ -844,46 +858,40 @@ class UpdateGameRequest extends $pb.GeneratedMessage {
   void clearHostname() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get playername => $_getSZ(1);
+  $core.String get currentname => $_getSZ(1);
   @$pb.TagNumber(2)
-  set playername($core.String v) { $_setString(1, v); }
+  set currentname($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasPlayername() => $_has(1);
+  $core.bool hasCurrentname() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPlayername() => clearField(2);
+  void clearCurrentname() => clearField(2);
 
   @$pb.TagNumber(3)
-  $core.bool get action => $_getBF(2);
+  $core.String get action => $_getSZ(2);
   @$pb.TagNumber(3)
-  set action($core.bool v) { $_setBool(2, v); }
+  set action($core.String v) { $_setString(2, v); }
   @$pb.TagNumber(3)
   $core.bool hasAction() => $_has(2);
   @$pb.TagNumber(3)
   void clearAction() => clearField(3);
 }
 
-/// ゲーム情報更新結果
-class UpdateGameResponse extends $pb.GeneratedMessage {
-  factory UpdateGameResponse({
-    Room? room,
+class updateGameResponse extends $pb.GeneratedMessage {
+  factory updateGameResponse({
     Game? game,
   }) {
     final $result = create();
-    if (room != null) {
-      $result.room = room;
-    }
     if (game != null) {
       $result.game = game;
     }
     return $result;
   }
-  UpdateGameResponse._() : super();
-  factory UpdateGameResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateGameResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  updateGameResponse._() : super();
+  factory updateGameResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory updateGameResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateGameResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
-    ..aOM<Room>(1, _omitFieldNames ? '' : 'room', subBuilder: Room.create)
-    ..aOM<Game>(2, _omitFieldNames ? '' : 'game', subBuilder: Game.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'updateGameResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'multiplayer'), createEmptyInstance: create)
+    ..aOM<Game>(1, _omitFieldNames ? '' : 'game', subBuilder: Game.create)
     ..hasRequiredFields = false
   ;
 
@@ -891,44 +899,33 @@ class UpdateGameResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpdateGameResponse clone() => UpdateGameResponse()..mergeFromMessage(this);
+  updateGameResponse clone() => updateGameResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpdateGameResponse copyWith(void Function(UpdateGameResponse) updates) => super.copyWith((message) => updates(message as UpdateGameResponse)) as UpdateGameResponse;
+  updateGameResponse copyWith(void Function(updateGameResponse) updates) => super.copyWith((message) => updates(message as updateGameResponse)) as updateGameResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UpdateGameResponse create() => UpdateGameResponse._();
-  UpdateGameResponse createEmptyInstance() => create();
-  static $pb.PbList<UpdateGameResponse> createRepeated() => $pb.PbList<UpdateGameResponse>();
+  static updateGameResponse create() => updateGameResponse._();
+  updateGameResponse createEmptyInstance() => create();
+  static $pb.PbList<updateGameResponse> createRepeated() => $pb.PbList<updateGameResponse>();
   @$core.pragma('dart2js:noInline')
-  static UpdateGameResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateGameResponse>(create);
-  static UpdateGameResponse? _defaultInstance;
+  static updateGameResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<updateGameResponse>(create);
+  static updateGameResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  Room get room => $_getN(0);
+  Game get game => $_getN(0);
   @$pb.TagNumber(1)
-  set room(Room v) { setField(1, v); }
+  set game(Game v) { setField(1, v); }
   @$pb.TagNumber(1)
-  $core.bool hasRoom() => $_has(0);
+  $core.bool hasGame() => $_has(0);
   @$pb.TagNumber(1)
-  void clearRoom() => clearField(1);
+  void clearGame() => clearField(1);
   @$pb.TagNumber(1)
-  Room ensureRoom() => $_ensure(0);
-
-  @$pb.TagNumber(2)
-  Game get game => $_getN(1);
-  @$pb.TagNumber(2)
-  set game(Game v) { setField(2, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasGame() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearGame() => clearField(2);
-  @$pb.TagNumber(2)
-  Game ensureGame() => $_ensure(1);
+  Game ensureGame() => $_ensure(0);
 }
 
 

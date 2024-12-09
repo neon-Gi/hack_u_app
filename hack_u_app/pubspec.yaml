@@ -33,7 +33,7 @@ dependencies:
   # grpc: ^3.0.0
   # protobuf: ^3.0.0
   shared_preferences: ^2.1.0
-  toml: ^0.15.0 # ^0.16.0
+  toml: ^0.16.0
 
 cupertino_icons: ^1.0.6
 
@@ -69,6 +69,10 @@ flutter:
     - assets/hagaki/toml/
     - assets/etoQ/
     - assets/etoQ/animals/
+    - assets/karuta/
+    - assets/karuta/i/
+    - assets/karuta/ro/
+    - assets/karuta/ha/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hack_u_app/etoq.dart';
+import 'karuta.dart';
+import 'etoq.dart';
 import 'main.dart';
 import 'moti.dart';
 
@@ -72,11 +73,10 @@ class _SelectPageState extends State<SelectPage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const KarutaGameDetail()));
                     },
                     icon:
                         Image.asset("assets/select_screen/game_icon_white.png"),
@@ -690,6 +690,116 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const etoqpage()),
+                    );
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(
+                    width: 290,
+                    height: 50,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(0.0),
+                    alignment: Alignment.center,
+                    width: 100,
+                    height: 100,
+                    child: IconButton(
+                      icon: Image.asset("assets/title_screen/return.png"),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return SelectPage();
+                            },
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              final Animatable<Offset> tween = Tween(
+                                      begin: const Offset(-1.0, 0.0),
+                                      end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.easeInOut));
+                              final Animation<Offset> offsetAnimation =
+                                  animation.drive(tween);
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// カルタの詳細
+class KarutaGameDetail extends StatefulWidget {
+  const KarutaGameDetail({Key? key}) : super(key: key);
+  @override
+  State<KarutaGameDetail> createState() => _KarutaGameDetailState();
+}
+
+class _KarutaGameDetailState extends State<KarutaGameDetail> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/title_screen/background_gray.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(
+                width: 320,
+                height: 80,
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
+                alignment: Alignment.center,
+                width: 250,
+                child: Image.asset("assets/select_screen/karuta_title.png"),
+              ),
+              Container(
+                padding: const EdgeInsets.all(0.0),
+                alignment: Alignment.center,
+                width: 310,
+                child: Image.asset("assets/select_screen/karuta_explain.png"),
+              ),
+              const SizedBox(
+                width: 320,
+                height: 50,
+              ),
+              Container(
+                padding: const EdgeInsets.all(0.0),
+                alignment: Alignment.center,
+                height: 80,
+                child: IconButton(
+                  icon: Image.asset("assets/title_screen/start_first.png"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const KarutaGamePage()),
                     );
                   },
                 ),

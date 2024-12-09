@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/etoq.dart';
 import 'main.dart';
 import 'moti.dart';
 
+// 選択画面
 class SelectPage extends StatefulWidget {
   SelectPage({Key? key}) : super(key: key);
   @override
@@ -24,7 +26,6 @@ class _SelectPageState extends State<SelectPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const SizedBox(
-              width: 320,
               height: 20,
             ),
             Row(
@@ -55,11 +56,10 @@ class _SelectPageState extends State<SelectPage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EtoqGameDetail()));
                     },
                     icon:
                         Image.asset("assets/select_screen/game_icon_white.png"),
@@ -314,7 +314,7 @@ class _SelectPageState extends State<SelectPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
@@ -571,7 +571,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(0),
                     alignment: Alignment.center,
-                    height: 80,
+                    height: 75,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_second.png"),
                       onPressed: () {
@@ -636,6 +636,115 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
   }
 }
 
+// 干支クイズの詳細
+class EtoqGameDetail extends StatefulWidget {
+  const EtoqGameDetail({Key? key}) : super(key: key);
+  @override
+  State<EtoqGameDetail> createState() => _EtoqGameDetailState();
+}
+
+class _EtoqGameDetailState extends State<EtoqGameDetail> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/title_screen/background_gray.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(
+                width: 320,
+                height: 80,
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
+                alignment: Alignment.center,
+                width: 250,
+                child: Image.asset("assets/select_screen/etoq_title.png"),
+              ),
+              Container(
+                padding: const EdgeInsets.all(0.0),
+                alignment: Alignment.center,
+                width: 310,
+                child: Image.asset("assets/select_screen/etoq_explain.png"),
+              ),
+              const SizedBox(
+                width: 320,
+                height: 50,
+              ),
+              Container(
+                padding: const EdgeInsets.all(0.0),
+                alignment: Alignment.center,
+                height: 80,
+                child: IconButton(
+                  icon: Image.asset("assets/title_screen/start_first.png"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const etoqpage()),
+                    );
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(
+                    width: 290,
+                    height: 50,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(0.0),
+                    alignment: Alignment.center,
+                    width: 100,
+                    height: 100,
+                    child: IconButton(
+                      icon: Image.asset("assets/title_screen/return.png"),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return SelectPage();
+                            },
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              final Animatable<Offset> tween = Tween(
+                                      begin: const Offset(-1.0, 0.0),
+                                      end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.easeInOut));
+                              final Animation<Offset> offsetAnimation =
+                                  animation.drive(tween);
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // 未実装ダイアログを表示
 class AlertDialogSample extends StatelessWidget {
   const AlertDialogSample({Key? key}) : super(key: key);
@@ -647,7 +756,7 @@ class AlertDialogSample extends StatelessWidget {
       content: const Text('実装中のため表示できません。'),
       actions: <Widget>[
         GestureDetector(
-          child: const Text('OK'),
+          child: const Text('OK', style: TextStyle(fontSize: 24)),
           onTap: () {
             Navigator.of(context).pop();
           },

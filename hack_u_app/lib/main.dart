@@ -650,7 +650,11 @@ class _KeyWordPageState extends State<KeyWordPage> {
                     height: 60,
                   ),
                   onPressed: () {
-                    null;
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return const AlertDialogSample();
+                        });
                   },
                 ),
               ),
@@ -665,7 +669,11 @@ class _KeyWordPageState extends State<KeyWordPage> {
                 child: IconButton(
                   icon: Image.asset("assets/title_screen/keyword_enter.png"),
                   onPressed: () {
-                    null;
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return const AlertDialogSample();
+                        });
                   },
                 ),
               ),
@@ -689,10 +697,27 @@ class _KeyWordPageState extends State<KeyWordPage> {
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ModePage()));
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return const ModePage();
+                            },
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              final Animatable<Offset> tween = Tween(
+                                      begin: const Offset(-1.0, 0.0),
+                                      end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.easeInOut));
+                              final Animation<Offset> offsetAnimation =
+                                  animation.drive(tween);
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
                       },
                     ),
                   )
@@ -726,7 +751,7 @@ class AlertDialogSample extends StatelessWidget {
       content: const Text('実装中のため表示できません。'),
       actions: <Widget>[
         GestureDetector(
-          child: const Text('OK'),
+          child: const Text('OK', style: TextStyle(fontSize: 24)),
           onTap: () {
             Navigator.of(context).pop();
           },

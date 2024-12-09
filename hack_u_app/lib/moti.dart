@@ -472,10 +472,25 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                     children: <Widget>[
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SelectPage(),
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return SelectPage();
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                final Animatable<Offset> tween = Tween(
+                                        begin: const Offset(-1.0, 0.0),
+                                        end: Offset.zero)
+                                    .chain(CurveTween(curve: Curves.easeInOut));
+                                final Animation<Offset> offsetAnimation =
+                                    animation.drive(tween);
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: child,
+                                );
+                              },
                             ),
                           );
                         },
@@ -689,7 +704,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                                   icon: Image.asset(
                                     "assets/moti/mate7.png",
                                     fit: BoxFit.cover,
-                                    width: 180,
+                                    width: 160,
                                   ),
                                 )
                               : IconButton(
@@ -697,7 +712,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                                   icon: Image.asset(
                                     "assets/moti/ose07.png",
                                     fit: BoxFit.cover,
-                                    width: 180,
+                                    width: 160,
                                   ),
                                 ),
                           const SizedBox(width: 20),
@@ -710,7 +725,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                                   icon: Image.asset(
                                     "assets/moti/mate7.png",
                                     fit: BoxFit.cover,
-                                    width: 180,
+                                    width: 160,
                                   ),
                                 )
                               : IconButton(
@@ -718,7 +733,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                                   icon: Image.asset(
                                     "assets/moti/ose07.png",
                                     fit: BoxFit.cover,
-                                    width: 180,
+                                    width: 160,
                                   ),
                                 ),
                         ],

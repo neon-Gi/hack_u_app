@@ -65,6 +65,8 @@ class _MyHomePageState extends State<MyHomePage> {
         return await rootBundle.loadString("assets/toml/nengajo.toml");
     }
 
+    Future<String> nengajo_type() async => await rootBundle.loadString('assets/toml/todouhuken.toml');
+
     AssetImage hagaki_update() {
         if (_nengajo_omote) return AssetImage('assets/image/hagaki/hagaki.png');
         return AssetImage('assets/image/hagaki/hagaki_white.png');
@@ -77,6 +79,19 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: <Widget>[
                 CupertinoDialogAction(
                     child: Text('！開始！', style: TextStyle(color: Colors.black)),
+                    onPressed: () => Navigator.of(context).pop(),
+                ),
+            ],
+        )
+    );
+
+    Future<void> showEndDialog() => showDialog<void> (
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+            title: Text('ストップ！\n結果 ' + _score.toString() + " 点"),
+            actions: <Widget>[
+                CupertinoDialogAction(
+                    child: Text("Ok", style: TextStyle(color: Colors.black)),
                     onPressed: () => Navigator.of(context).pop(),
                 ),
             ],
@@ -97,28 +112,33 @@ class _MyHomePageState extends State<MyHomePage> {
                     // BGMを載せたければ
                     // AudioPlayer().play(AssetSource('sound/Shougatsu_test_inGame.mp3'));
                 }
-                if (_update_location) {
-                    _location = random.nextInt(57);
-                    _caption = random.nextInt(5);
-                    _greet = random.nextInt(20);
-                    _nengajo_omote = random.nextDouble() > 0.25;
-                    _update_location = false;
-                }
                 if (_stopwatch.isRunning) {
                     String a = await nengajo_update();
                     if (_nengajo_omote) {
-                        Map<String, dynamic> map = TomlDocument.parse(a).toMap();
-                        String name = map["location"][_location]["name"] ?? "";
-                        String capital = map["location"][_location]["capital"][_caption] ?? "";
+                        final map = TomlDocument.parse(a).toMap();
+                        final name = map["location"][_location]["name"] ?? "";
+                        final capital = map["location"][_location]["capital"][_caption] ?? "";
                         _contents = " " + name + " " + capital;
                     } else {
-                        Map<String, dynamic> map = TomlDocument.parse(a).toMap();
-                        String greet = map["greetings"][_greet] ?? "";
+                        final map = TomlDocument.parse(a).toMap();
+                        final greet = map["greetings"][_greet] ?? "";
                         _contents = greet;
                     }
+
+                    if (_stopwatch.elapsedMilliseconds > 60000) {
+                        _stopwatch.stop();
+                        await showEndDialog();
+                    }
                 }
-                if (_stopwatch.isRunning && _stopwatch.elapsedMilliseconds > 60000) {
-                    _stopwatch.stop();
+                if (_update_location) {
+                    _location = random.nextInt(57);
+                    _caption = random.nextInt(5);
+                    final toml = await nengajo_type();
+                    final map = TomlDocument.parse(toml).toMap();
+                    _type = map["location"][_location]["type"] ?? 7;
+                    _greet = random.nextInt(20);
+                    _nengajo_omote = random.nextDouble() > 0.25;
+                    _update_location = false;
                 }
                 setState(() {});
             },

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -12,14 +12,12 @@ class MyApp extends StatelessWidget {
     const MyApp({super.key});
     @override
     Widget build(BuildContext context) => MaterialApp(
-        home: const MyHomePage(title: '年賀状仕分け')
+        home: const MyHomePage()
     );
 }
 
 class MyHomePage extends StatefulWidget {
-    const MyHomePage({super.key, required this.title});
-    final String title;
-
+    const MyHomePage({super.key});
     @override
     State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -29,6 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
     bool _start_dialog_show = false;
     bool _update_location = true;
     bool _nengajo_omote = true;
+    String _contents = "";
     int _greet = 0;
     int _location = 0;
     int _caption = 0;
@@ -56,15 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
             },
         );
 
-    void check_nengajo(int num) {
+    void check_nengajo(int num) async {
         if (num == _type) _score++;
         _update_location = true;
     }
 
     Future<String> nengajo_update() async {
-    if (_nengajo_omote) return await rootBundle.loadString('assets/toml/todouhuken.toml');
-    return await rootBundle.loadString("assets/toml/nengajo.toml");
-}
+        if (_nengajo_omote) return await rootBundle.loadString('assets/toml/todouhuken.toml');
+        return await rootBundle.loadString("assets/toml/nengajo.toml");
+    }
 
     Future<void> showStartDialog() => showDialog<void> (
         context: context,
@@ -99,6 +98,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     _greet = random.nextInt(20);
                     _nengajo_omote = random.nextDouble() > 0.25;
                     _update_location = false;
+                }
+                if (_stopwatch.isRunning) {
+                    String a = await nengajo_update();
+                    if (_nengajo_omote) {
+                        Map<String, dynamic> map = TomlDocument.parse(a).toMap();
+                        String name = map["location"][_location]["name"] ?? "";
+                        String capital = map["location"][_location]["capital"][_caption] ?? "";
+                        _contents = name + " " + capital;
+                    } else {
+                        Map<String, dynamic> map = TomlDocument.parse(a).toMap();
+                        String greet = map["greetings"][_greet] ?? "";
+                        _contents = greet;
+                    }
                 }
                 if (_stopwatch.isRunning && _stopwatch.elapsedMilliseconds > 60000) {
                     _stopwatch.stop();
@@ -172,25 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     child: Stack(
                                         children: [
-                                            FutureBuilder<String>(
-                                                future: nengajo_update(),
-                                                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                                                    if (_nengajo_omote) {
-                                                        Map<String, dynamic> map = TomlDocument.parse(snapshot.data ?? '').toMap();
-                                                        String name = map["location"][_location]["name"];
-                                                        String capital = map["location"][_location]["capital"][_caption];
-                                                        _type = map["location"][_location]["type"];
-                                                        return Tategaki(
-                                                            " \n \n \n \n \n \n　" + name + " " + capital,
-                                                            style: TextStyle(fontSize: 20),
-                                                        );
-                                                    } else {
-                                                        Map<String, dynamic> map = TomlDocument.parse(snapshot.data ?? '').toMap();
-                                                        String greet = map["greetings"][_greet];
-                                                        return Tategaki(" \n \n \n \n \n \n　" + greet, style: TextStyle(fontSize: 20));
-                                                    }
-                                                }
-                                            ),
+                                            Tategaki(" \n \n \n \n \n \n　" + _contents, style: TextStyle(fontSize: 20)),
                                             Align(
                                                 alignment: Alignment.bottomRight,
                                                 child: Container(

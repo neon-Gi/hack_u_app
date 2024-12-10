@@ -65,6 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
         return await rootBundle.loadString("assets/toml/nengajo.toml");
     }
 
+    AssetImage hagaki_update() {
+        if (_nengajo_omote) return AssetImage('assets/image/hagaki/hagaki.png');
+        return AssetImage('assets/image/hagaki/hagaki_white.png');
+    }
+
     Future<void> showStartDialog() => showDialog<void> (
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
@@ -105,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Map<String, dynamic> map = TomlDocument.parse(a).toMap();
                         String name = map["location"][_location]["name"] ?? "";
                         String capital = map["location"][_location]["capital"][_caption] ?? "";
-                        _contents = name + " " + capital;
+                        _contents = " " + name + " " + capital;
                     } else {
                         Map<String, dynamic> map = TomlDocument.parse(a).toMap();
                         String greet = map["greetings"][_greet] ?? "";
@@ -178,18 +183,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                     alignment: Alignment.topCenter,
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
-                                            fit: BoxFit.fitHeight,
-                                            image: AssetImage('assets/image/hagaki/hagaki.png'),
+                                            fit: BoxFit.fitWidth,
+                                            image: hagaki_update(),
                                         ),
                                     ),
                                     child: Stack(
                                         children: [
-                                            Tategaki(" \n \n \n \n \n \n　" + _contents, style: TextStyle(fontSize: 20)),
+                                            Container(
+                                                height: 350.0,
+                                                margin: EdgeInsets.only(top: 60.0),
+                                                child: Tategaki(" \n \n \n \n \n \n" + _contents, style: TextStyle(fontSize: 20)),
+                                            ),
                                             Align(
                                                 alignment: Alignment.bottomRight,
                                                 child: Container(
                                                     width: 80.0, height: 80.0,
-                                                    margin: EdgeInsets.only(right: 10.0, bottom: 10.0),
+                                                    margin: EdgeInsets.only(right: 0.0, bottom: 0.0),
                                                     child: IconButton(
                                                         onPressed: () => _nengajo_omote = !_nengajo_omote,
                                                         icon: Image.asset("assets/image/hagaki/turn.png"),

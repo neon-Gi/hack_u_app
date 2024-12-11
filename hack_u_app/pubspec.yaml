@@ -35,8 +35,6 @@ dependencies:
   shared_preferences: ^2.1.0
   toml: ^0.16.0
 
-cupertino_icons: ^1.0.6
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,6 +63,11 @@ flutter:
     - assets/moti/
     - assets/timer/
     - assets/hagaki/image/
+    - assets/hagaki/image/button/
+    - assets/hagaki/image/clock/
+    - assets/hagaki/image/folder/
+    - assets/hagaki/image/hagaki/
+    - assets/hagaki/image/haikei/
     - assets/hagaki/sound/
     - assets/hagaki/toml/
     - assets/etoQ/

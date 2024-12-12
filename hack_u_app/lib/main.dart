@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/hagaki.dart';
 import 'select_game.dart';
 import 'player.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SHOGATU PARTY',
-      home: MyHomePage(),
+      home: HagakiGamePage(),
     );
   }
 }

@@ -155,6 +155,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   Future<void> _readyDialog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -231,6 +232,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
     _timer?.cancel();
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -265,6 +267,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   Future<void> _endDialog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -728,6 +731,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
     });
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -805,6 +809,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
     _timer?.cancel();
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -862,6 +867,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   Future<void> _endDialog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(

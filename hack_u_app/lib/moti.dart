@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'player.dart';
 import 'package:flutter/material.dart';
 import 'package:hack_u_app/select_game.dart';
 
@@ -120,8 +121,16 @@ class _MotiGamePageState extends State<MotiGamePage> {
                     "得点: ${game.point.toString()}点",
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 5),
-                  // スコアボードリスト
+                  Container(
+                    padding: const EdgeInsets.all(0),
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        submitScore();
+                      },
+                      child: const Text("ランキング登録"),
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -145,6 +154,93 @@ class _MotiGamePageState extends State<MotiGamePage> {
                         child: const Text('もう一度'),
                       ),
                     ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<void> submitScore() async {
+    try {
+      final response = await PlayerManager().submitSocre(1, game.point);
+      if (response) {
+        _successDialog();
+      } else {
+        _errorDialog();
+      }
+    } catch (e) {
+      _errorDialog();
+    }
+  }
+
+  Future<void> _successDialog() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text(
+                    '登録成功',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('OK'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<void> _errorDialog() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text(
+                    '通信エラー',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    '通信または処理に失敗しました。',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
                   ),
                 ],
               ),
@@ -468,9 +564,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                     "得点: ${game.point.toString()}点",
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 5),
-                  // スコアボードリスト
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[

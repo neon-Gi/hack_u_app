@@ -35,4 +35,12 @@ class PlayerManager {
     final response = await client.getRanking(gameID);
     return response;
   }
+
+  Future<bool> submitSocre(int gameID, int score) async {
+    final client = grpcClient();
+    final prefs = await SharedPreferences.getInstance();
+    final response =
+        await client.SubmitScore(gameID, prefs.getString("player")!, score);
+    return response;
+  }
 }

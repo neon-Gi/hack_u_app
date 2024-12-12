@@ -47,4 +47,19 @@ class grpcClient {
       await channel.shutdown();
     }
   }
+
+  // ランキング登録
+  Future<bool> SubmitScore(int game, String playername, int score) async {
+    final request =
+        SubmitScoreRequest(gameId: game, playerName: playername, score: score);
+    try {
+      final response = await stub.submitScore(request);
+      return response.success;
+    } on GrpcError catch (e) {
+      print('gRPC Error: ${e.message}');
+      rethrow;
+    } finally {
+      await channel.shutdown();
+    }
+  }
 }

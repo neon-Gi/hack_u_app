@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'select_game.dart';
+import 'player.dart';
 
 void main() {
   runApp(const MyApp());
@@ -98,9 +99,10 @@ class _MyHomePageState extends State<MyHomePage> {
               child: IconButton(
                 onPressed: () {
                   showDialog(
+                      barrierDismissible: false,
                       context: context,
                       builder: (_) {
-                        return const AlertDialogSample();
+                        return const PlayerNameDialog();
                       });
                 },
                 icon: Image.asset("assets/title_screen/option.png"),
@@ -381,6 +383,7 @@ class _GameModePageState extends State<GameMode> {
                       );
                     } else {
                       showDialog(
+                          barrierDismissible: false,
                           context: context,
                           builder: (_) {
                             return const AlertDialogSample();
@@ -458,5 +461,77 @@ class AlertDialogSample extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+// プレイヤー名の入力を受け付けるダイアログ
+class PlayerNameDialog extends StatefulWidget {
+  const PlayerNameDialog({Key? key}) : super(key: key);
+
+  @override
+  State<PlayerNameDialog> createState() => _PlayerNameDialogState();
+}
+
+class _PlayerNameDialogState extends State<PlayerNameDialog> {
+  String playerName = "";
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('プレイヤー名を入力してください'),
+      content: TextField(
+        onChanged: (value) {
+          playerName = value;
+        },
+      ),
+      actions: <Widget>[
+        GestureDetector(
+          child: const Text('OK', style: TextStyle(fontSize: 24)),
+          onTap: () async {
+            final result = await PlayerManager().savePlayer(playerName);
+            Navigator.of(context).pop();
+            if (!result) {
+              _errorDialog();
+            }
+          },
+        )
+      ],
+    );
+  }
+
+  Future<void> _errorDialog() async {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text(
+                    '通信エラー',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    '通信または処理に失敗しました。',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

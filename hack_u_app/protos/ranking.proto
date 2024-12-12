@@ -2,22 +2,16 @@ syntax = "proto3";
 
 package ranking;
 
-service RankingService {
-  rpc SetPlayername(SetPlayernameRequest) returns (SetPlayernameResponse);
-  rpc GetLeaderboard (LeaderboardRequest) returns (LeaderboardResponse);
-  rpc SubmitScore (SubmitScoreRequest) returns (SubmitScoreResponse);
-}
-
 message SetPlayernameRequest {
-  string player_name = 1;
+  string playerName = 1;
 }
 
 message SetPlayernameResponse {
-  int32 player_id = 1;
+  int32 playerId = 1;
 }
 
 message LeaderboardRequest {
-  int32 game_id = 1;
+  int32 gameId = 1;
 }
 
 message LeaderboardResponse {
@@ -25,16 +19,22 @@ message LeaderboardResponse {
 }
 
 message PlayerScore {
-  string player_name = 1;
+  string playerName = 1;
   int32 score = 2;
 }
 
 message SubmitScoreRequest {
-  int32 game_id = 1;
-  int32 player_id = 2;
+  int32 gameId = 1;
+  string playerName = 2;
   int32 score = 3;
 }
 
 message SubmitScoreResponse {
   bool success = 1;
+}
+
+service RankingService {
+  rpc SetPlayername(SetPlayernameRequest) returns (SetPlayernameResponse);
+  rpc GetLeaderboard (LeaderboardRequest) returns (LeaderboardResponse);
+  rpc SubmitScore (SubmitScoreRequest) returns (SubmitScoreResponse);
 }

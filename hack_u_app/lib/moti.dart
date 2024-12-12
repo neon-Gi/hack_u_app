@@ -61,6 +61,7 @@ class _MotiGamePageState extends State<MotiGamePage> {
   Future<void> _readyDialog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -99,6 +100,7 @@ class _MotiGamePageState extends State<MotiGamePage> {
   Future<void> _endDialog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -410,6 +412,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
   Future<void> _readyDialog() async {
     return showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
@@ -445,6 +448,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
   Future<void> _endDialog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(

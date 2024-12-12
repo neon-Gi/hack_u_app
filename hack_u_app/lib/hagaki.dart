@@ -62,6 +62,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
   Future<void> showStartDialog() => showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
@@ -96,6 +97,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
   Future<void> showEndDialog() => showDialog<void>(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(

@@ -92,6 +92,7 @@ class _etoqPageState extends State<etoqpage> {
   Future<void> _readyDialog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -129,6 +130,7 @@ class _etoqPageState extends State<etoqpage> {
   Future<void> _endDailog() async {
     return showDialog<void>(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(

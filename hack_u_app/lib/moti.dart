@@ -553,10 +553,12 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
   bool _isPlaying = false;
   late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
   late AudioPlayer _sePlayer;
+  int _win = 0;
 
   @override
   void initState() {
     super.initState();
+    _win = 0;
     _bgmPlayer = AudioPlayer();
     _sePlayer = AudioPlayer();
     _bgmPlayer.setReleaseMode(ReleaseMode.loop);

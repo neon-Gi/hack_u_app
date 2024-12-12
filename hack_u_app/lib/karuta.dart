@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hack_u_app/select_game.dart';
 
@@ -105,10 +106,15 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   String prepare_answer = "";
   String display = "";
   Timer? _timer;
+  late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
+  late AudioPlayer _sePlayer;
 
   @override
   void initState() {
     super.initState();
+    _bgmPlayer = AudioPlayer();
+    _bgmPlayer.setReleaseMode(ReleaseMode.loop);
+    _sePlayer = AudioPlayer();
     reset();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _readyDialog();
@@ -151,6 +157,30 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
     print(card_index);
   }
 
+  // BGM再生
+  Future<void> _playBGM() async {
+    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+        volume: 0.5);
+  }
+
+  // BGM停止
+  Future<void> _stopBGM() async {
+    await _bgmPlayer.stop();
+  }
+
+  // 読み上げスタートSE
+  Future<void> _readStartSE() async {
+    await _sePlayer.play(AssetSource('/se/karuta/karuta_readStart.mp3'));
+  }
+
+  Future<void> _missSE() async {
+    await _sePlayer.play(AssetSource('/se/karuta/karuta_miss.mp3'));
+  }
+
+  Future<void> _correctSE() async {
+    await _sePlayer.play(AssetSource('/se/karuta/karuta_correct.mp3'));
+  }
+
   // 準備ダイアログ
   Future<void> _readyDialog() async {
     return showDialog<void>(
@@ -179,6 +209,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
+                      _playBGM();
                       prepare_question();
                       Navigator.of(context).pop();
                     },
@@ -200,6 +231,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
       return;
     }
     print("抽選");
+    _readStartSE();
     if (card_index.contains(answer_index)) {
       setState(() {
         display = "";
@@ -247,6 +279,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                     '正解!',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
+                  Text(prepare_answer),
                   const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
@@ -498,14 +531,17 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
     if (card_status[index] == "otetuki" || card_status[index] == "1") {
       return;
     } else if (answer_index == card_index[index] && _isPlaying) {
+      _correctSE();
       _isPlaying = false;
       card_status[index] = "1";
       if (round == 9) {
+        _stopBGM();
         _endDialog();
       } else {
         _correctDialog();
       }
     } else {
+      _missSE();
       setState(() {
         card_status[index] = "otetuki";
       });
@@ -674,16 +710,46 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   String prepare_answer = "";
   String display = "";
   Timer? _timer;
+  String wins = "";
   int player1Point = 0;
   int player2Point = 0;
+  late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
+  late AudioPlayer _sePlayer;
 
   @override
   void initState() {
     super.initState();
+    _bgmPlayer = AudioPlayer();
+    _bgmPlayer.setReleaseMode(ReleaseMode.loop);
+    _sePlayer = AudioPlayer();
     reset();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _readyDialog();
     });
+  }
+
+  // BGM再生
+  Future<void> _playBGM() async {
+    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+        volume: 0.5);
+  }
+
+  // BGM停止
+  Future<void> _stopBGM() async {
+    await _bgmPlayer.stop();
+  }
+
+  // 読み上げスタートSE
+  Future<void> _readStartSE() async {
+    await _sePlayer.play(AssetSource('/se/karuta/karuta_readStart.mp3'));
+  }
+
+  Future<void> _missSE() async {
+    await _sePlayer.play(AssetSource('/se/karuta/karuta_miss.mp3'));
+  }
+
+  Future<void> _correctSE() async {
+    await _sePlayer.play(AssetSource('/se/karuta/karuta_correct.mp3'));
   }
 
   void reset() {
@@ -755,6 +821,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
+                      _playBGM();
                       prepare_question();
                       Navigator.of(context).pop();
                     },
@@ -777,6 +844,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
       return;
     }
     print("抽選");
+    _readStartSE();
     if (card_index.contains(answer_index)) {
       setState(() {
         display = "";
@@ -849,6 +917,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                       });
                       Navigator.of(context).pop();
                       if (round == 9) {
+                        _stopBGM();
                         _endDialog();
                       } else {
                         _readyDialog();
@@ -865,6 +934,12 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
 
   // 終了ダイアグラム
   Future<void> _endDialog() async {
+    _stopBGM();
+    if (player1Point > player2Point) {
+      wins = "1";
+    } else {
+      wins = "2";
+    }
     return showDialog<void>(
         context: context,
         barrierDismissible: false,
@@ -878,8 +953,8 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  const Text(
-                    '結果',
+                  Text(
+                    '結果: Player${wins}',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
@@ -1145,9 +1220,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
         card_status[index] == "2") {
       return;
     } else if (answer_index == card_index[index] && _isPlaying) {
+      _correctSE();
       _isPlaying = false;
       _correctDialog(index);
     } else {
+      _missSE();
       setState(() {
         card_status[index] = "otetuki";
       });

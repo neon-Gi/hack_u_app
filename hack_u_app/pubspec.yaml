@@ -64,6 +64,8 @@ flutter:
     - assets/bgm/
     - assets/se/
     - assets/se/moti/
+    - assets/se/etoq/
+    - assets/se/karuta/
     - assets/title_screen/
     - assets/select_screen/
     - assets/moti/

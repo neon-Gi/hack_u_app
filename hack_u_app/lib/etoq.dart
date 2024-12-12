@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hack_u_app/player.dart';
 import "select_game.dart";
@@ -25,10 +26,15 @@ class _etoqPageState extends State<etoqpage> {
   int score = 0;
   Timer? _timer; // タイムカウント
   int timerSec = 30;
+  late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
+  late AudioPlayer _sePlayer;
 
   @override
   void initState() {
     super.initState();
+    _bgmPlayer = AudioPlayer();
+    _sePlayer = AudioPlayer();
+    _bgmPlayer.setReleaseMode(ReleaseMode.loop);
     prepare_question();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _readyDialog();
@@ -82,8 +88,10 @@ class _etoqPageState extends State<etoqpage> {
       setState(() {
         score++;
       });
+      _correctSE();
       print("正解");
     } else {
+      _uncorrectSE();
       print("不正解");
     }
     prepare_question();
@@ -294,13 +302,42 @@ class _etoqPageState extends State<etoqpage> {
         });
   }
 
+  // BGM再生
+  Future<void> _playBGM() async {
+    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+        volume: 0.5);
+  }
+
+  // BGM停止
+  Future<void> _stopBGM() async {
+    await _bgmPlayer.stop();
+  }
+
+  // スタート
+  Future<void> _startSE() async {
+    await _sePlayer.play(AssetSource("se/start.mp3"));
+  }
+
+  // 正解
+  Future<void> _correctSE() async {
+    await _sePlayer.play(AssetSource("/se/etoq/correct.mp3"));
+  }
+
+  // 不正解
+  Future<void> _uncorrectSE() async {
+    await _sePlayer.play(AssetSource("/se/etoq/uncorrect.mp3"));
+  }
+
   void startGame() {
+    _startSE();
+    _playBGM();
     print("ゲーム開始");
     isPlaying = true;
     _startTimer();
   }
 
   void endGame() {
+    _stopBGM();
     _timer?.cancel();
     _timer = null;
     isPlaying = false;

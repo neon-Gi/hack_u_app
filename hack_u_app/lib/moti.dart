@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'player.dart';
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/player.dart';
 import 'package:hack_u_app/select_game.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 // シングル用ゲームクラス
 class MotiGame {
-  int timerSec = 60;
+  int timerSec = 30;
   int point = 0;
   bool start = false;
   bool mistake = false;
@@ -13,7 +14,7 @@ class MotiGame {
 
 // マルチ用ゲームクラス
 class MultiMotiGame {
-  int timerSec = 60;
+  int timerSec = 30;
   int point = 0;
   int next = 0;
   bool start = false;
@@ -48,15 +49,27 @@ class MotiGamePage extends StatefulWidget {
   _MotiGamePageState createState() => _MotiGamePageState();
 }
 
-class _MotiGamePageState extends State<MotiGamePage> {
+class _MotiGamePageState extends State<MotiGamePage>
+    with TickerProviderStateMixin {
   MotiGame game = MotiGame();
-  Timer? _timer;
-  Timer? _motiTimer;
-  int _press = 0;
-  int _count = 0;
   int _currentIndex = 0;
   int _mode = 0;
+  int _press = 0;
+  int _count = 0;
+  Timer? motiTimer; // 餅ペナ用
   bool _isPlaying = false;
+  late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
+  late AudioPlayer _sePLayer;
+
+  @override
+  void initState() {
+    _bgmPlayer = AudioPlayer();
+    _bgmPlayer.setReleaseMode(ReleaseMode.loop);
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _readyDialog();
+    });
+  }
 
   // 準備ダイアログ
   Future<void> _readyDialog() async {
@@ -85,6 +98,7 @@ class _MotiGamePageState extends State<MotiGamePage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
+                      reset();
                       gameStart();
                       Navigator.of(context).pop();
                     },
@@ -175,6 +189,7 @@ class _MotiGamePageState extends State<MotiGamePage> {
     }
   }
 
+  // 登録完了
   Future<void> _successDialog() async {
     return showDialog<void>(
         context: context,
@@ -212,6 +227,7 @@ class _MotiGamePageState extends State<MotiGamePage> {
         });
   }
 
+  // エラー処理
   Future<void> _errorDialog() async {
     return showDialog<void>(
         context: context,
@@ -249,97 +265,159 @@ class _MotiGamePageState extends State<MotiGamePage> {
         });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _readyDialog();
-    });
+  // BGM再生
+  Future<void> _playBGM() async {
+    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+        volume: 0.5);
   }
 
-  // ゲーム開始
-  void gameStart() {
-    game.start = true;
-    _press = 0;
+  // BGM停止
+  Future<void> _stopBGM() async {
+    await _bgmPlayer.stop();
+  }
+
+  // はじめっ!
+  Future<void> _startSE() async {
+    await _sePLayer.play(AssetSource('/se/start.mp3'), volume: 0.5);
+  }
+
+  // 杵撃ち
+  Future<void> _dagekiSE() async {
+    await _sePLayer.play(AssetSource('/se/moti_dageki.mp3'), volume: 0.5);
+  }
+
+  // コネ
+  Future<void> _koneSE() async {
+    await _sePLayer.play(AssetSource('/se/moti_koneru.mp3'), volume: 0.5);
+  }
+
+  // ミス
+  Future<void> _missSE() async {
+    await _sePLayer.play(AssetSource('/se/moti_miss.mp3'), volume: 0.5);
+  }
+
+  // リセット処理
+  void reset() {
+    _startSE();
     _count = 0;
+    game.start = false;
+    game.mistake = false;
+    game.point = 0;
     _currentIndex = 0;
     _mode = 0;
+    motiTimer = null;
+  }
+
+  // ゲーム開始処理
+  void gameStart() {
+    _playBGM();
+    game.start = true;
+    _currentIndex = 0;
+    _mode = 0;
+    _press = 0;
     _isPlaying = false;
-    game.timerSec = 60;
-    restartTimer();
+    game.timerSec = 30;
+    startTimer();
   }
 
-  // ゲーム終了
-  void gameEnd() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _endDialog();
-    });
-    game.start = false;
-    _timer?.cancel();
-    _motiTimer?.cancel();
-  }
-
-  //　杵撃ち再生
-  void moveView1() {
-    if (_isPlaying) {
-      game.mistake = true;
-      return;
-    }
-    setState(() {
-      _isPlaying = true;
-      _mode = 1;
-    });
-    stopTimer();
-    _motiTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+  // タイマー開始
+  void startTimer() {
+    Stream.periodic(const Duration(seconds: 1), (int count) => count)
+        .take(game.timerSec)
+        .listen((int count) {
       setState(() {
-        _currentIndex++;
-        if (_currentIndex >= imagePath1.length) {
-          _currentIndex = 0;
-          _mode = 0;
-          _isPlaying = false;
-          moveStop();
-          restartTimer();
+        game.timerSec--;
+        if (game.timerSec <= 0) {
+          _stopBGM();
+          _endDialog();
         }
       });
     });
   }
 
-  // 混ぜ再生
-  void moveView2() {
+  // もちの表示
+  Image? moti() {
+    if (_mode == 1) {
+      return Image.asset(imagePath1[_currentIndex],
+          width: 500, height: 600, fit: BoxFit.cover);
+    } else if (_mode == 2) {
+      return Image.asset(imagePath2[_currentIndex],
+          width: 500, height: 600, fit: BoxFit.cover);
+    } else {
+      return Image.asset(imagePath1[0],
+          width: 500, height: 600, fit: BoxFit.cover);
+    }
+  }
+
+  void moveView1() {
     if (_isPlaying) {
+      _missSE();
       game.mistake = true;
       return;
     }
-    stopTimer();
+    _dagekiSE();
+    setState(() {
+      _isPlaying = true;
+      _mode = 1;
+    });
+    final controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 6 * 75), // 全体のアニメーション時間
+    );
+    controller.addListener(() {
+      setState(() {
+        _currentIndex = (controller.value * imagePath1.length).floor();
+        if (_currentIndex >= imagePath1.length) {
+          controller.stop();
+          _currentIndex = 0;
+          _mode = 0;
+          _isPlaying = false;
+          moveStop();
+        }
+      });
+    });
+    controller.forward();
+  }
+
+  void moveView2() {
+    if (_isPlaying) {
+      _missSE();
+      game.mistake = true;
+      return;
+    }
+    _koneSE();
     setState(() {
       _isPlaying = true;
       _mode = 2;
     });
-    _motiTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    final controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 9 * 75), // 全体のアニメーション時間
+    );
+    controller.addListener(() {
       setState(() {
-        _currentIndex++;
+        _currentIndex = (controller.value * imagePath2.length).floor();
         if (_currentIndex >= imagePath2.length) {
           _currentIndex = 0;
           _isPlaying = false;
           _mode = 0;
           game.point++;
           moveStop();
-          restartTimer();
         }
       });
     });
+    controller.forward();
   }
 
-  // 杵撃ち・混ぜ再生停止
   void moveStop() {
-    _motiTimer?.cancel();
-    _motiTimer = null;
+    motiTimer?.cancel();
+    motiTimer = null;
     setState(() {
       _isPlaying = false;
       _currentIndex = 0;
     });
     if (game.mistake) {
-      _motiTimer = Timer(const Duration(seconds: 2), () {
+      motiTimer = Timer(const Duration(milliseconds: 100), () {
         setState(() {
           game.mistake = false;
         });
@@ -347,7 +425,6 @@ class _MotiGamePageState extends State<MotiGamePage> {
     }
   }
 
-  // ボタン押下時
   void onPress() {
     setState(() {
       _press++;
@@ -359,54 +436,24 @@ class _MotiGamePageState extends State<MotiGamePage> {
     }
   }
 
-  // もちの表示
-  Image? moti() {
-    if (_mode == 1) {
-      return Image.asset(imagePath1[_currentIndex],
-          width: 500, height: 500, fit: BoxFit.cover);
-    } else if (_mode == 2) {
-      return Image.asset(imagePath2[_currentIndex],
-          width: 500, height: 500, fit: BoxFit.cover);
-    } else {
-      return Image.asset(imagePath1[0],
-          width: 500, height: 500, fit: BoxFit.cover);
-    }
-  }
-
-  // タイマーと終了監視
-  void restartTimer() {
-    game.timerSec--;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (game.start) {
-          game.timerSec--;
-          if (game.timerSec <= 0) {
-            gameEnd();
-          }
-        }
-      });
-    });
-  }
-
-  // タイマー一時停止
-  void stopTimer() {
-    _timer?.cancel();
-    _timer = null;
-  }
-
-  // タイマー表示
   Image? timer() {
-    if (!_isPlaying || game.timerSec <= 0) {
-      if (game.timerSec <= 0) {
-        return Image.asset(timerUrl.toString() + "12_0.png");
-      } else if (game.timerSec <= 5) {
-        return Image.asset(
-            timerUrl.toString() + "12_" + game.timerSec.toString() + ".png");
-      } else if (game.timerSec % 5 == 0) {
-        _count++;
-      }
+    setState(() {
+      _count = (30 - game.timerSec) ~/ 3;
+    });
+
+    if (game.timerSec <= 0) {
+      return Image.asset(timerUrl.toString() + "12_0.png");
+    } else if (game.timerSec <= 5) {
+      return Image.asset(
+          timerUrl.toString() + "12_" + game.timerSec.toString() + ".png");
+    } else {
+      return Image.asset(timerUrl.toString() + _count.toString() + ".png");
     }
-    return Image.asset(timerUrl.toString() + _count.toString() + ".png");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -425,7 +472,7 @@ class _MotiGamePageState extends State<MotiGamePage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 190),
+              const SizedBox(height: 140),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -461,7 +508,7 @@ class _MotiGamePageState extends State<MotiGamePage> {
                                 ? IconButton(
                                     onPressed: null,
                                     icon: Image.asset(
-                                      "assets/moti/mate7.png",
+                                      "assets/moti/ose07_idle.png",
                                       width: 300,
                                       fit: BoxFit.cover,
                                     ),
@@ -496,15 +543,26 @@ class MultiMotiGamePage extends StatefulWidget {
   State<MultiMotiGamePage> createState() => _MultiMotiGamePageState();
 }
 
-class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
+class _MultiMotiGamePageState extends State<MultiMotiGamePage>
+    with TickerProviderStateMixin {
   MultiMotiGame game = MultiMotiGame();
-  Timer? _timer;
-  Timer? _motiTimer;
   int _currentIndex = 0;
-  bool _isPlaying = false;
+  Timer? motiTimer;
   int _count = 0;
+  bool _isPlaying = false;
+  late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
 
-  // 準備ダイアログ
+  @override
+  void initState() {
+    super.initState();
+    _bgmPlayer = AudioPlayer();
+    _bgmPlayer.setReleaseMode(ReleaseMode.loop);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _readyDialog();
+    });
+  }
+
+// 準備ダイアログ
   Future<void> _readyDialog() async {
     return showDialog<void>(
       context: context,
@@ -528,6 +586,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
+                    reset();
                     gameStart();
                     Navigator.of(context).pop();
                   },
@@ -564,31 +623,16 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                     "得点: ${game.point.toString()}点",
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.of(context).push(
-                            PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) {
-                                return SelectPage();
-                              },
-                              transitionsBuilder: (context, animation,
-                                  secondaryAnimation, child) {
-                                final Animatable<Offset> tween = Tween(
-                                        begin: const Offset(-1.0, 0.0),
-                                        end: Offset.zero)
-                                    .chain(CurveTween(curve: Curves.easeInOut));
-                                final Animation<Offset> offsetAnimation =
-                                    animation.drive(tween);
-                                return SlideTransition(
-                                  position: offsetAnimation,
-                                  child: child,
-                                );
-                              },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SelectPage(),
                             ),
                           );
                         },
@@ -610,42 +654,76 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
         });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _readyDialog();
-    });
+  void reset() {
+    _count = 0;
+    game.start = false;
+    game.mistake = false;
+    game.point = 0;
+    _currentIndex = 0;
+    _isPlaying = false;
+    motiTimer = null;
   }
 
   void gameStart() {
+    _playBGM();
     game.start = true;
-    _isPlaying = false;
-    _count = 0;
-    _currentIndex = 0;
-    game.point = 0;
-    game.timerSec = 60;
-    restartTimer();
+    game.timerSec = 30;
+    game.next = 1;
+    startTimer();
   }
 
-  void gameEnd() {
-    stopTimer();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _endDialog();
-    });
-  }
-
-  void restartTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  // タイマー開始
+  void startTimer() {
+    Stream.periodic(const Duration(seconds: 1), (int count) => count)
+        .take(game.timerSec)
+        .listen((int count) {
       setState(() {
-        if (game.start) {
-          game.timerSec--;
-          if (game.timerSec <= 0) {
-            gameEnd();
-          }
+        game.timerSec--;
+        if (game.timerSec <= 0) {
+          _stopBGM();
+          _endDialog();
         }
       });
     });
+  }
+
+  Image? moti() {
+    if (game.next == 2) {
+      return Image.asset(imagePath1[_currentIndex],
+          width: 500, height: 600, fit: BoxFit.cover);
+    } else if (game.next == 1) {
+      return Image.asset(imagePath2[_currentIndex],
+          width: 500, height: 600, fit: BoxFit.cover);
+    } else {
+      return Image.asset(imagePath1[0],
+          width: 500, height: 600, fit: BoxFit.cover);
+    }
+  }
+
+  Image? timer() {
+    setState(() {
+      _count = (30 - game.timerSec) ~/ 3;
+    });
+
+    if (game.timerSec <= 0) {
+      return Image.asset(timerUrl.toString() + "12_0.png");
+    } else if (game.timerSec <= 5) {
+      return Image.asset(
+          timerUrl.toString() + "12_" + game.timerSec.toString() + ".png");
+    } else {
+      return Image.asset(timerUrl.toString() + _count.toString() + ".png");
+    }
+  }
+
+  // BGM再生
+  Future<void> _playBGM() async {
+    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+        volume: 0.5);
+  }
+
+  // BGM停止
+  Future<void> _stopBGM() async {
+    await _bgmPlayer.stop();
   }
 
   void moveView1() {
@@ -656,22 +734,23 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
     setState(() {
       _isPlaying = true;
       game.next = 2;
-      game.point++;
     });
-    stopTimer();
-    _motiTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    final controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 6 * 75), // 全体のアニメーション時間
+    );
+    controller.addListener(() {
       setState(() {
-        _currentIndex++;
-        if (_currentIndex >= imagePath2.length) {
-          game.timerSec--;
+        _currentIndex = (controller.value * imagePath1.length).floor();
+        if (_currentIndex >= imagePath1.length) {
+          controller.stop();
           _currentIndex = 0;
           _isPlaying = false;
-          game.next = 1;
           moveStop();
-          restartTimer();
         }
       });
     });
+    controller.forward();
   }
 
   void moveView2() {
@@ -679,72 +758,43 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
       game.mistake = true;
       return;
     }
-    stopTimer();
     setState(() {
       _isPlaying = true;
       game.next = 1;
     });
-    _motiTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    final controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 9 * 75), // 全体のアニメーション時間
+    );
+    controller.addListener(() {
       setState(() {
-        _currentIndex++;
-        if (_currentIndex >= imagePath1.length) {
+        _currentIndex = (controller.value * imagePath2.length).floor();
+        if (_currentIndex >= imagePath2.length) {
+          controller.stop();
           _currentIndex = 0;
-          game.timerSec--;
           _isPlaying = false;
-          game.next = 2;
+          game.point++;
           moveStop();
-          restartTimer();
         }
       });
     });
-  }
-
-  void stopTimer() {
-    _timer?.cancel();
-    _timer = null;
+    controller.forward();
   }
 
   void moveStop() {
-    _motiTimer?.cancel();
-    _motiTimer = null;
+    motiTimer?.cancel();
+    motiTimer = null;
     setState(() {
       _isPlaying = false;
       _currentIndex = 0;
     });
     if (game.mistake) {
-      _motiTimer = Timer(const Duration(seconds: 2), () {
+      motiTimer = Timer(const Duration(milliseconds: 100), () {
         setState(() {
           game.mistake = false;
         });
       });
     }
-  }
-
-  Image? moti() {
-    if (game.next == 1) {
-      return Image.asset(imagePath1[_currentIndex],
-          width: 500, height: 500, fit: BoxFit.cover);
-    } else if (game.next == 2) {
-      return Image.asset(imagePath2[_currentIndex],
-          width: 500, height: 500, fit: BoxFit.cover);
-    } else {
-      return Image.asset(imagePath1[0],
-          width: 500, height: 500, fit: BoxFit.cover);
-    }
-  }
-
-  Image? timer() {
-    if (!_isPlaying || game.timerSec <= 0) {
-      if (game.timerSec <= 0) {
-        return Image.asset(timerUrl.toString() + "12_0.png");
-      } else if (game.timerSec <= 5) {
-        return Image.asset(
-            timerUrl.toString() + "12_" + game.timerSec.toString() + ".png");
-      } else if (game.timerSec % 5 == 0) {
-        _count++;
-      }
-    }
-    return Image.asset(timerUrl.toString() + _count.toString() + ".png");
   }
 
   Widget build(BuildContext context) {
@@ -762,7 +812,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 190),
+              const SizedBox(height: 140),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -806,7 +856,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                                   ),
                                 )
                               : IconButton(
-                                  onPressed: moveView2,
+                                  onPressed: moveView1,
                                   icon: Image.asset(
                                     "assets/moti/ose07.png",
                                     fit: BoxFit.cover,
@@ -827,7 +877,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage> {
                                   ),
                                 )
                               : IconButton(
-                                  onPressed: moveView1,
+                                  onPressed: moveView2,
                                   icon: Image.asset(
                                     "assets/moti/ose07.png",
                                     fit: BoxFit.cover,

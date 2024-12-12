@@ -1,5 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:hack_u_app/hagaki.dart';
+import 'package:hack_u_app/moti.dart';
+import 'package:video_player/video_player.dart';
 import 'select_game.dart';
 import 'player.dart';
 
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SHOGATU PARTY',
-      home: HagakiGamePage(),
+      home: MotiGamePage(),
     );
   }
 }
@@ -27,6 +29,64 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late VideoPlayerController _controller;
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        VideoPlayerController.asset("assets/title_screen/title_op.mp4")
+          ..initialize().then((_) {
+            _controller.setVolume(1.0);
+            _controller.play();
+            setState(() {});
+          });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showVideoDialog();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(() {}); // リスナーを削除
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _showVideoDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: SizedBox(
+            width: 900, // 幅を指定
+            height: 700, // 高さを指定
+            child: VideoPlayer(_controller),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _controller.pause();
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                '×',
+                style: TextStyle(color: Colors.white, fontSize: 32),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,21 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const SizedBox(
-              width: 320,
-              height: 60,
-            ),
-            // タイトル
-            SizedBox(
-              width: 320,
-              height: 100,
-              child: Image.asset(
-                "assets/title_screen/title.png",
-                fit: BoxFit.fill,
-              ),
-            ),
-            const SizedBox(
-              width: 320,
-              height: 250,
+              height: 600,
             ),
             // スタートボタン
             Container(
@@ -67,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 100,
               child: IconButton(
                 onPressed: () {
+                  _playSound();
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
@@ -125,6 +172,13 @@ class ModePage extends StatefulWidget {
 }
 
 class _ModePageState extends State<ModePage> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -161,6 +215,7 @@ class _ModePageState extends State<ModePage> {
                 child: IconButton(
                   icon: Image.asset("assets/title_screen/single.png"),
                   onPressed: () {
+                    _playSound();
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) {
@@ -191,6 +246,7 @@ class _ModePageState extends State<ModePage> {
                 child: IconButton(
                   icon: Image.asset("assets/title_screen/party.png"),
                   onPressed: () {
+                    _playSound();
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) {
@@ -221,6 +277,7 @@ class _ModePageState extends State<ModePage> {
                 child: IconButton(
                   icon: Image.asset("assets/title_screen/select.png"),
                   onPressed: () {
+                    _playSound();
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) {
@@ -265,6 +322,7 @@ class _ModePageState extends State<ModePage> {
                         fit: BoxFit.fill,
                       ),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -308,6 +366,13 @@ class GameMode extends StatefulWidget {
 }
 
 class _GameModePageState extends State<GameMode> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -360,6 +425,7 @@ class _GameModePageState extends State<GameMode> {
                 child: IconButton(
                   icon: Image.asset("assets/title_screen/start_mode.png"),
                   onPressed: () {
+                    _playSound();
                     if (widget.mode == "Select") {
                       Navigator.of(context).push(
                         PageRouteBuilder(
@@ -410,6 +476,7 @@ class _GameModePageState extends State<GameMode> {
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -451,8 +518,8 @@ class AlertDialogSample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('実装中'),
-      content: const Text('実装中のため表示できません。'),
+      title: const Text('実装できませんでした'),
+      content: const Text('実装間に合わなかったため表示できません。'),
       actions: <Widget>[
         GestureDetector(
           child: const Text('OK', style: TextStyle(fontSize: 24)),

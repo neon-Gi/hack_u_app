@@ -46,7 +46,7 @@ List<String> ro_keyword = [
   "ろばよりしょうこ",
   "ろばよりだんご",
   "ろばもあるけばぼうにあたる",
-  "ロバにのりねこにのられるどうぶつ",
+  "ろばにのりねこにのられるのはいぬ",
   "ろば。",
   "ろうそく。"
 ];
@@ -173,7 +173,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   ),
                   const SizedBox(height: 10),
                   const Text(
-                    '準備できたら開始を押してください。',
+                    '準備ができたら開始を押せ!!',
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
@@ -749,7 +749,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   ),
                   const SizedBox(height: 10),
                   const Text(
-                    '準備できたら開始を押してください。',
+                    '1Pと2Pに分かれてプレイ！\n準備ができたら開始を押せ!!',
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),

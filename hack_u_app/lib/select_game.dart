@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:hack_u_app/player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +16,12 @@ class SelectPage extends StatefulWidget {
 }
 
 class _SelectPageState extends State<SelectPage> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -44,13 +51,13 @@ class _SelectPageState extends State<SelectPage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
+                      _playSound();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const MotiGameDetail()));
                     },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
+                    icon: Image.asset("assets/select_screen/moti_icon.png"),
                   ),
                 ),
                 Container(
@@ -60,13 +67,13 @@ class _SelectPageState extends State<SelectPage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
+                      _playSound();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const EtoqGameDetail()));
                     },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
+                    icon: Image.asset("assets/select_screen/etoq_icon.png"),
                   ),
                 ),
                 Container(
@@ -76,13 +83,13 @@ class _SelectPageState extends State<SelectPage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
+                      _playSound();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const KarutaGameDetail()));
                     },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
+                    icon: Image.asset("assets/select_screen/karuta_icon.png"),
                   ),
                 ),
               ],
@@ -99,13 +106,13 @@ class _SelectPageState extends State<SelectPage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
+                      _playSound();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const NengajoGameDetail()));
                     },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
+                    icon: Image.asset("assets/select_screen/hagaki_icon.png"),
                   ),
                 ),
                 Container(
@@ -344,6 +351,7 @@ class _SelectPageState extends State<SelectPage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     onPressed: () {
+                      _playSound();
                       Navigator.of(context).push(
                         PageRouteBuilder(
                           pageBuilder:
@@ -404,6 +412,12 @@ class GameDetail extends StatefulWidget {
 }
 
 class _GameDetailState extends State<GameDetail> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -473,6 +487,7 @@ class _GameDetailState extends State<GameDetail> {
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -515,6 +530,12 @@ class MotiGameDetail extends StatefulWidget {
 }
 
 class _MotiGameDetailState extends State<MotiGameDetail> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -603,6 +624,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                         fit: BoxFit.cover,
                       ),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -638,6 +660,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -680,6 +703,12 @@ class EtoqGameDetail extends StatefulWidget {
 }
 
 class _EtoqGameDetailState extends State<EtoqGameDetail> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -723,6 +752,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                 child: IconButton(
                   icon: Image.asset("assets/title_screen/start_first.png"),
                   onPressed: () {
+                    _playSound();
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const etoqpage()),
@@ -745,6 +775,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                         fit: BoxFit.cover,
                       ),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -780,6 +811,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -822,6 +854,12 @@ class KarutaGameDetail extends StatefulWidget {
 }
 
 class _KarutaGameDetailState extends State<KarutaGameDetail> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -901,42 +939,8 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(2.0),
-                    alignment: Alignment.center,
-                    width: 150,
-                    child: IconButton(
-                      icon: Image.asset(
-                        "assets/select_screen/ranking_button.png",
-                        fit: BoxFit.cover,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return ScoreTablePage(3);
-                            },
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              final Animatable<Offset> tween = Tween(
-                                      begin: const Offset(1.0, 0.0),
-                                      end: Offset.zero)
-                                  .chain(CurveTween(curve: Curves.easeInOut));
-                              final Animation<Offset> offsetAnimation =
-                                  animation.drive(tween);
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
                   const SizedBox(
-                    width: 150,
+                    width: 200,
                   ),
                   Container(
                     padding: const EdgeInsets.all(0.0),
@@ -946,6 +950,7 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -988,6 +993,12 @@ class NengajoGameDetail extends StatefulWidget {
 }
 
 class _NengajoGameDetailState extends State<NengajoGameDetail> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -1044,22 +1055,6 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                       },
                     ),
                   ),
-                  // Container(
-                  //   padding: const EdgeInsets.all(0),
-                  //   alignment: Alignment.center,
-                  //   height: 75,
-                  //   child: IconButton(
-                  //     icon: Image.asset("assets/title_screen/start_second.png"),
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) =>
-                  //                 const MultiKarutaGamePage()),
-                  //       );
-                  //     },
-                  //   ),
-                  // )
                 ],
               ),
               Row(
@@ -1077,6 +1072,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                         fit: BoxFit.cover,
                       ),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -1112,6 +1108,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
+                        _playSound();
                         Navigator.of(context).push(
                           PageRouteBuilder(
                             pageBuilder:
@@ -1153,8 +1150,8 @@ class AlertDialogSample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('実装中'),
-      content: const Text('実装中のため表示できません。'),
+      title: const Text('実装できませんでした'),
+      content: const Text('実装間に合わなかったため表示できません。'),
       actions: <Widget>[
         GestureDetector(
           child: const Text('OK', style: TextStyle(fontSize: 24)),
@@ -1191,6 +1188,12 @@ class _ScoreTablePageState extends State<ScoreTablePage> {
   int third_score = 0;
   int forth_score = 0;
   int fifth_score = 0;
+
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+  }
 
   @override
   void initState() {
@@ -1376,6 +1379,7 @@ class _ScoreTablePageState extends State<ScoreTablePage> {
                     width: 100,
                   ),
                   onPressed: () {
+                    _playSound();
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) {

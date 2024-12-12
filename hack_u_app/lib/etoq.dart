@@ -24,7 +24,7 @@ class _etoqPageState extends State<etoqpage> {
   List<int> answer_button = [8, 10, 5, 7]; // 正解判定用のボタンリスト
   int score = 0;
   Timer? _timer; // タイムカウント
-  int timerSec = 60;
+  int timerSec = 30;
 
   @override
   void initState() {
@@ -110,7 +110,7 @@ class _etoqPageState extends State<etoqpage> {
                   ),
                   const SizedBox(height: 10),
                   const Text(
-                    '準備できたら開始を押してください。',
+                    '準備ができたら開始を押せ!!',
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
@@ -308,7 +308,7 @@ class _etoqPageState extends State<etoqpage> {
   }
 
   void _startTimer() {
-    timerSec = 60;
+    timerSec = 30;
     _timeCount = 0;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -318,7 +318,7 @@ class _etoqPageState extends State<etoqpage> {
           timerSec--;
           if (timerSec <= 5) {
             _timeIndex = timerUrl + "12_" + timerSec.toString() + ".png";
-          } else if (timerSec % 5 == 0) {
+          } else if (timerSec % 3 == 0) {
             _timeCount++;
             _timeIndex = timerUrl + _timeCount.toString() + ".png";
           } else {
@@ -355,7 +355,7 @@ class _etoqPageState extends State<etoqpage> {
                   padding: const EdgeInsets.all(0),
                   alignment: Alignment.center,
                   child: Image.asset(
-                    imagePath[front_index],
+                    imagePath[back_index],
                     fit: BoxFit.cover,
                     width: 100,
                   ),
@@ -365,7 +365,7 @@ class _etoqPageState extends State<etoqpage> {
                   padding: const EdgeInsets.all(0),
                   alignment: Alignment.center,
                   child: Image.asset(
-                    imagePath[back_index],
+                    imagePath[front_index],
                     fit: BoxFit.cover,
                     width: 100,
                   ),

@@ -30,6 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  video_player: ^2.0.2
+  audioplayers: ^3.0.0
   grpc: ^3.0.0
   protobuf: ^3.0.0
   shared_preferences: ^2.1.0
@@ -59,6 +61,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/bgm/
+    - assets/se/
+    - assets/se/moti/
     - assets/title_screen/
     - assets/select_screen/
     - assets/moti/

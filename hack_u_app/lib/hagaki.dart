@@ -80,7 +80,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  '準備できたら開始を押してください。',
+                  '準備ができたら開始を押せ!!',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 20),

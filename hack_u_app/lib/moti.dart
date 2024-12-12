@@ -59,11 +59,12 @@ class _MotiGamePageState extends State<MotiGamePage>
   Timer? motiTimer; // 餅ペナ用
   bool _isPlaying = false;
   late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
-  late AudioPlayer _sePLayer;
+  late AudioPlayer _sePlayer;
 
   @override
   void initState() {
     _bgmPlayer = AudioPlayer();
+    _sePlayer = AudioPlayer();
     _bgmPlayer.setReleaseMode(ReleaseMode.loop);
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -276,29 +277,28 @@ class _MotiGamePageState extends State<MotiGamePage>
     await _bgmPlayer.stop();
   }
 
-  // はじめっ!
-  Future<void> _startSE() async {
-    await _sePLayer.play(AssetSource('/se/start.mp3'), volume: 0.5);
-  }
-
   // 杵撃ち
   Future<void> _dagekiSE() async {
-    await _sePLayer.play(AssetSource('/se/moti_dageki.mp3'), volume: 0.5);
+    await _sePlayer.play(AssetSource("/se/moti/moti_dageki.mp3"));
   }
 
-  // コネ
-  Future<void> _koneSE() async {
-    await _sePLayer.play(AssetSource('/se/moti_koneru.mp3'), volume: 0.5);
+  // スタート
+  Future<void> _startSE() async {
+    await _sePlayer.play(AssetSource("se/start.mp3"));
   }
 
-  // ミス
+  // こねるSE
+  Future<void> _koneruSE() async {
+    await _sePlayer.play(AssetSource("/se/moti/moti_koneru.mp3"));
+  }
+
+  // ミスSE
   Future<void> _missSE() async {
-    await _sePLayer.play(AssetSource('/se/moti_miss.mp3'), volume: 0.5);
+    await _sePlayer.play(AssetSource("/se/moti/moti_miss.mp3"));
   }
 
   // リセット処理
   void reset() {
-    _startSE();
     _count = 0;
     game.start = false;
     game.mistake = false;
@@ -310,6 +310,7 @@ class _MotiGamePageState extends State<MotiGamePage>
 
   // ゲーム開始処理
   void gameStart() {
+    _startSE();
     _playBGM();
     game.start = true;
     _currentIndex = 0;
@@ -385,7 +386,7 @@ class _MotiGamePageState extends State<MotiGamePage>
       game.mistake = true;
       return;
     }
-    _koneSE();
+    _koneruSE();
     setState(() {
       _isPlaying = true;
       _mode = 2;
@@ -551,11 +552,13 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
   int _count = 0;
   bool _isPlaying = false;
   late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
+  late AudioPlayer _sePlayer;
 
   @override
   void initState() {
     super.initState();
     _bgmPlayer = AudioPlayer();
+    _sePlayer = AudioPlayer();
     _bgmPlayer.setReleaseMode(ReleaseMode.loop);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _readyDialog();
@@ -665,6 +668,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
   }
 
   void gameStart() {
+    _startSE();
     _playBGM();
     game.start = true;
     game.timerSec = 30;
@@ -726,11 +730,33 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
     await _bgmPlayer.stop();
   }
 
+  // 杵撃ち
+  Future<void> _dagekiSE() async {
+    await _sePlayer.play(AssetSource("/se/moti/moti_dageki.mp3"));
+  }
+
+  // スタート
+  Future<void> _startSE() async {
+    await _sePlayer.play(AssetSource("se/start.mp3"));
+  }
+
+  // こねるSE
+  Future<void> _koneruSE() async {
+    await _sePlayer.play(AssetSource("/se/moti/moti_koneru.mp3"));
+  }
+
+  // ミスSE
+  Future<void> _missSE() async {
+    await _sePlayer.play(AssetSource("/se/moti/moti_miss.mp3"));
+  }
+
   void moveView1() {
     if (_isPlaying) {
+      _missSE();
       game.mistake = true;
       return;
     }
+    _dagekiSE();
     setState(() {
       _isPlaying = true;
       game.next = 2;
@@ -755,9 +781,11 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
 
   void moveView2() {
     if (_isPlaying) {
+      _missSE();
       game.mistake = true;
       return;
     }
+    _koneruSE();
     setState(() {
       _isPlaying = true;
       game.next = 1;

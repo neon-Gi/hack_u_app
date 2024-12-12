@@ -331,6 +331,7 @@ class _etoqPageState extends State<etoqpage> {
   void startGame() {
     _startSE();
     _playBGM();
+    prepare_question();
     print("ゲーム開始");
     isPlaying = true;
     _startTimer();

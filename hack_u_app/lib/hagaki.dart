@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:hack_u_app/player.dart';
@@ -23,6 +24,8 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
   int _caption = 0;
   int _type = 0;
   int _score = 0;
+  late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
+  late AudioPlayer _sePlayer;
 
   Row folder_row(String left, int left_num, String right, int right_num) =>
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -42,7 +45,12 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
       );
 
   void check_nengajo(int num) async {
-    if (num == _type) _score++;
+    if (num == _type) {
+      _correctSE();
+      _score++;
+    } else {
+      _uncorrectSE();
+    }
     _update_location = true;
   }
 
@@ -86,6 +94,8 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
+                    _startSE();
+                    _playBGM();
                     Navigator.of(context).pop();
                   },
                   child: const Text('！開始！'),
@@ -274,9 +284,38 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
         });
   }
 
+  // BGM再生
+  Future<void> _playBGM() async {
+    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+        volume: 0.5);
+  }
+
+  // BGM停止
+  Future<void> _stopBGM() async {
+    await _bgmPlayer.stop();
+  }
+
+  // スタート
+  Future<void> _startSE() async {
+    await _sePlayer.play(AssetSource("se/start.mp3"));
+  }
+
+  // 正解
+  Future<void> _correctSE() async {
+    await _sePlayer.play(AssetSource("/se/etoq/correct.mp3"));
+  }
+
+  // 不正解
+  Future<void> _uncorrectSE() async {
+    await _sePlayer.play(AssetSource("/se/etoq/uncorrect.mp3"));
+  }
+
   @override
   void initState() {
     super.initState();
+    _bgmPlayer = AudioPlayer();
+    _sePlayer = AudioPlayer();
+    _bgmPlayer.setReleaseMode(ReleaseMode.loop);
     Timer.periodic(
       const Duration(milliseconds: 1),
       (Timer timer) async {
@@ -304,6 +343,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
           if (_stopwatch.elapsedMilliseconds > 60000) {
             _stopwatch.stop();
+            _stopBGM();
             await showEndDialog();
           }
         }

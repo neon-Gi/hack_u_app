@@ -24,6 +24,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
     Stopwatch _stopwatch = Stopwatch();
+    Stopwatch _otetsuki = Stopwatch();
     bool _start_dialog_show = false;
     bool _update_location = true;
     bool _nengajo_omote = true;
@@ -47,17 +48,19 @@ class _MyHomePageState extends State<MyHomePage> {
     IconButton folder_icon(String name, num)
         => IconButton(
             icon: Image.asset('assets/image/folder/${name}.png'),
-            style: IconButton.styleFrom(
-                iconSize: 200.0,
-            ),
-            onPressed: () {
-                check_nengajo(num);
-            },
+            style: IconButton.styleFrom(iconSize: 200.0),
+            onPressed: () => check_nengajo(num),
         );
 
     void check_nengajo(int num) async {
-        if (num == _type) _score++;
-        _update_location = true;
+        if (!_otetsuki.isRunning) {
+            if (num == _type) {
+                _score++;
+            } else {
+                _otetsuki.start();
+            }
+            _update_location = true;
+        }
     }
 
     Future<String> nengajo_update() async {
@@ -70,6 +73,16 @@ class _MyHomePageState extends State<MyHomePage> {
     AssetImage hagaki_update() {
         if (_nengajo_omote) return AssetImage('assets/image/hagaki/hagaki.png');
         return AssetImage('assets/image/hagaki/hagaki_white.png');
+    }
+
+    EdgeInsets please_top() {
+        return EdgeInsets.only(
+            top: (math.sin(_stopwatch.elapsedMilliseconds / 400.0) * 40.0).abs() + 70.0,
+        );
+    }
+
+    void turn() {
+        _nengajo_omote = !_nengajo_omote;
     }
 
     Future<void> showStartDialog() => showDialog<void> (
@@ -94,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Text("Ok", style: TextStyle(color: Colors.black)),
                     onPressed: () => Navigator.of(context).pop(),
                 ),
-            ],
+            ]
         )
     );
 
@@ -114,17 +127,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
                 if (_stopwatch.isRunning) {
                     String a = await nengajo_update();
-                    if (_nengajo_omote) {
-                        final map = TomlDocument.parse(a).toMap();
-                        final name = map["location"][_location]["name"] ?? "";
-                        final capital = map["location"][_location]["capital"][_caption] ?? "";
-                        _contents = " " + name + " " + capital;
+                    if (!_otetsuki.isRunning) {
+                        if (_nengajo_omote) {
+                            final map = TomlDocument.parse(a).toMap();
+                            final name = map["location"][_location]["name"] ?? "";
+                            final capital = map["location"][_location]["capital"][_caption] ?? "";
+                            _contents = " " + name + "\n " + capital;
+                        } else {
+                            final map = TomlDocument.parse(a).toMap();
+                            final greet = map["greetings"][_greet] ?? "";
+                            _contents = greet;
+                        }
                     } else {
-                        final map = TomlDocument.parse(a).toMap();
-                        final greet = map["greetings"][_greet] ?? "";
-                        _contents = greet;
+                        _nengajo_omote = true;
+                        _contents = " お手つき！";
                     }
-
+                    if (_otetsuki.elapsedMilliseconds > 1000) {
+                        _otetsuki.stop();
+                        _otetsuki.reset();
+                        _update_location = true;
+                    }
                     if (_stopwatch.elapsedMilliseconds > 60000) {
                         _stopwatch.stop();
                         await showEndDialog();
@@ -133,9 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 if (_update_location) {
                     _location = random.nextInt(57);
                     _caption = random.nextInt(5);
-                    final toml = await nengajo_type();
-                    final map = TomlDocument.parse(toml).toMap();
-                    _type = map["location"][_location]["type"] ?? 7;
+                    _type = TomlDocument.parse(await nengajo_type()).toMap()["location"][_location]["type"] ?? 7;
                     _greet = random.nextInt(20);
                     _nengajo_omote = random.nextDouble() > 0.25;
                     _update_location = false;
@@ -215,12 +235,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 child: Tategaki(" \n \n \n \n \n \n" + _contents, style: TextStyle(fontSize: 20)),
                                             ),
                                             Align(
+                                                alignment: Alignment.centerRight,
+                                                child: Container(
+                                                    width: 80.0,
+                                                    margin: please_top(),
+                                                    child: please_image(_nengajo_omote),
+                                                ),
+                                            ),
+                                            Align(
                                                 alignment: Alignment.bottomRight,
                                                 child: Container(
-                                                    width: 80.0, height: 80.0,
+                                                    width: 80.0,
+                                                    height: 80.0,
                                                     margin: EdgeInsets.only(right: 0.0, bottom: 0.0),
                                                     child: IconButton(
-                                                        onPressed: () => _nengajo_omote = !_nengajo_omote,
+                                                        onPressed: () => turn(),
                                                         icon: Image.asset("assets/image/hagaki/turn.png"),
                                                     ),
                                                 ),
@@ -252,6 +281,11 @@ Image clock_update(int milli_sec) {
     if      (milli_sec < 55000) return Image.asset("assets/image/clock/clock_${sec ~/ 5}.png");
     else if (milli_sec < 60000) return Image.asset("assets/image/clock/clock_12_${60 - sec}left.png");
     return Image.asset('assets/image/clock/clock_12_0left.png');
+}
+
+Image please_image(bool omote) {
+    if (!omote) return Image.asset("assets/image/hagaki/turn_please.png");
+    return Image.asset('assets/image/hagaki/turn_please_none.png');
 }
 
 class Tategaki extends StatelessWidget {

@@ -102,7 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const SizedBox(
-              height: 600,
+              height: 550,
             ),
             // スタートボタン
             Container(

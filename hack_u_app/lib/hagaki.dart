@@ -15,6 +15,7 @@ class HagakiGamePage extends StatefulWidget {
 
 class _HagakiGamePageState extends State<HagakiGamePage> {
   Stopwatch _stopwatch = Stopwatch();
+  Stopwatch _otetsuki = Stopwatch();
   bool _start_dialog_show = false;
   bool _update_location = true;
   bool _nengajo_omote = true;
@@ -36,22 +37,21 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
   IconButton folder_icon(String name, num) => IconButton(
         icon: Image.asset('assets/hagaki/image/folder/${name}.png'),
-        style: IconButton.styleFrom(
-          iconSize: 200.0,
-        ),
-        onPressed: () {
-          check_nengajo(num);
-        },
+        style: IconButton.styleFrom(iconSize: 200.0),
+        onPressed: () => check_nengajo(num),
       );
 
   void check_nengajo(int num) async {
-    if (num == _type) {
-      _correctSE();
-      _score++;
-    } else {
-      _uncorrectSE();
+    if (!_otetsuki.isRunning) {
+      if (num == _type) {
+        _correctSE();
+        _score++;
+      } else {
+        _uncorrectSE();
+        _otetsuki.start();
+      }
+      _update_location = true;
     }
-    _update_location = true;
   }
 
   Future<String> nengajo_update() async {
@@ -66,7 +66,18 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
   AssetImage hagaki_update() {
     if (_nengajo_omote)
       return AssetImage('assets/hagaki/image/hagaki/hagaki.png');
-    return AssetImage('assets/hagaki/image/hagaki/hagaki_white.png');
+    return AssetImage('assets/image/hagaki/hagaki_white.png');
+  }
+
+  EdgeInsets please_top() {
+    return EdgeInsets.only(
+      top: (math.sin(_stopwatch.elapsedMilliseconds / 400.0) * 40.0).abs() +
+          70.0,
+    );
+  }
+
+  void turn() {
+    _nengajo_omote = !_nengajo_omote;
   }
 
   Future<void> showStartDialog() => showDialog<void>(
@@ -324,23 +335,30 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
           _start_dialog_show = true;
           await showStartDialog();
           _stopwatch.start();
-          // BGMを載せたければ
-          // AudioPlayer().play(AssetSource('sound/Shougatsu_test_inGame.mp3'));
         }
         if (_stopwatch.isRunning) {
           String a = await nengajo_update();
-          if (_nengajo_omote) {
-            final map = TomlDocument.parse(a).toMap();
-            final name = map["location"][_location]["name"] ?? "";
-            final capital =
-                map["location"][_location]["capital"][_caption] ?? "";
-            _contents = " " + name + " " + capital;
+          if (!_otetsuki.isRunning) {
+            if (_nengajo_omote) {
+              final map = TomlDocument.parse(a).toMap();
+              final name = map["location"][_location]["name"] ?? "";
+              final capital =
+                  map["location"][_location]["capital"][_caption] ?? "";
+              _contents = " " + name + "\n " + capital;
+            } else {
+              final map = TomlDocument.parse(a).toMap();
+              final greet = map["greetings"][_greet] ?? "";
+              _contents = greet;
+            }
           } else {
-            final map = TomlDocument.parse(a).toMap();
-            final greet = map["greetings"][_greet] ?? "";
-            _contents = greet;
+            _nengajo_omote = true;
+            _contents = " お手つき！";
           }
-
+          if (_otetsuki.elapsedMilliseconds > 1000) {
+            _otetsuki.stop();
+            _otetsuki.reset();
+            _update_location = true;
+          }
           if (_stopwatch.elapsedMilliseconds > 60000) {
             _stopwatch.stop();
             _stopBGM();
@@ -350,9 +368,9 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
         if (_update_location) {
           _location = random.nextInt(57);
           _caption = random.nextInt(5);
-          final toml = await nengajo_type();
-          final map = TomlDocument.parse(toml).toMap();
-          _type = map["location"][_location]["type"] ?? 7;
+          _type = TomlDocument.parse(await nengajo_type()).toMap()["location"]
+                  [_location]["type"] ??
+              7;
           _greet = random.nextInt(20);
           _nengajo_omote = random.nextDouble() > 0.25;
           _update_location = false;
@@ -364,104 +382,107 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Container(
-                // 背景
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage('assets/hagaki/image/haikei/haikei.png'),
-                  ),
-                ),
-                // ゲームレイアウト
-                alignment: Alignment.topRight,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      folder_row("west", 2, "south", 3),
-                      Container(height: 20.0),
-                      Row(
+    return Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Container(
+            // 背景
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/image/haikei/haikei.png'),
+              ),
+            ),
+
+            // ゲームレイアウト
+            alignment: Alignment.topRight,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              folder_row("west", 2, "south", 3),
+              Container(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
+                              alignment: Alignment.center,
+                              width: 70.0,
+                              height: 70.0,
+                              child:
+                                  clock_update(_stopwatch.elapsedMilliseconds)),
+                          Container(height: 20.0),
+                          Container(
                             alignment: Alignment.center,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      alignment: Alignment.center,
-                                      width: 70.0,
-                                      height: 70.0,
-                                      child: clock_update(
-                                          _stopwatch.elapsedMilliseconds)),
-                                  Container(height: 20.0),
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: 60.0,
-                                    height: 50.0,
-                                    color:
-                                        const Color.fromRGBO(255, 255, 100, 1),
-                                    child: Text("SCORE\n" + _score.toString(),
-                                        textAlign: TextAlign.center),
-                                  ),
-                                  Container(height: 50.0),
-                                  Container(
-                                      alignment: Alignment.center,
-                                      width: 70.0,
-                                      child: IconButton(
-                                          onPressed: () => check_nengajo(6),
-                                          icon: Image.asset(
-                                              'assets/hagaki/image/button/sendback.png')))
-                                ]),
+                            width: 60.0,
+                            height: 50.0,
+                            color: Color.fromRGBO(255, 255, 100, 1),
+                            child: Text("SCORE\n" + _score.toString(),
+                                textAlign: TextAlign.center),
                           ),
+                          Container(height: 50.0),
                           Container(
-                              width: 250.0,
-                              height: 450.0,
-                              alignment: Alignment.topCenter,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fitWidth,
-                                  image: hagaki_update(),
-                                ),
-                              ),
-                              child: Stack(children: [
-                                Container(
-                                  height: 350.0,
-                                  margin: const EdgeInsets.only(top: 60.0),
-                                  child: Tategaki(
-                                      " \n \n \n \n \n \n" + _contents,
-                                      style: TextStyle(fontSize: 20)),
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: Container(
-                                    width: 80.0,
-                                    height: 80.0,
-                                    margin: EdgeInsets.only(
-                                        right: 0.0, bottom: 0.0),
-                                    child: IconButton(
-                                      onPressed: () =>
-                                          _nengajo_omote = !_nengajo_omote,
-                                      icon: Image.asset(
-                                          "assets/hagaki/image/hagaki/turn.png"),
-                                    ),
-                                  ),
-                                )
-                              ])),
-                          Container(
+                              alignment: Alignment.center,
                               width: 70.0,
                               child: IconButton(
-                                onPressed: () => check_nengajo(5),
-                                icon: Image.asset(
-                                    'assets/hagaki/image/button/inter.png'),
-                              ))
-                        ],
+                                  onPressed: () => check_nengajo(6),
+                                  icon: Image.asset(
+                                      'assets/hagaki/image/button/sendback.png')))
+                        ]),
+                  ),
+                  Container(
+                      width: 250.0,
+                      height: 450.0,
+                      alignment: Alignment.topCenter,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fitWidth,
+                          image: hagaki_update(),
+                        ),
                       ),
-                      Container(height: 10.0),
-                      folder_row("edge", 4, "east", 1)
-                    ]))));
+                      child: Stack(children: [
+                        Container(
+                          height: 350.0,
+                          margin: EdgeInsets.only(top: 60.0),
+                          child: Tategaki(" \n \n \n \n \n \n" + _contents,
+                              style: TextStyle(fontSize: 20)),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            width: 80.0,
+                            margin: please_top(),
+                            child: please_image(_nengajo_omote),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                            width: 80.0,
+                            height: 80.0,
+                            margin: EdgeInsets.only(right: 0.0, bottom: 0.0),
+                            child: IconButton(
+                              onPressed: () => turn(),
+                              icon: Image.asset(
+                                  "assets/hagaki/image/hagaki/turn.png"),
+                            ),
+                          ),
+                        )
+                      ])),
+                  Container(
+                      width: 80.0,
+                      child: IconButton(
+                        onPressed: () => check_nengajo(5),
+                        icon:
+                            Image.asset('assets/hagaki/image/button/inter.png'),
+                      ))
+                ],
+              ),
+              Container(height: 20.0),
+              folder_row("edge", 4, "east", 1)
+            ])));
   }
 }
 
@@ -473,6 +494,11 @@ Image clock_update(int milli_sec) {
     return Image.asset(
         "assets/hagaki/image/clock/clock_12_${60 - sec}left.png");
   return Image.asset('assets/hagaki/image/clock/clock_12_0left.png');
+}
+
+Image please_image(bool omote) {
+  if (!omote) return Image.asset("assets/hagaki/image/hagaki/turn_please.png");
+  return Image.asset('assets/hagaki/image/hagaki/turn_please_none.png');
 }
 
 class Tategaki extends StatelessWidget {

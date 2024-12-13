@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   video_player: ^2.0.2
-  audioplayers: ^3.0.0
+  audioplayers: ^6.1.0
   grpc: ^3.0.0
   protobuf: ^3.0.0
   shared_preferences: ^2.1.0

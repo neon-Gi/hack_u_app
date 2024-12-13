@@ -86,6 +86,8 @@ class KarutaGamePage extends StatefulWidget {
 
 class _KarutaGamePageState extends State<KarutaGamePage> {
   bool _isPlaying = false; // ゲーム時間中
+  bool _isFake = false; // フェイクか否か
+  int fake_count = 0;
   int round = 1; // 1=い、2=ろ、3=は
   List<String> card_status = [
     "no",
@@ -123,6 +125,8 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
 
   void reset() {
     _isPlaying = false;
+    _isFake = false;
+    fake_count = 0;
     round = 1;
     card_status = ["no", "no", "no", "no", "no", "no", "no", "no", "no"];
     card_images = [];
@@ -159,7 +163,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
 
   // BGM再生
   Future<void> _playBGM() async {
-    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+    await _bgmPlayer.play(AssetSource('bgm/Shougatsu_test_inGame.mp3'),
         volume: 0.5);
   }
 
@@ -170,15 +174,15 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
 
   // 読み上げスタートSE
   Future<void> _readStartSE() async {
-    await _sePlayer.play(AssetSource('/se/karuta/karuta_readStart.mp3'));
+    await _sePlayer.play(AssetSource('se/karuta/karuta_readStart.mp3'));
   }
 
   Future<void> _missSE() async {
-    await _sePlayer.play(AssetSource('/se/karuta/karuta_miss.mp3'));
+    await _sePlayer.play(AssetSource('se/karuta/karuta_miss.mp3'));
   }
 
   Future<void> _correctSE() async {
-    await _sePlayer.play(AssetSource('/se/karuta/karuta_correct.mp3'));
+    await _sePlayer.play(AssetSource('se/karuta/karuta_correct.mp3'));
   }
 
   // 準備ダイアログ
@@ -210,7 +214,16 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   ElevatedButton(
                     onPressed: () {
                       _playBGM();
-                      prepare_question();
+                      if (fake_count < 5 || round == 8) {
+                        _isFake = Random().nextBool();
+                      } else {
+                        _isFake = false;
+                      }
+                      if (_isFake) {
+                        fake_prepare_question();
+                      } else {
+                        prepare_question();
+                      }
                       Navigator.of(context).pop();
                     },
                     child: const Text('！開始！'),
@@ -259,6 +272,51 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
     }
   }
 
+  // フェイク出題
+  void fake_prepare_question() {
+    int a = Random().nextInt(3);
+    int b = Random().nextInt(9);
+    String fake_keyword = "";
+    if (a == 0) {
+      fake_keyword = i_keyword[b];
+    } else if (a == 1) {
+      fake_keyword = ro_keyword[b];
+    } else {
+      fake_keyword = ha_keyword[b];
+    }
+    if (card_keyword.contains(fake_keyword)) {
+      print("フェイク - 再抽選");
+      fake_prepare_question();
+    } else {
+      print("フェイク - 出題: $fake_keyword");
+      _readStartSE();
+      setState(() {
+        display = "";
+        _isPlaying = true;
+        for (int i = 0; i < card_index.length; i++) {
+          if (card_status[i] == "otetuki") {
+            card_status[i] = "no";
+          }
+        }
+        _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+          setState(() {
+            if (display.length == fake_keyword.length) {
+              _timer?.cancel();
+              _timer = Timer.periodic(const Duration(seconds: 2), (_) {
+                setState(() {
+                  prepare_answer = "フェイクでした";
+                });
+                _correctDialog();
+              });
+            } else {
+              display = fake_keyword.substring(0, display.length + 1);
+            }
+          });
+        });
+      });
+    }
+  }
+
   // 正解ダイアログ
   void _correctDialog() async {
     _timer?.cancel();
@@ -283,6 +341,9 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
+                      if (_isFake) {
+                        fake_count++;
+                      }
                       round++;
                       Navigator.of(context).pop();
                       _readyDialog();
@@ -527,14 +588,14 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
 
   void onPress(int index) {
     print(
-        "press: ${card_index[index]}, answer:$answer_index, Playing:$_isPlaying");
+        "press: ${card_index[index]}, answer:$answer_index, Playing:$_isPlaying, Fake:$_isFake");
     if (card_status[index] == "otetuki" || card_status[index] == "1") {
       return;
-    } else if (answer_index == card_index[index] && _isPlaying) {
+    } else if (answer_index == card_index[index] && _isPlaying && !_isFake) {
       _correctSE();
       _isPlaying = false;
       card_status[index] = "1";
-      if (round == 9) {
+      if (round == 9 + fake_count) {
         _stopBGM();
         _endDialog();
       } else {
@@ -691,6 +752,8 @@ class MultiKarutaGamePage extends StatefulWidget {
 class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   bool _isPlaying = false; // ゲーム時間中
   int round = 0;
+  bool _isFake = false; // フェイクか否か
+  int fake_count = 0;
   List<String> card_status = [
     "no",
     "no",
@@ -730,7 +793,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
 
   // BGM再生
   Future<void> _playBGM() async {
-    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+    await _bgmPlayer.play(AssetSource('bgm/Shougatsu_test_inGame.mp3'),
         volume: 0.5);
   }
 
@@ -741,19 +804,21 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
 
   // 読み上げスタートSE
   Future<void> _readStartSE() async {
-    await _sePlayer.play(AssetSource('/se/karuta/karuta_readStart.mp3'));
+    await _sePlayer.play(AssetSource('se/karuta/karuta_readStart.mp3'));
   }
 
   Future<void> _missSE() async {
-    await _sePlayer.play(AssetSource('/se/karuta/karuta_miss.mp3'));
+    await _sePlayer.play(AssetSource('se/karuta/karuta_miss.mp3'));
   }
 
   Future<void> _correctSE() async {
-    await _sePlayer.play(AssetSource('/se/karuta/karuta_correct.mp3'));
+    await _sePlayer.play(AssetSource('se/karuta/karuta_correct.mp3'));
   }
 
   void reset() {
     _isPlaying = false;
+    _isFake = false;
+    fake_count = 0;
     round = 0;
     player1Point = 0;
     player2Point = 0;
@@ -822,7 +887,16 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   ElevatedButton(
                     onPressed: () {
                       _playBGM();
-                      prepare_question();
+                      if (fake_count < 5 || round == 8) {
+                        _isFake = Random().nextBool();
+                      } else {
+                        _isFake = false;
+                      }
+                      if (_isFake) {
+                        fake_prepare_question();
+                      } else {
+                        prepare_question();
+                      }
                       Navigator.of(context).pop();
                     },
                     child: const Text('！開始！'),
@@ -832,6 +906,52 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
             ),
           );
         });
+  }
+
+  void fake_prepare_question() {
+    int a = Random().nextInt(3);
+    int b = Random().nextInt(9);
+    String fake_keyword = "";
+    if (a == 0) {
+      fake_keyword = i_keyword[b];
+    } else if (a == 1) {
+      fake_keyword = ro_keyword[b];
+    } else {
+      fake_keyword = ha_keyword[b];
+    }
+    if (card_keyword.contains(fake_keyword)) {
+      print("フェイク - 再抽選");
+      fake_prepare_question();
+    } else {
+      _readStartSE();
+      print("フェイク - 出題: $fake_keyword");
+      _readStartSE();
+      setState(() {
+        display = "";
+        _isPlaying = true;
+        for (int i = 0; i < card_index.length; i++) {
+          if (card_status[i] == "otetuki") {
+            card_status[i] = "no";
+          }
+        }
+        _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+          setState(() {
+            if (display.length == fake_keyword.length) {
+              _timer?.cancel();
+              _timer = Timer.periodic(const Duration(seconds: 2), (_) {
+                setState(() {
+                  prepare_answer = "フェイクでした";
+                });
+                fake_count++;
+                fakeDialog();
+              });
+            } else {
+              display = fake_keyword.substring(0, display.length + 1);
+            }
+          });
+        });
+      });
+    }
   }
 
   // 出題
@@ -893,7 +1013,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  const Text("正解したプレイヤーがボタンを押してください"),
+                  Text("$prepare_answer\n正解したプレイヤーがボタンを押してください"),
                   ElevatedButton(
                     onPressed: () {
                       player1Point++;
@@ -901,7 +1021,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                         card_status[index] = "1";
                       });
                       Navigator.of(context).pop();
-                      if (round == 9) {
+                      if (round == 9 + fake_count) {
                         _endDialog();
                       } else {
                         _readyDialog();
@@ -916,7 +1036,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                         card_status[index] = "2";
                       });
                       Navigator.of(context).pop();
-                      if (round == 9) {
+                      if (round == 9 + fake_count) {
                         _stopBGM();
                         _endDialog();
                       } else {
@@ -924,6 +1044,42 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                       }
                     },
                     child: const Text('Player2'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  // フェイク
+  void fakeDialog() async {
+    _timer?.cancel();
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text(
+                    '正解!',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(prepare_answer),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      _readyDialog();
+                    },
+                    child: const Text('次の問題へ'),
                   ),
                 ],
               ),
@@ -954,7 +1110,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    '結果: Player${wins}',
+                    '結果: Player${wins}の勝ち！',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),

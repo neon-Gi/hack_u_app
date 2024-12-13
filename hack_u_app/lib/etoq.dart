@@ -88,9 +88,11 @@ class _etoqPageState extends State<etoqpage> {
       setState(() {
         score++;
       });
+      _stopSE();
       _correctSE();
       print("正解");
     } else {
+      _stopSE();
       _uncorrectSE();
       print("不正解");
     }
@@ -304,7 +306,7 @@ class _etoqPageState extends State<etoqpage> {
 
   // BGM再生
   Future<void> _playBGM() async {
-    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+    await _bgmPlayer.play(AssetSource('bgm/Shougatsu_test_inGame.mp3'),
         volume: 0.5);
   }
 
@@ -320,12 +322,16 @@ class _etoqPageState extends State<etoqpage> {
 
   // 正解
   Future<void> _correctSE() async {
-    await _sePlayer.play(AssetSource("/se/etoq/correct.mp3"));
+    await _sePlayer.play(AssetSource("se/etoq/correct.mp3"));
   }
 
   // 不正解
   Future<void> _uncorrectSE() async {
-    await _sePlayer.play(AssetSource("/se/etoq/uncorrect.mp3"));
+    await _sePlayer.play(AssetSource("se/etoq/uncorrect.mp3"));
+  }
+
+  Future<void> _stopSE() async {
+    await _sePlayer.stop();
   }
 
   void startGame() {

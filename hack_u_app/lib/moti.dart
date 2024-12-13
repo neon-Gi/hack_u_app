@@ -268,7 +268,7 @@ class _MotiGamePageState extends State<MotiGamePage>
 
   // BGM再生
   Future<void> _playBGM() async {
-    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+    await _bgmPlayer.play(AssetSource('bgm/Shougatsu_test_inGame.mp3'),
         volume: 0.5);
   }
 
@@ -279,7 +279,7 @@ class _MotiGamePageState extends State<MotiGamePage>
 
   // 杵撃ち
   Future<void> _dagekiSE() async {
-    await _sePlayer.play(AssetSource("/se/moti/moti_dageki.mp3"));
+    await _sePlayer.play(AssetSource("se/moti/moti_dageki.mp3"));
   }
 
   // スタート
@@ -289,12 +289,12 @@ class _MotiGamePageState extends State<MotiGamePage>
 
   // こねるSE
   Future<void> _koneruSE() async {
-    await _sePlayer.play(AssetSource("/se/moti/moti_koneru.mp3"));
+    await _sePlayer.play(AssetSource("se/moti/moti_koneru.mp3"));
   }
 
   // ミスSE
   Future<void> _missSE() async {
-    await _sePlayer.play(AssetSource("/se/moti/moti_miss.mp3"));
+    await _sePlayer.play(AssetSource("se/moti/moti_miss.mp3"));
   }
 
   // リセット処理
@@ -340,13 +340,13 @@ class _MotiGamePageState extends State<MotiGamePage>
   Image? moti() {
     if (_mode == 1) {
       return Image.asset(imagePath1[_currentIndex],
-          width: 500, height: 600, fit: BoxFit.cover);
+          width: 500, height: 660, fit: BoxFit.cover);
     } else if (_mode == 2) {
       return Image.asset(imagePath2[_currentIndex],
-          width: 500, height: 600, fit: BoxFit.cover);
+          width: 500, height: 660, fit: BoxFit.cover);
     } else {
       return Image.asset(imagePath1[0],
-          width: 500, height: 600, fit: BoxFit.cover);
+          width: 500, height: 660, fit: BoxFit.cover);
     }
   }
 
@@ -473,7 +473,7 @@ class _MotiGamePageState extends State<MotiGamePage>
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 140),
+              const SizedBox(height: 70),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -499,17 +499,25 @@ class _MotiGamePageState extends State<MotiGamePage>
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const SizedBox(height: 170),
+                      const SizedBox(height: 350),
                       Container(
                         padding: const EdgeInsets.all(0),
                         alignment: Alignment.center,
-                        child:
-                            (!game.start || game.mistake || game.timerSec <= 0)
-                                // アイドル状態
+                        child: (!game.start || _isPlaying || game.timerSec <= 0)
+                            // アイドル状態
+                            ? IconButton(
+                                onPressed: null,
+                                icon: Image.asset(
+                                  "assets/moti/ose07_idle.png",
+                                  width: 300,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : (game.mistake)
                                 ? IconButton(
                                     onPressed: null,
                                     icon: Image.asset(
-                                      "assets/moti/ose07_idle.png",
+                                      "assets/moti/mate7.png",
                                       width: 300,
                                       fit: BoxFit.cover,
                                     ),
@@ -696,13 +704,13 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
   Image? moti() {
     if (game.next == 2) {
       return Image.asset(imagePath1[_currentIndex],
-          width: 500, height: 600, fit: BoxFit.cover);
+          width: 500, height: 660, fit: BoxFit.cover);
     } else if (game.next == 1) {
       return Image.asset(imagePath2[_currentIndex],
-          width: 500, height: 600, fit: BoxFit.cover);
+          width: 500, height: 660, fit: BoxFit.cover);
     } else {
       return Image.asset(imagePath1[0],
-          width: 500, height: 600, fit: BoxFit.cover);
+          width: 500, height: 660, fit: BoxFit.cover);
     }
   }
 
@@ -723,7 +731,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
 
   // BGM再生
   Future<void> _playBGM() async {
-    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+    await _bgmPlayer.play(AssetSource('bgm/Shougatsu_test_inGame.mp3'),
         volume: 0.5);
   }
 
@@ -734,7 +742,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
 
   // 杵撃ち
   Future<void> _dagekiSE() async {
-    await _sePlayer.play(AssetSource("/se/moti/moti_dageki.mp3"));
+    await _sePlayer.play(AssetSource("se/moti/moti_dageki.mp3"));
   }
 
   // スタート
@@ -744,12 +752,12 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
 
   // こねるSE
   Future<void> _koneruSE() async {
-    await _sePlayer.play(AssetSource("/se/moti/moti_koneru.mp3"));
+    await _sePlayer.play(AssetSource("se/moti/moti_koneru.mp3"));
   }
 
   // ミスSE
   Future<void> _missSE() async {
-    await _sePlayer.play(AssetSource("/se/moti/moti_miss.mp3"));
+    await _sePlayer.play(AssetSource("se/moti/moti_miss.mp3"));
   }
 
   void moveView1() {
@@ -842,7 +850,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 140),
+              const SizedBox(height: 70),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -868,31 +876,38 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 450),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          (!game.start ||
-                                  game.mistake ||
-                                  game.timerSec <= 0 ||
-                                  game.next == 2)
+                          (!game.start || game.timerSec <= 0 || game.next == 2)
                               ? IconButton(
                                   onPressed: null,
                                   icon: Image.asset(
-                                    "assets/moti/mate7.png",
+                                    "assets/moti/ose07_idle.png",
                                     fit: BoxFit.cover,
                                     width: 160,
                                   ),
                                 )
-                              : IconButton(
-                                  onPressed: moveView1,
-                                  icon: Image.asset(
-                                    "assets/moti/ose07.png",
-                                    fit: BoxFit.cover,
-                                    width: 160,
-                                  ),
-                                ),
+                              : (game.mistake)
+                                  ? IconButton(
+                                      onPressed: moveView1,
+                                      icon: Image.asset(
+                                        "assets/moti/mate7.png",
+                                        fit: BoxFit.cover,
+                                        width: 160,
+                                      ),
+                                    )
+                                  : IconButton(
+                                      onPressed: moveView1,
+                                      icon: Image.asset(
+                                        "assets/moti/ose07.png",
+                                        fit: BoxFit.cover,
+                                        width: 160,
+                                      ),
+                                    ),
                           const SizedBox(width: 20),
                           (!game.start ||
                                   game.mistake ||
@@ -901,7 +916,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                               ? IconButton(
                                   onPressed: null,
                                   icon: Image.asset(
-                                    "assets/moti/mate7.png",
+                                    "assets/moti/ose07_idle.png",
                                     fit: BoxFit.cover,
                                     width: 160,
                                   ),

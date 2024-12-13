@@ -19,7 +19,7 @@ class _SelectPageState extends State<SelectPage> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> _playSound() async {
     // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
   }
 
   @override
@@ -356,7 +356,7 @@ class _SelectPageState extends State<SelectPage> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) {
-                            return const ModePage();
+                            return MyHomePage();
                           },
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
@@ -415,7 +415,7 @@ class _GameDetailState extends State<GameDetail> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> _playSound() async {
     // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
   }
 
   @override
@@ -533,7 +533,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> _playSound() async {
     // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
   }
 
   @override
@@ -580,7 +580,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    height: 80,
+                    height: 75,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_first.png"),
                       onPressed: () {
@@ -650,7 +650,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                     ),
                   ),
                   const SizedBox(
-                    width: 150,
+                    width: 120,
                   ),
                   Container(
                     padding: const EdgeInsets.all(0.0),
@@ -706,7 +706,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> _playSound() async {
     // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
   }
 
   @override
@@ -801,7 +801,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                     ),
                   ),
                   const SizedBox(
-                    width: 150,
+                    width: 120,
                   ),
                   Container(
                     padding: const EdgeInsets.all(0.0),
@@ -857,7 +857,7 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> _playSound() async {
     // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
   }
 
   @override
@@ -877,7 +877,6 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               const SizedBox(
-                width: 320,
                 height: 80,
               ),
               Container(
@@ -904,7 +903,7 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    height: 80,
+                    height: 75,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_first.png"),
                       onPressed: () {
@@ -996,7 +995,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> _playSound() async {
     // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
   }
 
   @override
@@ -1032,8 +1031,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                 child: Image.asset("assets/select_screen/nengajo_explain.png"),
               ),
               const SizedBox(
-                width: 320,
-                height: 50,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1098,7 +1096,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                     ),
                   ),
                   const SizedBox(
-                    width: 150,
+                    width: 120,
                   ),
                   Container(
                     padding: const EdgeInsets.all(0.0),
@@ -1192,7 +1190,7 @@ class _ScoreTablePageState extends State<ScoreTablePage> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   Future<void> _playSound() async {
     // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('/se/button_tap.mp3'));
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
   }
 
   @override

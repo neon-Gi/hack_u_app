@@ -44,9 +44,11 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
   void check_nengajo(int num) async {
     if (!_otetsuki.isRunning) {
       if (num == _type) {
+        _stopSE();
         _correctSE();
         _score++;
       } else {
+        _stopSE();
         _uncorrectSE();
         _otetsuki.start();
       }
@@ -66,7 +68,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
   AssetImage hagaki_update() {
     if (_nengajo_omote)
       return AssetImage('assets/hagaki/image/hagaki/hagaki.png');
-    return AssetImage('assets/image/hagaki/hagaki_white.png');
+    return AssetImage('assets/hagaki/image/hagaki/hagaki_white.png');
   }
 
   EdgeInsets please_top() {
@@ -295,9 +297,13 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
         });
   }
 
+  Future<void> _stopSE() async {
+    await _sePlayer.stop();
+  } // SE停止(再生中のみ
+
   // BGM再生
   Future<void> _playBGM() async {
-    await _bgmPlayer.play(AssetSource('/bgm/Shougatsu_test_inGame.mp3'),
+    await _bgmPlayer.play(AssetSource('bgm/Shougatsu_test_inGame.mp3'),
         volume: 0.5);
   }
 
@@ -313,12 +319,12 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
   // 正解
   Future<void> _correctSE() async {
-    await _sePlayer.play(AssetSource("/se/etoq/correct.mp3"));
+    await _sePlayer.play(AssetSource("se/etoq/correct.mp3"));
   }
 
   // 不正解
   Future<void> _uncorrectSE() async {
-    await _sePlayer.play(AssetSource("/se/etoq/uncorrect.mp3"));
+    await _sePlayer.play(AssetSource("se/etoq/uncorrect.mp3"));
   }
 
   @override
@@ -386,10 +392,10 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
         resizeToAvoidBottomInset: false,
         body: Container(
             // 背景
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/image/haikei/haikei.png'),
+                image: AssetImage('assets/hagaki/image/haikei/haikei.png'),
               ),
             ),
 

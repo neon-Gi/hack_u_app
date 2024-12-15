@@ -126,6 +126,7 @@ class _etoqPageState extends State<etoqpage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
+                      score = 0;
                       Navigator.of(context).pop();
                       startGame();
                     },

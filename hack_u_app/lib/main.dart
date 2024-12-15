@@ -588,9 +588,9 @@ class _PlayerNameDialogState extends State<PlayerNameDialog> {
         },
       ),
       actions: <Widget>[
-        GestureDetector(
+        ElevatedButton(
           child: const Text('OK', style: TextStyle(fontSize: 24)),
-          onTap: () async {
+          onPressed: () async {
             final result = await PlayerManager().savePlayer(playerName);
             Navigator.of(context).pop();
             if (!result) {

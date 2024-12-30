@@ -18,6 +18,7 @@ class _etoqPageState extends State<etoqpage> {
   int _timeCount = 0;
   String _timeIndex = "assets/timer/time64_0.png";
   bool isPlaying = false;
+  bool isMistake = false;
   int answer_index = 7; // 答えの写真インデックス
   int front_index = 6; // 答えの前の写真インデックス
   int back_index = 8; // 答えの後の写真インデックス
@@ -57,6 +58,13 @@ class _etoqPageState extends State<etoqpage> {
   ];
 
   void prepare_question() {
+    if (isMistake) {
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        setState(() {
+          isMistake = false;
+        });
+      });
+    }
     count = 0;
     random_answer = Random().nextInt(4); // 0~3の中で正解の絵柄が入るボタンの決定
     answer_index = Random().nextInt(12); //0~11の間
@@ -79,7 +87,6 @@ class _etoqPageState extends State<etoqpage> {
       }
       count++;
     }
-    print("正解:${random_answer}");
   }
 
   void answer_check(int index) {
@@ -331,6 +338,7 @@ class _etoqPageState extends State<etoqpage> {
     await _sePlayer.play(AssetSource("se/etoq/uncorrect.mp3"));
   }
 
+  // SEストップ
   Future<void> _stopSE() async {
     await _sePlayer.stop();
   }

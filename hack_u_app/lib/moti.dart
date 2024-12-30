@@ -44,9 +44,9 @@ List<String> imagePath2 = [
 
 // シングルゲーム画面
 class MotiGamePage extends StatefulWidget {
-  MotiGamePage({Key? key}) : super(key: key);
+  const MotiGamePage({super.key});
   @override
-  _MotiGamePageState createState() => _MotiGamePageState();
+  State<MotiGamePage> createState() => _MotiGamePageState();
 }
 
 class _MotiGamePageState extends State<MotiGamePage>
@@ -546,7 +546,7 @@ class _MotiGamePageState extends State<MotiGamePage>
 
 // マルチゲーム画面
 class MultiMotiGamePage extends StatefulWidget {
-  MultiMotiGamePage({super.key});
+  const MultiMotiGamePage({super.key});
 
   @override
   State<MultiMotiGamePage> createState() => _MultiMotiGamePageState();

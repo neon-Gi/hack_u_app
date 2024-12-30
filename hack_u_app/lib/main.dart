@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'SHOGATU PARTY',
       home: MyHomePage(),
     );
@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
 
 // ホーム画面
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -108,8 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: 250,
-              height: 100,
+              width: 230,
+              height: 80,
               child: IconButton(
                 onPressed: () {
                   _playSound();
@@ -141,8 +141,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: 250,
-              height: 100,
+              width: 230,
+              height: 80,
               child: IconButton(
                 onPressed: () {
                   showDialog(
@@ -160,8 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: 250,
-              height: 100,
+              width: 230,
+              height: 80,
               child: IconButton(
                 onPressed: () {
                   showDialog(
@@ -528,7 +528,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 // 未実装ダイアログを表示
 class AlertDialogSample extends StatelessWidget {
-  const AlertDialogSample({Key? key}) : super(key: key);
+  const AlertDialogSample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -570,7 +570,7 @@ class CreditDialog extends StatelessWidget {
 
 // プレイヤー名の入力を受け付けるダイアログ
 class PlayerNameDialog extends StatefulWidget {
-  const PlayerNameDialog({Key? key}) : super(key: key);
+  const PlayerNameDialog({super.key});
 
   @override
   State<PlayerNameDialog> createState() => _PlayerNameDialogState();

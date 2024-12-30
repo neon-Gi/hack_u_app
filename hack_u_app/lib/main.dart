@@ -192,7 +192,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
 // class _ModePageState extends State<ModePage> {
 //   final AudioPlayer _audioPlayer = AudioPlayer();
-
 //   Future<void> _playSound() async {
 //     // アセットから音声を再生
 //     await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
@@ -550,7 +549,7 @@ class AlertDialogSample extends StatelessWidget {
 
 // クレジットダイアログを表示
 class CreditDialog extends StatelessWidget {
-  const CreditDialog({Key? key}) : super(key: key);
+  const CreditDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -593,7 +592,8 @@ class _PlayerNameDialogState extends State<PlayerNameDialog> {
           child: const Text('OK', style: TextStyle(fontSize: 24)),
           onPressed: () async {
             final result = await PlayerManager().savePlayer(playerName);
-            Navigator.of(context).pop();
+            if (!context.mounted) return;
+            Navigator.pop(context);
             if (!result) {
               _errorDialog();
             }

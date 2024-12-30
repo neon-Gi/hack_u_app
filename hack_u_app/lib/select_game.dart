@@ -10,9 +10,9 @@ import 'moti.dart';
 
 // 選択画面
 class SelectPage extends StatefulWidget {
-  SelectPage({Key? key}) : super(key: key);
+  const SelectPage({super.key});
   @override
-  _SelectPageState createState() => _SelectPageState();
+  State<SelectPage> createState() => _SelectPageState();
 }
 
 class _SelectPageState extends State<SelectPage> {
@@ -195,125 +195,9 @@ class _SelectPageState extends State<SelectPage> {
   }
 }
 
-// ミニゲームの詳細
-// class GameDetail extends StatefulWidget {
-//   const GameDetail({Key? key}) : super(key: key);
-//   @override
-//   State<GameDetail> createState() => _GameDetailState();
-// }
-// class _GameDetailState extends State<GameDetail> {
-//   final AudioPlayer _audioPlayer = AudioPlayer();
-//   Future<void> _playSound() async {
-//     // アセットから音声を再生
-//     await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         body: Container(
-//           decoration: const BoxDecoration(
-//             image: DecorationImage(
-//               image: AssetImage("assets/title_screen/background_gray.png"),
-//               fit: BoxFit.cover,
-//             ),
-//           ),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.start,
-//             mainAxisSize: MainAxisSize.max,
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: <Widget>[
-//               const SizedBox(
-//                 width: 320,
-//                 height: 80,
-//               ),
-//               Container(
-//                 padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
-//                 alignment: Alignment.center,
-//                 width: 250,
-//                 child:
-//                     Image.asset("assets/select_screen/example_game_title.png"),
-//               ),
-//               Container(
-//                 padding: const EdgeInsets.all(0.0),
-//                 alignment: Alignment.center,
-//                 width: 310,
-//                 child:
-//                     Image.asset("assets/select_screen/example_game_detail.png"),
-//               ),
-//               const SizedBox(
-//                 width: 320,
-//                 height: 50,
-//               ),
-//               Container(
-//                 padding: const EdgeInsets.all(0.0),
-//                 alignment: Alignment.center,
-//                 height: 80,
-//                 child: IconButton(
-//                   icon: Image.asset("assets/title_screen/start_mode.png"),
-//                   onPressed: () {
-//                     Navigator.push(
-//                       context,
-//                       MaterialPageRoute(builder: (context) => MotiGamePage()),
-//                     );
-//                   },
-//                 ),
-//               ),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 mainAxisSize: MainAxisSize.max,
-//                 crossAxisAlignment: CrossAxisAlignment.center,
-//                 children: <Widget>[
-//                   const SizedBox(
-//                     width: 290,
-//                     height: 50,
-//                   ),
-//                   Container(
-//                     padding: const EdgeInsets.all(0.0),
-//                     alignment: Alignment.center,
-//                     width: 100,
-//                     height: 100,
-//                     child: IconButton(
-//                       icon: Image.asset("assets/title_screen/return.png"),
-//                       onPressed: () {
-//                         _playSound();
-//                         Navigator.of(context).push(
-//                           PageRouteBuilder(
-//                             pageBuilder:
-//                                 (context, animation, secondaryAnimation) {
-//                               return SelectPage();
-//                             },
-//                             transitionsBuilder: (context, animation,
-//                                 secondaryAnimation, child) {
-//                               final Animatable<Offset> tween = Tween(
-//                                       begin: const Offset(-1.0, 0.0),
-//                                       end: Offset.zero)
-//                                   .chain(CurveTween(curve: Curves.easeInOut));
-//                               final Animation<Offset> offsetAnimation =
-//                                   animation.drive(tween);
-//                               return SlideTransition(
-//                                 position: offsetAnimation,
-//                                 child: child,
-//                               );
-//                             },
-//                           ),
-//                         );
-//                       },
-//                     ),
-//                   )
-//                 ],
-//               )
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 // 餅ミニゲームの詳細
 class MotiGameDetail extends StatefulWidget {
-  const MotiGameDetail({Key? key}) : super(key: key);
+  const MotiGameDetail({super.key});
   @override
   State<MotiGameDetail> createState() => _MotiGameDetailState();
 }
@@ -414,7 +298,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return ScoreTablePage(1);
+                              return ScoreTablePage(gameID: 1);
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -448,7 +332,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return SelectPage();
+                              return const SelectPage();
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -480,7 +364,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
 
 // 干支クイズの詳細
 class EtoqGameDetail extends StatefulWidget {
-  const EtoqGameDetail({Key? key}) : super(key: key);
+  const EtoqGameDetail({super.key});
   @override
   State<EtoqGameDetail> createState() => _EtoqGameDetailState();
 }
@@ -566,7 +450,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return ScoreTablePage(2);
+                              return ScoreTablePage(gameID: 2);
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -600,7 +484,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return SelectPage();
+                              return const SelectPage();
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -632,7 +516,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
 
 // カルタの詳細
 class KarutaGameDetail extends StatefulWidget {
-  const KarutaGameDetail({Key? key}) : super(key: key);
+  const KarutaGameDetail({super.key});
   @override
   State<KarutaGameDetail> createState() => _KarutaGameDetailState();
 }
@@ -733,7 +617,7 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return SelectPage();
+                              return const SelectPage();
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -765,7 +649,7 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
 
 // 年賀状の詳細
 class NengajoGameDetail extends StatefulWidget {
-  const NengajoGameDetail({Key? key}) : super(key: key);
+  const NengajoGameDetail({super.key});
   @override
   State<NengajoGameDetail> createState() => _NengajoGameDetailState();
 }
@@ -851,7 +735,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return ScoreTablePage(4);
+                              return ScoreTablePage(gameID: 4);
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -885,7 +769,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return SelectPage();
+                              return const SelectPage();
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -917,7 +801,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
 
 // 未実装ダイアログを表示
 class AlertDialogSample extends StatelessWidget {
-  const AlertDialogSample({Key? key}) : super(key: key);
+  const AlertDialogSample({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -938,7 +822,7 @@ class AlertDialogSample extends StatelessWidget {
 
 // ランキングテーブル
 class ScoreTablePage extends StatefulWidget {
-  ScoreTablePage(this.gameID, {Key? key}) : super(key: key);
+  ScoreTablePage({super.key, required this.gameID});
   int gameID;
 
   @override

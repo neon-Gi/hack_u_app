@@ -920,7 +920,7 @@ class _ScoreTablePageState extends State<ScoreTablePage> {
                         PageRouteBuilder(
                           pageBuilder:
                               (context, animation, secondaryAnimation) {
-                            return SelectPage();
+                            return const SelectPage();
                           },
                           transitionsBuilder:
                               (context, animation, secondaryAnimation, child) {
@@ -1039,7 +1039,7 @@ class _ScoreTablePageState extends State<ScoreTablePage> {
                     Navigator.of(context).push(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) {
-                          return SelectPage();
+                          return const SelectPage();
                         },
                         transitionsBuilder:
                             (context, animation, secondaryAnimation, child) {

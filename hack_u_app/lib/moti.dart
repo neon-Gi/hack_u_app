@@ -155,7 +155,7 @@ class _MotiGamePageState extends State<MotiGamePage>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SelectPage(),
+                              builder: (context) => const SelectPage(),
                             ),
                           );
                         },
@@ -455,6 +455,8 @@ class _MotiGamePageState extends State<MotiGamePage>
 
   @override
   void dispose() {
+    _bgmPlayer.dispose();
+    _sePlayer.dispose();
     super.dispose();
   }
 
@@ -840,6 +842,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

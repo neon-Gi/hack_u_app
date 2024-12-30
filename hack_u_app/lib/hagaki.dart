@@ -41,7 +41,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
     double screenHeight = MediaQuery.of(context).size.height;
     return IconButton(
       icon: Image.asset('assets/hagaki/image/folder/$name.png'),
-      style: IconButton.styleFrom(iconSize: screenHeight),
+      style: IconButton.styleFrom(iconSize: 200),
       onPressed: () => check_nengajo(num),
     );
   }
@@ -87,42 +87,44 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
     _nengajo_omote = !_nengajo_omote;
   }
 
-  Future<void> showStartDialog() => showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Text(
-                  '用意はいいか？',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  '準備ができたら開始を押せ!!',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    _startSE();
-                    _playBGM();
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('！開始！'),
-                ),
-              ],
+  Future<void> showStartDialog() {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
             ),
-          ),
-        );
-      });
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Text(
+                    '用意はいいか？',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    '準備ができたら開始を押せ!!',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      _startSE();
+                      _playBGM();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('！開始！'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   Future<void> showEndDialog() => showDialog<void>(
       context: context,
@@ -447,16 +449,17 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
                                 ]),
                           ),
                           Container(
-                              width: screenWidth * 0.65,
-                              height: screenHeight * 0.5,
-                              alignment: Alignment.topCenter,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.fitWidth,
-                                  image: hagaki_update(),
-                                ),
+                            width: screenWidth * 0.65,
+                            height: screenHeight * 0.5,
+                            alignment: Alignment.topCenter,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.fitWidth,
+                                image: hagaki_update(),
                               ),
-                              child: Stack(children: [
+                            ),
+                            child: Stack(
+                              children: [
                                 Container(
                                   height: 350.0,
                                   margin: const EdgeInsets.only(top: 60.0),
@@ -467,7 +470,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
                                 Align(
                                   alignment: Alignment.centerRight,
                                   child: Container(
-                                    width: screenWidth * 0.4,
+                                    width: screenWidth * 0.2,
                                     margin: please_top(),
                                     child: please_image(_nengajo_omote),
                                   ),
@@ -486,15 +489,18 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
                                     ),
                                   ),
                                 )
-                              ])),
+                              ],
+                            ),
+                          ),
                           Container(
-                              alignment: Alignment.center,
-                              width: screenWidth * 0.15,
-                              child: IconButton(
-                                onPressed: () => check_nengajo(5),
-                                icon: Image.asset(
-                                    'assets/hagaki/image/button/inter.png'),
-                              ))
+                            alignment: Alignment.center,
+                            width: screenWidth * 0.15,
+                            child: IconButton(
+                              onPressed: () => check_nengajo(5),
+                              icon: Image.asset(
+                                  'assets/hagaki/image/button/inter.png'),
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(height: screenWidth * 0.01),

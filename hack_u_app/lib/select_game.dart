@@ -24,6 +24,13 @@ class _SelectPageState extends State<SelectPage> {
 
   @override
   Widget build(BuildContext context) {
+    // 画面のサイズを取得
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    // ボタンのサイズを設定
+    double buttonSize = screenWidth * 0.3; // 幅と高さを画面幅の30%に設定
+    double buttonSpacing = screenHeight * 0.03; // ボタン間のスペースを画面幅の3%に設定
+
     return SafeArea(
       child: Container(
         decoration: const BoxDecoration(
@@ -36,365 +43,118 @@ class _SelectPageState extends State<SelectPage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: screenHeight * 0.05),
+            // 1行目
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      _playSound();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MotiGameDetail()));
-                    },
-                    icon: Image.asset("assets/select_screen/moti_icon.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      _playSound();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EtoqGameDetail()));
-                    },
-                    icon: Image.asset("assets/select_screen/etoq_icon.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      _playSound();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const KarutaGameDetail()));
-                    },
-                    icon: Image.asset("assets/select_screen/karuta_icon.png"),
-                  ),
-                ),
+                _buildGameButton(context, "assets/select_screen/moti_icon.png",
+                    const MotiGameDetail(), buttonSize),
+                _buildGameButton(context, "assets/select_screen/etoq_icon.png",
+                    const EtoqGameDetail(), buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/karuta_icon.png",
+                    const KarutaGameDetail(),
+                    buttonSize),
               ],
             ),
+            SizedBox(height: buttonSpacing),
+            // 2行目
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      _playSound();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NengajoGameDetail()));
-                    },
-                    icon: Image.asset("assets/select_screen/hagaki_icon.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/hagaki_icon.png",
+                    const NengajoGameDetail(),
+                    buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
               ],
             ),
+            SizedBox(height: buttonSpacing),
+            // 3行目
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const GameDetail()));
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
               ],
             ),
+            SizedBox(height: buttonSpacing),
+            // 4行目
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const GameDetail()));
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_white.png",
+                    "None",
+                    buttonSize),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const GameDetail()));
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_white.png"),
-                  ),
-                ),
-              ],
-            ),
+            SizedBox(height: buttonSpacing),
+            // 最終行
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_left.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
-                  width: 120,
-                  height: 120,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      _playSound();
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          pageBuilder:
-                              (context, animation, secondaryAnimation) {
-                            return MyHomePage();
-                          },
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            final Animatable<Offset> tween = Tween(
-                                    begin: const Offset(-1.0, 0.0),
-                                    end: Offset.zero)
-                                .chain(CurveTween(curve: Curves.easeInOut));
-                            final Animation<Offset> offsetAnimation =
-                                animation.drive(tween);
-                            return SlideTransition(
-                              position: offsetAnimation,
-                              child: child,
-                            );
-                          },
-                        ),
-                      );
-                    },
-                    icon: Image.asset(
-                        "assets/select_screen/game_icon_return.png"),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.fromLTRB(20, 1, 20, 10),
-                  width: 130,
-                  height: 130,
-                  alignment: Alignment.center,
-                  child: IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (_) {
-                            return const AlertDialogSample();
-                          });
-                    },
-                    icon:
-                        Image.asset("assets/select_screen/game_icon_right.png"),
-                  ),
-                ),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_left.png",
+                    const AlertDialogSample(),
+                    buttonSize),
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_return.png",
+                    const MyHomePage(),
+                    buttonSize), // 右のボタンを少し大きく
+                _buildGameButton(
+                    context,
+                    "assets/select_screen/game_icon_right.png",
+                    const AlertDialogSample(),
+                    buttonSize),
               ],
             ),
           ],
@@ -402,125 +162,154 @@ class _SelectPageState extends State<SelectPage> {
       ),
     );
   }
-}
 
-// ミニゲームの詳細
-class GameDetail extends StatefulWidget {
-  const GameDetail({Key? key}) : super(key: key);
-  @override
-  State<GameDetail> createState() => _GameDetailState();
-}
-
-class _GameDetailState extends State<GameDetail> {
-  final AudioPlayer _audioPlayer = AudioPlayer();
-  Future<void> _playSound() async {
-    // アセットから音声を再生
-    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/title_screen/background_gray.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(
-                width: 320,
-                height: 80,
-              ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
-                alignment: Alignment.center,
-                width: 250,
-                child:
-                    Image.asset("assets/select_screen/example_game_title.png"),
-              ),
-              Container(
-                padding: const EdgeInsets.all(0.0),
-                alignment: Alignment.center,
-                width: 310,
-                child:
-                    Image.asset("assets/select_screen/example_game_detail.png"),
-              ),
-              const SizedBox(
-                width: 320,
-                height: 50,
-              ),
-              Container(
-                padding: const EdgeInsets.all(0.0),
-                alignment: Alignment.center,
-                height: 80,
-                child: IconButton(
-                  icon: Image.asset("assets/title_screen/start_mode.png"),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MotiGamePage()),
-                    );
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const SizedBox(
-                    width: 290,
-                    height: 50,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(0.0),
-                    alignment: Alignment.center,
-                    width: 100,
-                    height: 100,
-                    child: IconButton(
-                      icon: Image.asset("assets/title_screen/return.png"),
-                      onPressed: () {
-                        _playSound();
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return SelectPage();
-                            },
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              final Animatable<Offset> tween = Tween(
-                                      begin: const Offset(-1.0, 0.0),
-                                      end: Offset.zero)
-                                  .chain(CurveTween(curve: Curves.easeInOut));
-                              final Animation<Offset> offsetAnimation =
-                                  animation.drive(tween);
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
+  // ボタンを生成するための共通メソッド
+  Widget _buildGameButton(
+      BuildContext context, String iconPath, page, double size) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(15, 1, 15, 10),
+      width: size,
+      height: size,
+      alignment: Alignment.center,
+      child: IconButton(
+        onPressed: () {
+          _playSound();
+          if (page == "None") {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return const AlertDialogSample();
+              },
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => page),
+            );
+          }
+        },
+        icon: Image.asset(iconPath),
+        iconSize: size * 0.6, // アイコンサイズをボタンサイズの60%に設定
       ),
     );
   }
 }
+
+// ミニゲームの詳細
+// class GameDetail extends StatefulWidget {
+//   const GameDetail({Key? key}) : super(key: key);
+//   @override
+//   State<GameDetail> createState() => _GameDetailState();
+// }
+// class _GameDetailState extends State<GameDetail> {
+//   final AudioPlayer _audioPlayer = AudioPlayer();
+//   Future<void> _playSound() async {
+//     // アセットから音声を再生
+//     await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return SafeArea(
+//       child: Scaffold(
+//         body: Container(
+//           decoration: const BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage("assets/title_screen/background_gray.png"),
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             mainAxisSize: MainAxisSize.max,
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             children: <Widget>[
+//               const SizedBox(
+//                 width: 320,
+//                 height: 80,
+//               ),
+//               Container(
+//                 padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
+//                 alignment: Alignment.center,
+//                 width: 250,
+//                 child:
+//                     Image.asset("assets/select_screen/example_game_title.png"),
+//               ),
+//               Container(
+//                 padding: const EdgeInsets.all(0.0),
+//                 alignment: Alignment.center,
+//                 width: 310,
+//                 child:
+//                     Image.asset("assets/select_screen/example_game_detail.png"),
+//               ),
+//               const SizedBox(
+//                 width: 320,
+//                 height: 50,
+//               ),
+//               Container(
+//                 padding: const EdgeInsets.all(0.0),
+//                 alignment: Alignment.center,
+//                 height: 80,
+//                 child: IconButton(
+//                   icon: Image.asset("assets/title_screen/start_mode.png"),
+//                   onPressed: () {
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(builder: (context) => MotiGamePage()),
+//                     );
+//                   },
+//                 ),
+//               ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.start,
+//                 mainAxisSize: MainAxisSize.max,
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 children: <Widget>[
+//                   const SizedBox(
+//                     width: 290,
+//                     height: 50,
+//                   ),
+//                   Container(
+//                     padding: const EdgeInsets.all(0.0),
+//                     alignment: Alignment.center,
+//                     width: 100,
+//                     height: 100,
+//                     child: IconButton(
+//                       icon: Image.asset("assets/title_screen/return.png"),
+//                       onPressed: () {
+//                         _playSound();
+//                         Navigator.of(context).push(
+//                           PageRouteBuilder(
+//                             pageBuilder:
+//                                 (context, animation, secondaryAnimation) {
+//                               return SelectPage();
+//                             },
+//                             transitionsBuilder: (context, animation,
+//                                 secondaryAnimation, child) {
+//                               final Animatable<Offset> tween = Tween(
+//                                       begin: const Offset(-1.0, 0.0),
+//                                       end: Offset.zero)
+//                                   .chain(CurveTween(curve: Curves.easeInOut));
+//                               final Animation<Offset> offsetAnimation =
+//                                   animation.drive(tween);
+//                               return SlideTransition(
+//                                 position: offsetAnimation,
+//                                 child: child,
+//                               );
+//                             },
+//                           ),
+//                         );
+//                       },
+//                     ),
+//                   )
+//                 ],
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // 餅ミニゲームの詳細
 class MotiGameDetail extends StatefulWidget {
@@ -538,6 +327,8 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -552,26 +343,20 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                width: 320,
-                height: 80,
-              ),
+              SizedBox(height: screenHeight * 0.1),
               Container(
                 padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
                 alignment: Alignment.center,
-                width: 250,
+                width: screenWidth * 0.6,
                 child: Image.asset("assets/select_screen/moti_title.png"),
               ),
               Container(
                 padding: const EdgeInsets.all(0.0),
                 alignment: Alignment.center,
-                width: 310,
+                width: screenWidth * 0.7,
                 child: Image.asset("assets/select_screen/moti_explain.png"),
               ),
-              const SizedBox(
-                width: 320,
-                height: 50,
-              ),
+              SizedBox(height: screenHeight * 0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -580,14 +365,14 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    height: 75,
+                    height: screenHeight * 0.09,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_first.png"),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MotiGamePage()),
+                              builder: (context) => const MotiGamePage()),
                         );
                       },
                     ),
@@ -595,14 +380,14 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(0),
                     alignment: Alignment.center,
-                    height: 75,
+                    height: screenHeight * 0.09,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_second.png"),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MultiMotiGamePage()),
+                              builder: (context) => const MultiMotiGamePage()),
                         );
                       },
                     ),
@@ -617,7 +402,7 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(2.0),
                     alignment: Alignment.center,
-                    width: 150,
+                    width: screenWidth * 0.4,
                     child: IconButton(
                       icon: Image.asset(
                         "assets/select_screen/ranking_button.png",
@@ -649,14 +434,12 @@ class _MotiGameDetailState extends State<MotiGameDetail> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    width: 120,
-                  ),
+                  SizedBox(width: screenWidth * 0.3),
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    width: 100,
-                    height: 100,
+                    width: screenWidth * 0.25,
+                    height: screenHeight * 0.1,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
@@ -711,6 +494,8 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -725,40 +510,41 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                width: 320,
-                height: 80,
-              ),
+              SizedBox(height: screenHeight * 0.1),
               Container(
                 padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
                 alignment: Alignment.center,
-                width: 250,
+                width: screenWidth * 0.6,
                 child: Image.asset("assets/select_screen/etoq_title.png"),
               ),
               Container(
                 padding: const EdgeInsets.all(0.0),
                 alignment: Alignment.center,
-                width: 310,
+                width: screenWidth * 0.7,
                 child: Image.asset("assets/select_screen/etoq_explain.png"),
               ),
-              const SizedBox(
-                width: 320,
-                height: 50,
-              ),
-              Container(
-                padding: const EdgeInsets.all(0.0),
-                alignment: Alignment.center,
-                height: 80,
-                child: IconButton(
-                  icon: Image.asset("assets/title_screen/start_first.png"),
-                  onPressed: () {
-                    _playSound();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const etoqpage()),
-                    );
-                  },
-                ),
+              SizedBox(height: screenHeight * 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(0.0),
+                    alignment: Alignment.center,
+                    height: screenHeight * 0.09,
+                    child: IconButton(
+                      icon: Image.asset("assets/title_screen/start_first.png"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const etoqpage()),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -768,7 +554,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(2.0),
                     alignment: Alignment.center,
-                    width: 150,
+                    width: screenWidth * 0.4,
                     child: IconButton(
                       icon: Image.asset(
                         "assets/select_screen/ranking_button.png",
@@ -780,7 +566,7 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return ScoreTablePage(1);
+                              return ScoreTablePage(2);
                             },
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
@@ -800,14 +586,12 @@ class _EtoqGameDetailState extends State<EtoqGameDetail> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    width: 120,
-                  ),
+                  SizedBox(width: screenWidth * 0.3),
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    width: 100,
-                    height: 100,
+                    width: screenWidth * 0.25,
+                    height: screenHeight * 0.1,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
@@ -862,6 +646,8 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -876,25 +662,20 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                height: 80,
-              ),
+              SizedBox(height: screenHeight * 0.1),
               Container(
                 padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
                 alignment: Alignment.center,
-                width: 250,
+                width: screenWidth * 0.6,
                 child: Image.asset("assets/select_screen/karuta_title.png"),
               ),
               Container(
                 padding: const EdgeInsets.all(0.0),
                 alignment: Alignment.center,
-                width: 310,
+                width: screenWidth * 0.7,
                 child: Image.asset("assets/select_screen/karuta_explain.png"),
               ),
-              const SizedBox(
-                width: 320,
-                height: 50,
-              ),
+              SizedBox(height: screenHeight * 0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -903,7 +684,7 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    height: 75,
+                    height: screenHeight * 0.09,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_first.png"),
                       onPressed: () {
@@ -916,21 +697,20 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    height: 75,
+                    height: screenHeight * 0.09,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_second.png"),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const MultiKarutaGamePage()),
+                              builder: (context) => const KarutaGamePage()),
                         );
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
               Row(
@@ -938,14 +718,12 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(
-                    width: 200,
-                  ),
+                  SizedBox(width: screenWidth * 0.7),
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    width: 100,
-                    height: 100,
+                    width: screenWidth * 0.25,
+                    height: screenHeight * 0.1,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {
@@ -1000,6 +778,8 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -1014,25 +794,20 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(
-                width: 320,
-                height: 80,
-              ),
+              SizedBox(height: screenHeight * 0.1),
               Container(
                 padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
                 alignment: Alignment.center,
-                width: 250,
+                width: screenWidth * 0.6,
                 child: Image.asset("assets/select_screen/nengajo_title.png"),
               ),
               Container(
                 padding: const EdgeInsets.all(0.0),
                 alignment: Alignment.center,
-                width: 310,
+                width: screenWidth * 0.7,
                 child: Image.asset("assets/select_screen/nengajo_explain.png"),
               ),
-              const SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: screenHeight * 0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -1041,7 +816,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    height: 80,
+                    height: screenHeight * 0.09,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/start_first.png"),
                       onPressed: () {
@@ -1063,7 +838,7 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                   Container(
                     padding: const EdgeInsets.all(2.0),
                     alignment: Alignment.center,
-                    width: 150,
+                    width: screenWidth * 0.4,
                     child: IconButton(
                       icon: Image.asset(
                         "assets/select_screen/ranking_button.png",
@@ -1095,14 +870,12 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    width: 120,
-                  ),
+                  SizedBox(width: screenWidth * 0.3),
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,
-                    width: 100,
-                    height: 100,
+                    width: screenWidth * 0.25,
+                    height: screenHeight * 0.1,
                     child: IconButton(
                       icon: Image.asset("assets/title_screen/return.png"),
                       onPressed: () {

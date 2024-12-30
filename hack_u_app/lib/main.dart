@@ -89,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     // スクリーンサイズの取得
-    double screenWidge = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Container(
@@ -104,12 +104,12 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 500),
+            SizedBox(height: screenWidth * 1.2),
             // スタートボタン
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: screenWidge * 0.6,
+              width: screenWidth * 0.6,
               height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: screenWidge * 0.6,
+              width: screenWidth * 0.6,
               height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: screenWidge * 0.6,
+              width: screenWidth * 0.6,
               height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {

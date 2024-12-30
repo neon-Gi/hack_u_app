@@ -444,12 +444,12 @@ class _MotiGamePageState extends State<MotiGamePage>
     });
 
     if (game.timerSec <= 0) {
-      return Image.asset(timerUrl.toString() + "12_0.png");
+      return Image.asset("${timerUrl.toString()}12_0.png");
     } else if (game.timerSec <= 5) {
       return Image.asset(
-          timerUrl.toString() + "12_" + game.timerSec.toString() + ".png");
+          "${timerUrl.toString()}12_${game.timerSec.toString()}.png");
     } else {
-      return Image.asset(timerUrl.toString() + _count.toString() + ".png");
+      return Image.asset("${timerUrl.toString()}${_count.toString()}.png");
     }
   }
 
@@ -652,7 +652,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SelectPage(),
+                              builder: (context) => const SelectPage(),
                             ),
                           );
                         },
@@ -727,12 +727,12 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
     });
 
     if (game.timerSec <= 0) {
-      return Image.asset(timerUrl.toString() + "12_0.png");
+      return Image.asset("${timerUrl.toString()}12_0.png");
     } else if (game.timerSec <= 5) {
       return Image.asset(
-          timerUrl.toString() + "12_" + game.timerSec.toString() + ".png");
+          "${timerUrl.toString()}12_${game.timerSec.toString()}.png");
     } else {
-      return Image.asset(timerUrl.toString() + _count.toString() + ".png");
+      return Image.asset("${timerUrl.toString()}${_count.toString()}.png");
     }
   }
 

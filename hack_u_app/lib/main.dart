@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/escape.dart';
 import 'package:video_player/video_player.dart';
 import 'select_game.dart';
 import 'player.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'SHOGATU PARTY',
-      home: MyHomePage(),
+      home: EscapeGamePage(),
     );
   }
 }

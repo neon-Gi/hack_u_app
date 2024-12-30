@@ -28,18 +28,23 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
   late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
   late AudioPlayer _sePlayer;
 
-  Row folder_row(String left, int left_num, String right, int right_num) =>
-      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        folder_icon(left, left_num),
-        Container(width: 40.0),
-        folder_icon(right, right_num)
-      ]);
+  Row folder_row(String left, int left_num, String right, int right_num) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      folder_icon(left, left_num),
+      SizedBox(width: screenWidth * 0.13),
+      folder_icon(right, right_num)
+    ]);
+  }
 
-  IconButton folder_icon(String name, num) => IconButton(
-        icon: Image.asset('assets/hagaki/image/folder/${name}.png'),
-        style: IconButton.styleFrom(iconSize: 200.0),
-        onPressed: () => check_nengajo(num),
-      );
+  IconButton folder_icon(String name, num) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    return IconButton(
+      icon: Image.asset('assets/hagaki/image/folder/$name.png'),
+      style: IconButton.styleFrom(iconSize: screenHeight),
+      onPressed: () => check_nengajo(num),
+    );
+  }
 
   void check_nengajo(int num) async {
     if (!_otetsuki.isRunning) {
@@ -388,107 +393,113 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-            // 背景
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('assets/hagaki/image/haikei/haikei.png'),
-              ),
-            ),
-
-            // ゲームレイアウト
-            alignment: Alignment.topRight,
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              folder_row("west", 2, "south", 3),
-              Container(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: Column(
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    return SafeArea(
+        child: Scaffold(
+            body: Container(
+                // 背景
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: AssetImage('assets/hagaki/image/haikei/haikei.png'),
+                  ),
+                ),
+                // ゲームレイアウト
+                alignment: Alignment.topRight,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      folder_row("west", 2, "south", 3),
+                      SizedBox(height: screenHeight * 0.01),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                              alignment: Alignment.center,
-                              width: 70.0,
-                              height: 70.0,
-                              child:
-                                  clock_update(_stopwatch.elapsedMilliseconds)),
-                          Container(height: 20.0),
-                          Container(
                             alignment: Alignment.center,
-                            width: 60.0,
-                            height: 50.0,
-                            color: Color.fromRGBO(255, 255, 100, 1),
-                            child: Text("SCORE\n" + _score.toString(),
-                                textAlign: TextAlign.center),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      alignment: Alignment.center,
+                                      width: screenWidth * 0.2,
+                                      height: screenHeight * 0.1,
+                                      child: clock_update(
+                                          _stopwatch.elapsedMilliseconds)),
+                                  SizedBox(height: screenHeight * 0.01),
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: screenWidth * 0.15,
+                                    height: screenHeight * 0.05,
+                                    color:
+                                        const Color.fromRGBO(255, 255, 100, 1),
+                                    child: Text("SCORE\n${_score.toString()}",
+                                        textAlign: TextAlign.center),
+                                  ),
+                                  SizedBox(height: screenHeight * 0.05),
+                                  Container(
+                                      alignment: Alignment.center,
+                                      width: screenWidth * 0.2,
+                                      child: IconButton(
+                                          onPressed: () => check_nengajo(6),
+                                          icon: Image.asset(
+                                              'assets/hagaki/image/button/sendback.png')))
+                                ]),
                           ),
-                          Container(height: 50.0),
+                          Container(
+                              width: screenWidth * 0.65,
+                              height: screenHeight * 0.5,
+                              alignment: Alignment.topCenter,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.fitWidth,
+                                  image: hagaki_update(),
+                                ),
+                              ),
+                              child: Stack(children: [
+                                Container(
+                                  height: 350.0,
+                                  margin: const EdgeInsets.only(top: 60.0),
+                                  child: Tategaki(
+                                      " \n \n \n \n \n \n" + _contents,
+                                      style: const TextStyle(fontSize: 20)),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                    width: screenWidth * 0.4,
+                                    margin: please_top(),
+                                    child: please_image(_nengajo_omote),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Container(
+                                    width: screenWidth * 0.2,
+                                    height: screenHeight * 0.1,
+                                    margin: const EdgeInsets.only(
+                                        right: 0.0, bottom: 0.0),
+                                    child: IconButton(
+                                      onPressed: () => turn(),
+                                      icon: Image.asset(
+                                          "assets/hagaki/image/hagaki/turn.png"),
+                                    ),
+                                  ),
+                                )
+                              ])),
                           Container(
                               alignment: Alignment.center,
-                              width: 70.0,
+                              width: screenWidth * 0.15,
                               child: IconButton(
-                                  onPressed: () => check_nengajo(6),
-                                  icon: Image.asset(
-                                      'assets/hagaki/image/button/sendback.png')))
-                        ]),
-                  ),
-                  Container(
-                      width: 250.0,
-                      height: 450.0,
-                      alignment: Alignment.topCenter,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fitWidth,
-                          image: hagaki_update(),
-                        ),
+                                onPressed: () => check_nengajo(5),
+                                icon: Image.asset(
+                                    'assets/hagaki/image/button/inter.png'),
+                              ))
+                        ],
                       ),
-                      child: Stack(children: [
-                        Container(
-                          height: 350.0,
-                          margin: EdgeInsets.only(top: 60.0),
-                          child: Tategaki(" \n \n \n \n \n \n" + _contents,
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            width: 80.0,
-                            margin: please_top(),
-                            child: please_image(_nengajo_omote),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            width: 80.0,
-                            height: 80.0,
-                            margin: EdgeInsets.only(right: 0.0, bottom: 0.0),
-                            child: IconButton(
-                              onPressed: () => turn(),
-                              icon: Image.asset(
-                                  "assets/hagaki/image/hagaki/turn.png"),
-                            ),
-                          ),
-                        )
-                      ])),
-                  Container(
-                      width: 80.0,
-                      child: IconButton(
-                        onPressed: () => check_nengajo(5),
-                        icon:
-                            Image.asset('assets/hagaki/image/button/inter.png'),
-                      ))
-                ],
-              ),
-              Container(height: 20.0),
-              folder_row("edge", 4, "east", 1)
-            ])));
+                      SizedBox(height: screenWidth * 0.01),
+                      folder_row("edge", 4, "east", 1)
+                    ]))));
   }
 }
 

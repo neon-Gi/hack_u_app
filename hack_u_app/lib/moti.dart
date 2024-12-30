@@ -177,6 +177,7 @@ class _MotiGamePageState extends State<MotiGamePage>
         });
   }
 
+  // 処理成功ダイアログ
   Future<void> submitScore() async {
     try {
       final response = await PlayerManager().submitSocre(1, game.point);
@@ -282,7 +283,7 @@ class _MotiGamePageState extends State<MotiGamePage>
     await _sePlayer.play(AssetSource("se/moti/moti_dageki.mp3"));
   }
 
-  // スタート
+  // スタートSE
   Future<void> _startSE() async {
     await _sePlayer.play(AssetSource("se/start.mp3"));
   }
@@ -459,6 +460,8 @@ class _MotiGamePageState extends State<MotiGamePage>
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -473,13 +476,13 @@ class _MotiGamePageState extends State<MotiGamePage>
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 70),
+              SizedBox(height: screenHeight * 0.07),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(width: 300),
+                  SizedBox(width: screenWidth * 0.8),
                   Container(
                     padding: const EdgeInsets.all(0),
                     alignment: Alignment.center,
@@ -492,6 +495,8 @@ class _MotiGamePageState extends State<MotiGamePage>
                   Container(
                     padding: const EdgeInsets.all(0),
                     alignment: Alignment.center,
+                    width: screenWidth,
+                    height: screenHeight * 0.7,
                     child: moti(),
                   ),
                   Column(
@@ -499,7 +504,7 @@ class _MotiGamePageState extends State<MotiGamePage>
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const SizedBox(height: 350),
+                      SizedBox(height: screenHeight * 0.35),
                       Container(
                         padding: const EdgeInsets.all(0),
                         alignment: Alignment.center,
@@ -509,7 +514,7 @@ class _MotiGamePageState extends State<MotiGamePage>
                                 onPressed: null,
                                 icon: Image.asset(
                                   "assets/moti/ose07_idle.png",
-                                  width: 300,
+                                  width: screenWidth * 0.7,
                                   fit: BoxFit.cover,
                                 ),
                               )
@@ -518,7 +523,7 @@ class _MotiGamePageState extends State<MotiGamePage>
                                     onPressed: null,
                                     icon: Image.asset(
                                       "assets/moti/mate7.png",
-                                      width: 300,
+                                      width: screenWidth * 0.7,
                                       fit: BoxFit.cover,
                                     ),
                                   )
@@ -527,7 +532,7 @@ class _MotiGamePageState extends State<MotiGamePage>
                                     onPressed: onPress,
                                     icon: Image.asset(
                                       "assets/moti/ose07.png",
-                                      width: 300,
+                                      width: screenWidth * 0.7,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -836,6 +841,8 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
   }
 
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -850,13 +857,13 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const SizedBox(height: 70),
+              SizedBox(height: screenHeight * 0.07),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(width: 300),
+                  SizedBox(width: screenWidth * 0.8),
                   Container(
                     padding: const EdgeInsets.all(0),
                     alignment: Alignment.center,
@@ -869,14 +876,16 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                   Container(
                     padding: const EdgeInsets.all(0),
                     alignment: Alignment.center,
+                    width: screenWidth,
+                    height: screenHeight * 0.7,
                     child: moti(),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 450),
+                      SizedBox(height: screenHeight * 0.4),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
@@ -888,7 +897,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                                   icon: Image.asset(
                                     "assets/moti/ose07_idle.png",
                                     fit: BoxFit.cover,
-                                    width: 160,
+                                    width: screenWidth * 0.45,
                                   ),
                                 )
                               : (game.mistake)
@@ -897,7 +906,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                                       icon: Image.asset(
                                         "assets/moti/mate7.png",
                                         fit: BoxFit.cover,
-                                        width: 160,
+                                        width: screenWidth * 0.45,
                                       ),
                                     )
                                   : IconButton(
@@ -905,10 +914,10 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                                       icon: Image.asset(
                                         "assets/moti/ose07.png",
                                         fit: BoxFit.cover,
-                                        width: 160,
+                                        width: screenWidth * 0.45,
                                       ),
                                     ),
-                          const SizedBox(width: 20),
+                          SizedBox(width: screenWidth * 0.01),
                           (!game.start ||
                                   game.mistake ||
                                   game.timerSec <= 0 ||
@@ -918,7 +927,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                                   icon: Image.asset(
                                     "assets/moti/ose07_idle.png",
                                     fit: BoxFit.cover,
-                                    width: 160,
+                                    width: screenWidth * 0.45,
                                   ),
                                 )
                               : IconButton(
@@ -926,7 +935,7 @@ class _MultiMotiGamePageState extends State<MultiMotiGamePage>
                                   icon: Image.asset(
                                     "assets/moti/ose07.png",
                                     fit: BoxFit.cover,
-                                    width: 160,
+                                    width: screenWidth * 0.45,
                                   ),
                                 ),
                         ],

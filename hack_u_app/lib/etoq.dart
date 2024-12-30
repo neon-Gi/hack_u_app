@@ -384,6 +384,8 @@ class _etoqPageState extends State<etoqpage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -397,7 +399,7 @@ class _etoqPageState extends State<etoqpage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 110),
+            SizedBox(height: screenWidth * 0.28),
             // 出題
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -410,28 +412,28 @@ class _etoqPageState extends State<etoqpage> {
                   child: Image.asset(
                     imagePath[back_index],
                     fit: BoxFit.cover,
-                    width: 100,
+                    width: screenWidth * 0.26,
                   ),
                 ),
-                const SizedBox(width: 140),
+                SizedBox(width: screenWidth * 0.37),
                 Container(
                   padding: const EdgeInsets.all(0),
                   alignment: Alignment.center,
                   child: Image.asset(
                     imagePath[front_index],
                     fit: BoxFit.cover,
-                    width: 100,
+                    width: screenWidth * 0.26,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 150),
+            SizedBox(height: screenHeight * 0.2),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(width: 300),
+                SizedBox(width: screenWidth * 0.8),
                 Container(
                   padding: const EdgeInsets.all(0),
                   alignment: Alignment.center,
@@ -439,7 +441,7 @@ class _etoqPageState extends State<etoqpage> {
                 ),
               ],
             ),
-            const SizedBox(height: 80),
+            SizedBox(height: screenHeight * 0.07),
             // ボタン
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -453,13 +455,13 @@ class _etoqPageState extends State<etoqpage> {
                       icon: Image.asset(
                         imagePath[answer_button[0]],
                         fit: BoxFit.cover,
-                        width: 100,
+                        width: screenWidth * 0.25,
                       ),
                       onPressed: () {
                         answer_check(0);
                       },
                     )),
-                const SizedBox(width: 30),
+                SizedBox(width: screenWidth * 0.1),
                 Container(
                     padding: const EdgeInsets.all(0),
                     alignment: Alignment.center,
@@ -467,7 +469,7 @@ class _etoqPageState extends State<etoqpage> {
                       icon: Image.asset(
                         imagePath[answer_button[1]],
                         fit: BoxFit.cover,
-                        width: 100,
+                        width: screenWidth * 0.25,
                       ),
                       onPressed: () {
                         answer_check(1);
@@ -475,7 +477,7 @@ class _etoqPageState extends State<etoqpage> {
                     )),
               ],
             ),
-            const SizedBox(height: 45),
+            SizedBox(height: screenHeight * 0.06),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -488,14 +490,14 @@ class _etoqPageState extends State<etoqpage> {
                     icon: Image.asset(
                       imagePath[answer_button[2]],
                       fit: BoxFit.cover,
-                      width: 100,
+                      width: screenWidth * 0.25,
                     ),
                     onPressed: () {
                       answer_check(2);
                     },
                   ),
                 ),
-                const SizedBox(width: 40),
+                SizedBox(width: screenWidth * 0.1),
                 Container(
                   padding: const EdgeInsets.all(0),
                   alignment: Alignment.center,
@@ -503,7 +505,7 @@ class _etoqPageState extends State<etoqpage> {
                     icon: Image.asset(
                       imagePath[answer_button[3]],
                       fit: BoxFit.cover,
-                      width: 100,
+                      width: screenWidth * 0.25,
                     ),
                     onPressed: () {
                       answer_check(3);

@@ -88,6 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // スクリーンサイズの取得
+    double screenWidge = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Container(
         decoration: const BoxDecoration(
@@ -101,15 +104,13 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(
-              height: 500,
-            ),
+            const SizedBox(height: 500),
             // スタートボタン
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: 230,
-              height: 80,
+              width: screenWidge * 0.6,
+              height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
                   _playSound();
@@ -141,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: 230,
-              height: 80,
+              width: screenWidge * 0.6,
+              height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
                   showDialog(
@@ -160,8 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: const EdgeInsets.all(0.0),
               alignment: Alignment.center,
-              width: 230,
-              height: 80,
+              width: screenWidge * 0.6,
+              height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
                   showDialog(

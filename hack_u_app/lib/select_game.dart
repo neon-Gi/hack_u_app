@@ -706,7 +706,8 @@ class _KarutaGameDetailState extends State<KarutaGameDetail> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const KarutaGamePage()),
+                              builder: (context) =>
+                                  const MultiKarutaGamePage()),
                         );
                       },
                     ),

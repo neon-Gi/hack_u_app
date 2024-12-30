@@ -416,9 +416,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button0() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[0] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[0] == "1") {
@@ -435,9 +437,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button1() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[1] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[1] == "1") {
@@ -454,9 +458,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button2() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[2] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[2] == "1") {
@@ -473,9 +479,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button3() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[3] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[3] == "1") {
@@ -492,9 +500,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button4() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[4] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[4] == "1") {
@@ -511,9 +521,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button5() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[5] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[5] == "1") {
@@ -530,9 +542,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button6() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[6] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[6] == "1") {
@@ -549,9 +563,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button7() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[7] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[7] == "1") {
@@ -568,9 +584,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   Image button8() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[8] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[8] == "1") {
@@ -612,6 +630,8 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -626,11 +646,12 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 70),
+              SizedBox(height: screenWidth * 0.2),
               Text(
                 display,
-                style: const TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: screenHeight * 0.03),
               ),
+              SizedBox(height: screenWidth * 0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
@@ -639,7 +660,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(0),
                       icon: button0(),
@@ -648,7 +669,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(1),
                       icon: button1(),
@@ -657,7 +678,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(2),
                       icon: button2(),
@@ -673,7 +694,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(3),
                       icon: button3(),
@@ -682,7 +703,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(4),
                       icon: button4(),
@@ -691,7 +712,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(5),
                       icon: button5(),
@@ -707,7 +728,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(6),
                       icon: button6(),
@@ -716,7 +737,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(7),
                       icon: button7(),
@@ -725,7 +746,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(8),
                       icon: button8(),
@@ -1153,9 +1174,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button0() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[0] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[0] == "1") {
@@ -1177,9 +1200,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button1() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[1] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[1] == "1") {
@@ -1201,9 +1226,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button2() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[2] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth + 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[2] == "1") {
@@ -1225,9 +1252,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button3() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[3] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[3] == "1") {
@@ -1249,9 +1278,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button4() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[4] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[4] == "1") {
@@ -1273,9 +1304,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button5() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[5] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[5] == "1") {
@@ -1297,9 +1330,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button6() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[6] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[6] == "1") {
@@ -1321,9 +1356,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button7() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[7] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[7] == "1") {
@@ -1345,9 +1382,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   Image button8() {
+    double screenWidth = MediaQuery.of(context).size.width;
     if (card_status[8] == "otetuki") {
       return Image.asset(
         "assets/karuta/otetsuki.png",
+        width: screenWidth * 0.3,
         fit: BoxFit.cover,
       );
     } else if (card_status[8] == "1") {
@@ -1390,6 +1429,8 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
         body: Container(
@@ -1404,10 +1445,10 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 70),
+              SizedBox(height: screenWidth * 0.2),
               Text(
                 display,
-                style: const TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: screenHeight * 0.03),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1417,7 +1458,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(0),
                       icon: button0(),
@@ -1426,7 +1467,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(1),
                       icon: button1(),
@@ -1435,7 +1476,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(2),
                       icon: button2(),
@@ -1451,7 +1492,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(3),
                       icon: button3(),
@@ -1460,7 +1501,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(4),
                       icon: button4(),
@@ -1469,7 +1510,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(5),
                       icon: button5(),
@@ -1485,7 +1526,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(6),
                       icon: button6(),
@@ -1494,7 +1535,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(7),
                       icon: button7(),
@@ -1503,7 +1544,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                   Container(
                     padding: const EdgeInsets.all(3),
                     alignment: Alignment.center,
-                    width: 120,
+                    width: screenWidth * 0.3,
                     child: IconButton(
                       onPressed: () => onPress(8),
                       icon: button8(),

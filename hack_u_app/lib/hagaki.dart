@@ -14,8 +14,8 @@ class HagakiGamePage extends StatefulWidget {
 }
 
 class _HagakiGamePageState extends State<HagakiGamePage> {
-  Stopwatch _stopwatch = Stopwatch();
-  Stopwatch _otetsuki = Stopwatch();
+  final Stopwatch _stopwatch = Stopwatch();
+  final Stopwatch _otetsuki = Stopwatch();
   bool _start_dialog_show = false;
   bool _update_location = true;
   bool _nengajo_omote = true;
@@ -47,13 +47,12 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
   }
 
   void check_nengajo(int num) async {
+    _stopSE();
     if (!_otetsuki.isRunning) {
       if (num == _type) {
-        _stopSE();
         _correctSE();
         _score++;
       } else {
-        _stopSE();
         _uncorrectSE();
         _otetsuki.start();
       }
@@ -126,96 +125,99 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
         });
   }
 
-  Future<void> showEndDialog() => showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  'ストップ！\n結果 ' + _score.toString() + " 点",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(0),
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      submitScore();
-                    },
-                    child: const Text("ランキング登録"),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return SelectPage();
-                            },
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              final Animatable<Offset> tween = Tween(
-                                      begin: const Offset(-1.0, 0.0),
-                                      end: Offset.zero)
-                                  .chain(CurveTween(curve: Curves.easeInOut));
-                              final Animation<Offset> offsetAnimation =
-                                  animation.drive(tween);
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: const Text('やめる'),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return const HagakiGamePage();
-                            },
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              final Animatable<Offset> tween = Tween(
-                                      begin: const Offset(1.0, 0.0),
-                                      end: Offset.zero)
-                                  .chain(CurveTween(curve: Curves.easeInOut));
-                              final Animation<Offset> offsetAnimation =
-                                  animation.drive(tween);
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      child: const Text("もう一度",
-                          style: TextStyle(color: Colors.black)),
-                    ),
-                  ],
-                )
-              ],
+  Future<void> showEndDialog() {
+    return showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
             ),
-          ),
-        );
-      });
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    "ストップ！\n結果 ${_score.toString()}点",
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(0),
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        submitScore();
+                      },
+                      child: const Text("ランキング登録"),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return const SelectPage();
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                final Animatable<Offset> tween = Tween(
+                                        begin: const Offset(-1.0, 0.0),
+                                        end: Offset.zero)
+                                    .chain(CurveTween(curve: Curves.easeInOut));
+                                final Animation<Offset> offsetAnimation =
+                                    animation.drive(tween);
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: const Text('やめる'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            PageRouteBuilder(
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) {
+                                return const HagakiGamePage();
+                              },
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                final Animatable<Offset> tween = Tween(
+                                        begin: const Offset(1.0, 0.0),
+                                        end: Offset.zero)
+                                    .chain(CurveTween(curve: Curves.easeInOut));
+                                final Animation<Offset> offsetAnimation =
+                                    animation.drive(tween);
+                                return SlideTransition(
+                                  position: offsetAnimation,
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        child: const Text("もう一度",
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   Future<void> submitScore() async {
     try {
@@ -306,7 +308,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
   Future<void> _stopSE() async {
     await _sePlayer.stop();
-  } // SE停止(再生中のみ
+  }
 
   // BGM再生
   Future<void> _playBGM() async {

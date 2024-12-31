@@ -7,6 +7,7 @@ import 'karuta.dart';
 import 'etoq.dart';
 import 'main.dart';
 import 'moti.dart';
+import 'escape.dart';
 
 // 選択画面
 class SelectPage extends StatefulWidget {
@@ -75,8 +76,8 @@ class _SelectPageState extends State<SelectPage> {
                     buttonSize),
                 _buildGameButton(
                     context,
-                    "assets/select_screen/game_icon_white.png",
-                    "None",
+                    "assets/select_screen/riddle_icon.png",
+                    const RiddleGameDetail(),
                     buttonSize),
                 _buildGameButton(
                     context,
@@ -756,6 +757,123 @@ class _NengajoGameDetailState extends State<NengajoGameDetail> {
                     ),
                   ),
                   SizedBox(width: screenWidth * 0.3),
+                  Container(
+                    padding: const EdgeInsets.all(0.0),
+                    alignment: Alignment.center,
+                    width: screenWidth * 0.25,
+                    height: screenHeight * 0.1,
+                    child: IconButton(
+                      icon: Image.asset("assets/title_screen/return.png"),
+                      onPressed: () {
+                        _playSound();
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return const SelectPage();
+                            },
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              final Animatable<Offset> tween = Tween(
+                                      begin: const Offset(-1.0, 0.0),
+                                      end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.easeInOut));
+                              final Animation<Offset> offsetAnimation =
+                                  animation.drive(tween);
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// 謎クイズの詳細
+class RiddleGameDetail extends StatefulWidget {
+  const RiddleGameDetail({super.key});
+  @override
+  State<RiddleGameDetail> createState() => _RiddleGameDetailState();
+}
+
+class _RiddleGameDetailState extends State<RiddleGameDetail> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  Future<void> _playSound() async {
+    // アセットから音声を再生
+    await _audioPlayer.play(AssetSource('se/button_tap.mp3'));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/title_screen/background_gray.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: screenHeight * 0.1),
+              Container(
+                padding: const EdgeInsets.fromLTRB(1.0, 5.0, 1.0, 20.0),
+                alignment: Alignment.center,
+                width: screenWidth * 0.6,
+                child: Image.asset("assets/select_screen/riddle_title.png"),
+              ),
+              Container(
+                padding: const EdgeInsets.all(0.0),
+                alignment: Alignment.center,
+                width: screenWidth * 0.7,
+                child: Image.asset("assets/select_screen/riddle_explain.png"),
+              ),
+              SizedBox(height: screenHeight * 0.05),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(0.0),
+                    alignment: Alignment.center,
+                    height: screenHeight * 0.09,
+                    child: IconButton(
+                      icon: Image.asset("assets/title_screen/start_first.png"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EscapeGamePage()),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(width: screenWidth * 0.7),
                   Container(
                     padding: const EdgeInsets.all(0.0),
                     alignment: Alignment.center,

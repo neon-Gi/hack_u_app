@@ -1,3 +1,0 @@
-# SHOGATU PARTY
-
-これは、LINE YAHOO 様主催 HACK U KOSEN 2024 にて出品した作品　SHOGATU PARTY の アプリケーションです。

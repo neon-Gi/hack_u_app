@@ -215,6 +215,7 @@ class _EscapeGamePageState extends State<EscapeGamePage> {
   void hintAlert() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
@@ -270,6 +271,7 @@ class _EscapeGamePageState extends State<EscapeGamePage> {
     }
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
@@ -310,6 +312,7 @@ class _EscapeGamePageState extends State<EscapeGamePage> {
   void endAlert() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(

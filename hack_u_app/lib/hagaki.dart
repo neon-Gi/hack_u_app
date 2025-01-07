@@ -37,7 +37,6 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
   }
 
   IconButton folder_icon(String name, num) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return IconButton(
       icon: Image.asset('assets/hagaki/image/folder/$name.png'),
       style: IconButton.styleFrom(iconSize: 200),

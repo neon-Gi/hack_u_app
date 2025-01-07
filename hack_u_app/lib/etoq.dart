@@ -96,11 +96,9 @@ class _etoqPageState extends State<etoqpage> {
       });
       _stopSE();
       _correctSE();
-      print("正解");
     } else {
       _stopSE();
       _uncorrectSE();
-      print("不正解");
     }
     prepare_question();
   }
@@ -188,7 +186,7 @@ class _etoqPageState extends State<etoqpage> {
                             PageRouteBuilder(
                               pageBuilder:
                                   (context, animation, secondaryAnimation) {
-                                return SelectPage();
+                                return const SelectPage();
                               },
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {
@@ -296,7 +294,6 @@ class _etoqPageState extends State<etoqpage> {
     _startSE();
     _playBGM();
     prepare_question();
-    print("ゲーム開始");
     isPlaying = true;
     _startTimer();
   }

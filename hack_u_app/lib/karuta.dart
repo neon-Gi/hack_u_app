@@ -158,7 +158,6 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
       }
     }
     card_index.shuffle();
-    print(card_index);
   }
 
   // BGM再生
@@ -239,11 +238,9 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   void prepare_question() {
     answer_index = Random().nextInt(9);
     if (card_status[card_index.indexOf(answer_index)] == "1") {
-      print("再抽選");
       prepare_question();
       return;
     }
-    print("抽選");
     _readStartSE();
     if (card_index.contains(answer_index)) {
       setState(() {
@@ -265,9 +262,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
           });
         });
       });
-      print("出題:$prepare_answer, $answer_index");
     } else {
-      print("再抽選");
       prepare_question();
     }
   }
@@ -285,10 +280,8 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
       fake_keyword = ha_keyword[b];
     }
     if (card_keyword.contains(fake_keyword)) {
-      print("フェイク - 再抽選");
       fake_prepare_question();
     } else {
-      print("フェイク - 出題: $fake_keyword");
       _readStartSE();
       setState(() {
         display = "";
@@ -873,7 +866,6 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
       }
     }
     card_index.shuffle();
-    print(card_index);
   }
 
   // 準備ダイアログ
@@ -941,11 +933,9 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
       fake_keyword = ha_keyword[b];
     }
     if (card_keyword.contains(fake_keyword)) {
-      print("フェイク - 再抽選");
       fake_prepare_question();
     } else {
       _readStartSE();
-      print("フェイク - 出題: $fake_keyword");
       _readStartSE();
       setState(() {
         display = "";
@@ -980,11 +970,9 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
     answer_index = Random().nextInt(9);
     if (card_status[card_index.indexOf(answer_index)] == "1" ||
         card_status[card_index.indexOf(answer_index)] == "2") {
-      print("再抽選");
       prepare_question();
       return;
     }
-    print("抽選");
     _readStartSE();
     if (card_index.contains(answer_index)) {
       setState(() {
@@ -1006,9 +994,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
           });
         });
       });
-      print("出題:$prepare_answer, $answer_index");
     } else {
-      print("再抽選");
       prepare_question();
     }
   }
@@ -1131,8 +1117,9 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text(
-                    '結果: Player${wins}の勝ち！',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    '結果: Player$winsの勝ち！',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
                   Text(
@@ -1150,7 +1137,7 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SelectPage(),
+                              builder: (context) => const SelectPage(),
                             ),
                           );
                         },
@@ -1408,8 +1395,6 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
   }
 
   void onPress(int index) {
-    print(
-        "press: ${card_index[index]}, answer:$answer_index, Playing:$_isPlaying");
     if (card_status[index] == "otetuki" ||
         card_status[index] == "1" ||
         card_status[index] == "2") {
@@ -1424,7 +1409,6 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
         card_status[index] = "otetuki";
       });
     }
-    print(card_status);
   }
 
   @override

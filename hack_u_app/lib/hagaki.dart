@@ -3,7 +3,6 @@ import 'dart:math' as math;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:hack_u_app/player.dart';
 import 'package:hack_u_app/select_game.dart';
 import 'package:toml/toml.dart';
 
@@ -149,7 +148,7 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: () {
-                        submitScore();
+                        _errorDialog();
                       },
                       child: const Text("ランキング登録"),
                     ),
@@ -212,56 +211,6 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
                       ),
                     ],
                   )
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  Future<void> submitScore() async {
-    try {
-      final response = await PlayerManager().submitSocre(4, _score);
-      if (response) {
-        _successDialog();
-      } else {
-        _errorDialog();
-      }
-    } catch (e) {
-      _errorDialog();
-    }
-  }
-
-  Future<void> _successDialog() async {
-    return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text(
-                    '登録成功',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),

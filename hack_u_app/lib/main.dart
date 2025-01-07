@@ -2,7 +2,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'select_game.dart';
-import 'player.dart';
 
 void main() {
   runApp(const MyApp());
@@ -117,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.of(context).push(
                     PageRouteBuilder(
                       pageBuilder: (context, animation, secondaryAnimation) {
-                        return SelectPage();
+                        return const SelectPage();
                       },
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) {
@@ -146,12 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
-                  showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (_) {
-                        return const PlayerNameDialog();
-                      });
+                  null;
                 },
                 icon: Image.asset("assets/title_screen/option.png"),
                 iconSize: 100,
@@ -565,78 +559,5 @@ class CreditDialog extends StatelessWidget {
         )
       ],
     );
-  }
-}
-
-// プレイヤー名の入力を受け付けるダイアログ
-class PlayerNameDialog extends StatefulWidget {
-  const PlayerNameDialog({super.key});
-
-  @override
-  State<PlayerNameDialog> createState() => _PlayerNameDialogState();
-}
-
-class _PlayerNameDialogState extends State<PlayerNameDialog> {
-  String playerName = "";
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('プレイヤー名を入力してください'),
-      content: TextField(
-        onChanged: (value) {
-          playerName = value;
-        },
-      ),
-      actions: <Widget>[
-        ElevatedButton(
-          child: const Text('OK', style: TextStyle(fontSize: 24)),
-          onPressed: () async {
-            final result = await PlayerManager().savePlayer(playerName);
-            if (!context.mounted) return;
-            Navigator.pop(context);
-            if (!result) {
-              _errorDialog();
-            }
-          },
-        )
-      ],
-    );
-  }
-
-  Future<void> _errorDialog() async {
-    return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text(
-                    '通信エラー',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    '通信または処理に失敗しました。',
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 }

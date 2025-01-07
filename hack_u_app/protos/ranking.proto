@@ -2,39 +2,57 @@ syntax = "proto3";
 
 package ranking;
 
-message SetPlayernameRequest {
-  string playerName = 1;
+// プレイヤー追加
+message InsertPlayerRequesr {
+  string name = 1;
+  string password = 2;
 }
 
-message SetPlayernameResponse {
-  int32 playerId = 1;
+message InsertPlayerResponse {
+  bool success = 1;
+  int32 user_id = 2;
 }
 
-message LeaderboardRequest {
-  int32 gameId = 1;
+// プレイヤーログイン
+message LoginPlayerRequesr {
+  string name = 1;
+  string password = 2;
 }
 
-message LeaderboardResponse {
-  repeated PlayerScore scores = 1;
+message LoginPlayerResponse {
+  bool success = 1;
+  int32 user_id = 2;
 }
 
-message PlayerScore {
-  string playerName = 1;
+// ランキングレコード型
+message Record {
+  string user_name = 1;
   int32 score = 2;
 }
 
-message SubmitScoreRequest {
-  int32 gameId = 1;
-  string playerName = 2;
+// ランキング取得
+message GetRankingRequest {
+  int32 game_id = 1;
+}
+
+message GetRankingResponse {
+  repeated Record records = 1;
+}
+
+// ランキング登録
+message InsertRankingResponse {
+  int32 user_id = 1;
+  int32 game_id = 2;
   int32 score = 3;
 }
 
-message SubmitScoreResponse {
+message InsertRankigResponse {
   bool success = 1;
 }
 
 service RankingService {
-  rpc SetPlayername(SetPlayernameRequest) returns (SetPlayernameResponse);
-  rpc GetLeaderboard (LeaderboardRequest) returns (LeaderboardResponse);
-  rpc SubmitScore (SubmitScoreRequest) returns (SubmitScoreResponse);
+  rpc InsertPlayer(InsertPlayerRequesr) returns (InsertPlayerResponse);
+  rpc LoginPlayer(LoginPlayerRequesr) returns (LoginPlayerResponse);
+  rpc GetRanking(GetRankingRequest) returns (GetRankingResponse);
+  rpc InsertRanking(InsertRankingResponse) returns (InsertRankigResponse);
 }

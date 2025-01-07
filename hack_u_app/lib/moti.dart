@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hack_u_app/player.dart';
 import 'package:hack_u_app/select_game.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -141,7 +140,7 @@ class _MotiGamePageState extends State<MotiGamePage>
                     alignment: Alignment.center,
                     child: ElevatedButton(
                       onPressed: () {
-                        submitScore();
+                        _errorDialog();
                       },
                       child: const Text("ランキング登録"),
                     ),
@@ -167,58 +166,6 @@ class _MotiGamePageState extends State<MotiGamePage>
                           _readyDialog();
                         },
                         child: const Text('もう一度'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
-  // 処理成功ダイアログ
-  Future<void> submitScore() async {
-    try {
-      final response = await PlayerManager().submitSocre(1, game.point);
-      if (response) {
-        _successDialog();
-      } else {
-        _errorDialog();
-      }
-    } catch (e) {
-      _errorDialog();
-    }
-  }
-
-  // 登録完了
-  Future<void> _successDialog() async {
-    return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text(
-                    '登録成功',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('OK'),
                       ),
                     ],
                   ),

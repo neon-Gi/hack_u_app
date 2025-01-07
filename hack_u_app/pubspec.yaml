@@ -68,6 +68,8 @@ flutter:
     - assets/se/karuta/
     - assets/title_screen/
     - assets/select_screen/
+    - assets/select_screen/titles/
+    - assets/select_screen/explain/
     - assets/moti/
     - assets/timer/
     - assets/hagaki/image/

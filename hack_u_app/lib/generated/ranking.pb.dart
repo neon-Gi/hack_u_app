@@ -13,22 +13,28 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class SetPlayernameRequest extends $pb.GeneratedMessage {
-  factory SetPlayernameRequest({
-    $core.String? playerName,
+/// プレイヤー追加
+class InsertPlayerRequesr extends $pb.GeneratedMessage {
+  factory InsertPlayerRequesr({
+    $core.String? name,
+    $core.String? password,
   }) {
     final $result = create();
-    if (playerName != null) {
-      $result.playerName = playerName;
+    if (name != null) {
+      $result.name = name;
+    }
+    if (password != null) {
+      $result.password = password;
     }
     return $result;
   }
-  SetPlayernameRequest._() : super();
-  factory SetPlayernameRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SetPlayernameRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  InsertPlayerRequesr._() : super();
+  factory InsertPlayerRequesr.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory InsertPlayerRequesr.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SetPlayernameRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'playerName', protoName: 'playerName')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'InsertPlayerRequesr', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'name')
+    ..aOS(2, _omitFieldNames ? '' : 'password')
     ..hasRequiredFields = false
   ;
 
@@ -36,49 +42,63 @@ class SetPlayernameRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  SetPlayernameRequest clone() => SetPlayernameRequest()..mergeFromMessage(this);
+  InsertPlayerRequesr clone() => InsertPlayerRequesr()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  SetPlayernameRequest copyWith(void Function(SetPlayernameRequest) updates) => super.copyWith((message) => updates(message as SetPlayernameRequest)) as SetPlayernameRequest;
+  InsertPlayerRequesr copyWith(void Function(InsertPlayerRequesr) updates) => super.copyWith((message) => updates(message as InsertPlayerRequesr)) as InsertPlayerRequesr;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SetPlayernameRequest create() => SetPlayernameRequest._();
-  SetPlayernameRequest createEmptyInstance() => create();
-  static $pb.PbList<SetPlayernameRequest> createRepeated() => $pb.PbList<SetPlayernameRequest>();
+  static InsertPlayerRequesr create() => InsertPlayerRequesr._();
+  InsertPlayerRequesr createEmptyInstance() => create();
+  static $pb.PbList<InsertPlayerRequesr> createRepeated() => $pb.PbList<InsertPlayerRequesr>();
   @$core.pragma('dart2js:noInline')
-  static SetPlayernameRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SetPlayernameRequest>(create);
-  static SetPlayernameRequest? _defaultInstance;
+  static InsertPlayerRequesr getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<InsertPlayerRequesr>(create);
+  static InsertPlayerRequesr? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get playerName => $_getSZ(0);
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set playerName($core.String v) { $_setString(0, v); }
+  set name($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasPlayerName() => $_has(0);
+  $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearPlayerName() => clearField(1);
+  void clearName() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get password => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set password($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPassword() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPassword() => clearField(2);
 }
 
-class SetPlayernameResponse extends $pb.GeneratedMessage {
-  factory SetPlayernameResponse({
-    $core.int? playerId,
+class InsertPlayerResponse extends $pb.GeneratedMessage {
+  factory InsertPlayerResponse({
+    $core.bool? success,
+    $core.int? userId,
   }) {
     final $result = create();
-    if (playerId != null) {
-      $result.playerId = playerId;
+    if (success != null) {
+      $result.success = success;
+    }
+    if (userId != null) {
+      $result.userId = userId;
     }
     return $result;
   }
-  SetPlayernameResponse._() : super();
-  factory SetPlayernameResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SetPlayernameResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  InsertPlayerResponse._() : super();
+  factory InsertPlayerResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory InsertPlayerResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SetPlayernameResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'playerId', $pb.PbFieldType.O3, protoName: 'playerId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'InsertPlayerResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'userId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -86,49 +106,64 @@ class SetPlayernameResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  SetPlayernameResponse clone() => SetPlayernameResponse()..mergeFromMessage(this);
+  InsertPlayerResponse clone() => InsertPlayerResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  SetPlayernameResponse copyWith(void Function(SetPlayernameResponse) updates) => super.copyWith((message) => updates(message as SetPlayernameResponse)) as SetPlayernameResponse;
+  InsertPlayerResponse copyWith(void Function(InsertPlayerResponse) updates) => super.copyWith((message) => updates(message as InsertPlayerResponse)) as InsertPlayerResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SetPlayernameResponse create() => SetPlayernameResponse._();
-  SetPlayernameResponse createEmptyInstance() => create();
-  static $pb.PbList<SetPlayernameResponse> createRepeated() => $pb.PbList<SetPlayernameResponse>();
+  static InsertPlayerResponse create() => InsertPlayerResponse._();
+  InsertPlayerResponse createEmptyInstance() => create();
+  static $pb.PbList<InsertPlayerResponse> createRepeated() => $pb.PbList<InsertPlayerResponse>();
   @$core.pragma('dart2js:noInline')
-  static SetPlayernameResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SetPlayernameResponse>(create);
-  static SetPlayernameResponse? _defaultInstance;
+  static InsertPlayerResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<InsertPlayerResponse>(create);
+  static InsertPlayerResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get playerId => $_getIZ(0);
+  $core.bool get success => $_getBF(0);
   @$pb.TagNumber(1)
-  set playerId($core.int v) { $_setSignedInt32(0, v); }
+  set success($core.bool v) { $_setBool(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasPlayerId() => $_has(0);
+  $core.bool hasSuccess() => $_has(0);
   @$pb.TagNumber(1)
-  void clearPlayerId() => clearField(1);
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get userId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set userId($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUserId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUserId() => clearField(2);
 }
 
-class LeaderboardRequest extends $pb.GeneratedMessage {
-  factory LeaderboardRequest({
-    $core.int? gameId,
+/// プレイヤーログイン
+class LoginPlayerRequesr extends $pb.GeneratedMessage {
+  factory LoginPlayerRequesr({
+    $core.String? name,
+    $core.String? password,
   }) {
     final $result = create();
-    if (gameId != null) {
-      $result.gameId = gameId;
+    if (name != null) {
+      $result.name = name;
+    }
+    if (password != null) {
+      $result.password = password;
     }
     return $result;
   }
-  LeaderboardRequest._() : super();
-  factory LeaderboardRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory LeaderboardRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LoginPlayerRequesr._() : super();
+  factory LoginPlayerRequesr.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginPlayerRequesr.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LeaderboardRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'gameId', $pb.PbFieldType.O3, protoName: 'gameId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LoginPlayerRequesr', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'name')
+    ..aOS(2, _omitFieldNames ? '' : 'password')
     ..hasRequiredFields = false
   ;
 
@@ -136,49 +171,63 @@ class LeaderboardRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  LeaderboardRequest clone() => LeaderboardRequest()..mergeFromMessage(this);
+  LoginPlayerRequesr clone() => LoginPlayerRequesr()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  LeaderboardRequest copyWith(void Function(LeaderboardRequest) updates) => super.copyWith((message) => updates(message as LeaderboardRequest)) as LeaderboardRequest;
+  LoginPlayerRequesr copyWith(void Function(LoginPlayerRequesr) updates) => super.copyWith((message) => updates(message as LoginPlayerRequesr)) as LoginPlayerRequesr;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static LeaderboardRequest create() => LeaderboardRequest._();
-  LeaderboardRequest createEmptyInstance() => create();
-  static $pb.PbList<LeaderboardRequest> createRepeated() => $pb.PbList<LeaderboardRequest>();
+  static LoginPlayerRequesr create() => LoginPlayerRequesr._();
+  LoginPlayerRequesr createEmptyInstance() => create();
+  static $pb.PbList<LoginPlayerRequesr> createRepeated() => $pb.PbList<LoginPlayerRequesr>();
   @$core.pragma('dart2js:noInline')
-  static LeaderboardRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LeaderboardRequest>(create);
-  static LeaderboardRequest? _defaultInstance;
+  static LoginPlayerRequesr getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginPlayerRequesr>(create);
+  static LoginPlayerRequesr? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.int get gameId => $_getIZ(0);
+  $core.String get name => $_getSZ(0);
   @$pb.TagNumber(1)
-  set gameId($core.int v) { $_setSignedInt32(0, v); }
+  set name($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasGameId() => $_has(0);
+  $core.bool hasName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearGameId() => clearField(1);
+  void clearName() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get password => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set password($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPassword() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearPassword() => clearField(2);
 }
 
-class LeaderboardResponse extends $pb.GeneratedMessage {
-  factory LeaderboardResponse({
-    $core.Iterable<PlayerScore>? scores,
+class LoginPlayerResponse extends $pb.GeneratedMessage {
+  factory LoginPlayerResponse({
+    $core.bool? success,
+    $core.int? userId,
   }) {
     final $result = create();
-    if (scores != null) {
-      $result.scores.addAll(scores);
+    if (success != null) {
+      $result.success = success;
+    }
+    if (userId != null) {
+      $result.userId = userId;
     }
     return $result;
   }
-  LeaderboardResponse._() : super();
-  factory LeaderboardResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory LeaderboardResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  LoginPlayerResponse._() : super();
+  factory LoginPlayerResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoginPlayerResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LeaderboardResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
-    ..pc<PlayerScore>(1, _omitFieldNames ? '' : 'scores', $pb.PbFieldType.PM, subBuilder: PlayerScore.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'LoginPlayerResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'userId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -186,47 +235,63 @@ class LeaderboardResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  LeaderboardResponse clone() => LeaderboardResponse()..mergeFromMessage(this);
+  LoginPlayerResponse clone() => LoginPlayerResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  LeaderboardResponse copyWith(void Function(LeaderboardResponse) updates) => super.copyWith((message) => updates(message as LeaderboardResponse)) as LeaderboardResponse;
+  LoginPlayerResponse copyWith(void Function(LoginPlayerResponse) updates) => super.copyWith((message) => updates(message as LoginPlayerResponse)) as LoginPlayerResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static LeaderboardResponse create() => LeaderboardResponse._();
-  LeaderboardResponse createEmptyInstance() => create();
-  static $pb.PbList<LeaderboardResponse> createRepeated() => $pb.PbList<LeaderboardResponse>();
+  static LoginPlayerResponse create() => LoginPlayerResponse._();
+  LoginPlayerResponse createEmptyInstance() => create();
+  static $pb.PbList<LoginPlayerResponse> createRepeated() => $pb.PbList<LoginPlayerResponse>();
   @$core.pragma('dart2js:noInline')
-  static LeaderboardResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LeaderboardResponse>(create);
-  static LeaderboardResponse? _defaultInstance;
+  static LoginPlayerResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoginPlayerResponse>(create);
+  static LoginPlayerResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<PlayerScore> get scores => $_getList(0);
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get userId => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set userId($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasUserId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearUserId() => clearField(2);
 }
 
-class PlayerScore extends $pb.GeneratedMessage {
-  factory PlayerScore({
-    $core.String? playerName,
+/// ランキングレコード型
+class Record extends $pb.GeneratedMessage {
+  factory Record({
+    $core.String? userName,
     $core.int? score,
   }) {
     final $result = create();
-    if (playerName != null) {
-      $result.playerName = playerName;
+    if (userName != null) {
+      $result.userName = userName;
     }
     if (score != null) {
       $result.score = score;
     }
     return $result;
   }
-  PlayerScore._() : super();
-  factory PlayerScore.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory PlayerScore.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Record._() : super();
+  factory Record.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Record.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PlayerScore', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'playerName', protoName: 'playerName')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Record', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'userName')
     ..a<$core.int>(2, _omitFieldNames ? '' : 'score', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
@@ -235,31 +300,31 @@ class PlayerScore extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  PlayerScore clone() => PlayerScore()..mergeFromMessage(this);
+  Record clone() => Record()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  PlayerScore copyWith(void Function(PlayerScore) updates) => super.copyWith((message) => updates(message as PlayerScore)) as PlayerScore;
+  Record copyWith(void Function(Record) updates) => super.copyWith((message) => updates(message as Record)) as Record;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static PlayerScore create() => PlayerScore._();
-  PlayerScore createEmptyInstance() => create();
-  static $pb.PbList<PlayerScore> createRepeated() => $pb.PbList<PlayerScore>();
+  static Record create() => Record._();
+  Record createEmptyInstance() => create();
+  static $pb.PbList<Record> createRepeated() => $pb.PbList<Record>();
   @$core.pragma('dart2js:noInline')
-  static PlayerScore getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PlayerScore>(create);
-  static PlayerScore? _defaultInstance;
+  static Record getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Record>(create);
+  static Record? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get playerName => $_getSZ(0);
+  $core.String get userName => $_getSZ(0);
   @$pb.TagNumber(1)
-  set playerName($core.String v) { $_setString(0, v); }
+  set userName($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasPlayerName() => $_has(0);
+  $core.bool hasUserName() => $_has(0);
   @$pb.TagNumber(1)
-  void clearPlayerName() => clearField(1);
+  void clearUserName() => clearField(1);
 
   @$pb.TagNumber(2)
   $core.int get score => $_getIZ(1);
@@ -271,32 +336,23 @@ class PlayerScore extends $pb.GeneratedMessage {
   void clearScore() => clearField(2);
 }
 
-class SubmitScoreRequest extends $pb.GeneratedMessage {
-  factory SubmitScoreRequest({
+/// ランキング取得
+class GetRankingRequest extends $pb.GeneratedMessage {
+  factory GetRankingRequest({
     $core.int? gameId,
-    $core.String? playerName,
-    $core.int? score,
   }) {
     final $result = create();
     if (gameId != null) {
       $result.gameId = gameId;
     }
-    if (playerName != null) {
-      $result.playerName = playerName;
-    }
-    if (score != null) {
-      $result.score = score;
-    }
     return $result;
   }
-  SubmitScoreRequest._() : super();
-  factory SubmitScoreRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SubmitScoreRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetRankingRequest._() : super();
+  factory GetRankingRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetRankingRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SubmitScoreRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'gameId', $pb.PbFieldType.O3, protoName: 'gameId')
-    ..aOS(2, _omitFieldNames ? '' : 'playerName', protoName: 'playerName')
-    ..a<$core.int>(3, _omitFieldNames ? '' : 'score', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRankingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'gameId', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
@@ -304,22 +360,22 @@ class SubmitScoreRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  SubmitScoreRequest clone() => SubmitScoreRequest()..mergeFromMessage(this);
+  GetRankingRequest clone() => GetRankingRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  SubmitScoreRequest copyWith(void Function(SubmitScoreRequest) updates) => super.copyWith((message) => updates(message as SubmitScoreRequest)) as SubmitScoreRequest;
+  GetRankingRequest copyWith(void Function(GetRankingRequest) updates) => super.copyWith((message) => updates(message as GetRankingRequest)) as GetRankingRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SubmitScoreRequest create() => SubmitScoreRequest._();
-  SubmitScoreRequest createEmptyInstance() => create();
-  static $pb.PbList<SubmitScoreRequest> createRepeated() => $pb.PbList<SubmitScoreRequest>();
+  static GetRankingRequest create() => GetRankingRequest._();
+  GetRankingRequest createEmptyInstance() => create();
+  static $pb.PbList<GetRankingRequest> createRepeated() => $pb.PbList<GetRankingRequest>();
   @$core.pragma('dart2js:noInline')
-  static SubmitScoreRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SubmitScoreRequest>(create);
-  static SubmitScoreRequest? _defaultInstance;
+  static GetRankingRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRankingRequest>(create);
+  static GetRankingRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get gameId => $_getIZ(0);
@@ -329,15 +385,120 @@ class SubmitScoreRequest extends $pb.GeneratedMessage {
   $core.bool hasGameId() => $_has(0);
   @$pb.TagNumber(1)
   void clearGameId() => clearField(1);
+}
+
+class GetRankingResponse extends $pb.GeneratedMessage {
+  factory GetRankingResponse({
+    $core.Iterable<Record>? records,
+  }) {
+    final $result = create();
+    if (records != null) {
+      $result.records.addAll(records);
+    }
+    return $result;
+  }
+  GetRankingResponse._() : super();
+  factory GetRankingResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetRankingResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetRankingResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..pc<Record>(1, _omitFieldNames ? '' : 'records', $pb.PbFieldType.PM, subBuilder: Record.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetRankingResponse clone() => GetRankingResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetRankingResponse copyWith(void Function(GetRankingResponse) updates) => super.copyWith((message) => updates(message as GetRankingResponse)) as GetRankingResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetRankingResponse create() => GetRankingResponse._();
+  GetRankingResponse createEmptyInstance() => create();
+  static $pb.PbList<GetRankingResponse> createRepeated() => $pb.PbList<GetRankingResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetRankingResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetRankingResponse>(create);
+  static GetRankingResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Record> get records => $_getList(0);
+}
+
+/// ランキング登録
+class InsertRankingResponse extends $pb.GeneratedMessage {
+  factory InsertRankingResponse({
+    $core.int? userId,
+    $core.int? gameId,
+    $core.int? score,
+  }) {
+    final $result = create();
+    if (userId != null) {
+      $result.userId = userId;
+    }
+    if (gameId != null) {
+      $result.gameId = gameId;
+    }
+    if (score != null) {
+      $result.score = score;
+    }
+    return $result;
+  }
+  InsertRankingResponse._() : super();
+  factory InsertRankingResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory InsertRankingResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'InsertRankingResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'userId', $pb.PbFieldType.O3)
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'gameId', $pb.PbFieldType.O3)
+    ..a<$core.int>(3, _omitFieldNames ? '' : 'score', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  InsertRankingResponse clone() => InsertRankingResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  InsertRankingResponse copyWith(void Function(InsertRankingResponse) updates) => super.copyWith((message) => updates(message as InsertRankingResponse)) as InsertRankingResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static InsertRankingResponse create() => InsertRankingResponse._();
+  InsertRankingResponse createEmptyInstance() => create();
+  static $pb.PbList<InsertRankingResponse> createRepeated() => $pb.PbList<InsertRankingResponse>();
+  @$core.pragma('dart2js:noInline')
+  static InsertRankingResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<InsertRankingResponse>(create);
+  static InsertRankingResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get userId => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set userId($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasUserId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearUserId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get playerName => $_getSZ(1);
+  $core.int get gameId => $_getIZ(1);
   @$pb.TagNumber(2)
-  set playerName($core.String v) { $_setString(1, v); }
+  set gameId($core.int v) { $_setSignedInt32(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasPlayerName() => $_has(1);
+  $core.bool hasGameId() => $_has(1);
   @$pb.TagNumber(2)
-  void clearPlayerName() => clearField(2);
+  void clearGameId() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.int get score => $_getIZ(2);
@@ -349,8 +510,8 @@ class SubmitScoreRequest extends $pb.GeneratedMessage {
   void clearScore() => clearField(3);
 }
 
-class SubmitScoreResponse extends $pb.GeneratedMessage {
-  factory SubmitScoreResponse({
+class InsertRankigResponse extends $pb.GeneratedMessage {
+  factory InsertRankigResponse({
     $core.bool? success,
   }) {
     final $result = create();
@@ -359,11 +520,11 @@ class SubmitScoreResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  SubmitScoreResponse._() : super();
-  factory SubmitScoreResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SubmitScoreResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  InsertRankigResponse._() : super();
+  factory InsertRankigResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory InsertRankigResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SubmitScoreResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'InsertRankigResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'success')
     ..hasRequiredFields = false
   ;
@@ -372,22 +533,22 @@ class SubmitScoreResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  SubmitScoreResponse clone() => SubmitScoreResponse()..mergeFromMessage(this);
+  InsertRankigResponse clone() => InsertRankigResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  SubmitScoreResponse copyWith(void Function(SubmitScoreResponse) updates) => super.copyWith((message) => updates(message as SubmitScoreResponse)) as SubmitScoreResponse;
+  InsertRankigResponse copyWith(void Function(InsertRankigResponse) updates) => super.copyWith((message) => updates(message as InsertRankigResponse)) as InsertRankigResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SubmitScoreResponse create() => SubmitScoreResponse._();
-  SubmitScoreResponse createEmptyInstance() => create();
-  static $pb.PbList<SubmitScoreResponse> createRepeated() => $pb.PbList<SubmitScoreResponse>();
+  static InsertRankigResponse create() => InsertRankigResponse._();
+  InsertRankigResponse createEmptyInstance() => create();
+  static $pb.PbList<InsertRankigResponse> createRepeated() => $pb.PbList<InsertRankigResponse>();
   @$core.pragma('dart2js:noInline')
-  static SubmitScoreResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SubmitScoreResponse>(create);
-  static SubmitScoreResponse? _defaultInstance;
+  static InsertRankigResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<InsertRankigResponse>(create);
+  static InsertRankigResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.bool get success => $_getBF(0);

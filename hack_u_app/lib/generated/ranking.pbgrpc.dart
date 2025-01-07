@@ -21,18 +21,22 @@ export 'ranking.pb.dart';
 
 @$pb.GrpcServiceName('ranking.RankingService')
 class RankingServiceClient extends $grpc.Client {
-  static final _$setPlayername = $grpc.ClientMethod<$0.SetPlayernameRequest, $0.SetPlayernameResponse>(
-      '/ranking.RankingService/SetPlayername',
-      ($0.SetPlayernameRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.SetPlayernameResponse.fromBuffer(value));
-  static final _$getLeaderboard = $grpc.ClientMethod<$0.LeaderboardRequest, $0.LeaderboardResponse>(
-      '/ranking.RankingService/GetLeaderboard',
-      ($0.LeaderboardRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.LeaderboardResponse.fromBuffer(value));
-  static final _$submitScore = $grpc.ClientMethod<$0.SubmitScoreRequest, $0.SubmitScoreResponse>(
-      '/ranking.RankingService/SubmitScore',
-      ($0.SubmitScoreRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.SubmitScoreResponse.fromBuffer(value));
+  static final _$insertPlayer = $grpc.ClientMethod<$0.InsertPlayerRequesr, $0.InsertPlayerResponse>(
+      '/ranking.RankingService/InsertPlayer',
+      ($0.InsertPlayerRequesr value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.InsertPlayerResponse.fromBuffer(value));
+  static final _$loginPlayer = $grpc.ClientMethod<$0.LoginPlayerRequesr, $0.LoginPlayerResponse>(
+      '/ranking.RankingService/LoginPlayer',
+      ($0.LoginPlayerRequesr value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.LoginPlayerResponse.fromBuffer(value));
+  static final _$getRanking = $grpc.ClientMethod<$0.GetRankingRequest, $0.GetRankingResponse>(
+      '/ranking.RankingService/GetRanking',
+      ($0.GetRankingRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetRankingResponse.fromBuffer(value));
+  static final _$insertRanking = $grpc.ClientMethod<$0.InsertRankingResponse, $0.InsertRankigResponse>(
+      '/ranking.RankingService/InsertRanking',
+      ($0.InsertRankingResponse value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.InsertRankigResponse.fromBuffer(value));
 
   RankingServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -40,16 +44,20 @@ class RankingServiceClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.SetPlayernameResponse> setPlayername($0.SetPlayernameRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$setPlayername, request, options: options);
+  $grpc.ResponseFuture<$0.InsertPlayerResponse> insertPlayer($0.InsertPlayerRequesr request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$insertPlayer, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.LeaderboardResponse> getLeaderboard($0.LeaderboardRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$getLeaderboard, request, options: options);
+  $grpc.ResponseFuture<$0.LoginPlayerResponse> loginPlayer($0.LoginPlayerRequesr request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$loginPlayer, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.SubmitScoreResponse> submitScore($0.SubmitScoreRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$submitScore, request, options: options);
+  $grpc.ResponseFuture<$0.GetRankingResponse> getRanking($0.GetRankingRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getRanking, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.InsertRankigResponse> insertRanking($0.InsertRankingResponse request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$insertRanking, request, options: options);
   }
 }
 
@@ -58,42 +66,54 @@ abstract class RankingServiceBase extends $grpc.Service {
   $core.String get $name => 'ranking.RankingService';
 
   RankingServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.SetPlayernameRequest, $0.SetPlayernameResponse>(
-        'SetPlayername',
-        setPlayername_Pre,
+    $addMethod($grpc.ServiceMethod<$0.InsertPlayerRequesr, $0.InsertPlayerResponse>(
+        'InsertPlayer',
+        insertPlayer_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.SetPlayernameRequest.fromBuffer(value),
-        ($0.SetPlayernameResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.LeaderboardRequest, $0.LeaderboardResponse>(
-        'GetLeaderboard',
-        getLeaderboard_Pre,
+        ($core.List<$core.int> value) => $0.InsertPlayerRequesr.fromBuffer(value),
+        ($0.InsertPlayerResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.LoginPlayerRequesr, $0.LoginPlayerResponse>(
+        'LoginPlayer',
+        loginPlayer_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.LeaderboardRequest.fromBuffer(value),
-        ($0.LeaderboardResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.SubmitScoreRequest, $0.SubmitScoreResponse>(
-        'SubmitScore',
-        submitScore_Pre,
+        ($core.List<$core.int> value) => $0.LoginPlayerRequesr.fromBuffer(value),
+        ($0.LoginPlayerResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.GetRankingRequest, $0.GetRankingResponse>(
+        'GetRanking',
+        getRanking_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.SubmitScoreRequest.fromBuffer(value),
-        ($0.SubmitScoreResponse value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.GetRankingRequest.fromBuffer(value),
+        ($0.GetRankingResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.InsertRankingResponse, $0.InsertRankigResponse>(
+        'InsertRanking',
+        insertRanking_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.InsertRankingResponse.fromBuffer(value),
+        ($0.InsertRankigResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.SetPlayernameResponse> setPlayername_Pre($grpc.ServiceCall call, $async.Future<$0.SetPlayernameRequest> request) async {
-    return setPlayername(call, await request);
+  $async.Future<$0.InsertPlayerResponse> insertPlayer_Pre($grpc.ServiceCall call, $async.Future<$0.InsertPlayerRequesr> request) async {
+    return insertPlayer(call, await request);
   }
 
-  $async.Future<$0.LeaderboardResponse> getLeaderboard_Pre($grpc.ServiceCall call, $async.Future<$0.LeaderboardRequest> request) async {
-    return getLeaderboard(call, await request);
+  $async.Future<$0.LoginPlayerResponse> loginPlayer_Pre($grpc.ServiceCall call, $async.Future<$0.LoginPlayerRequesr> request) async {
+    return loginPlayer(call, await request);
   }
 
-  $async.Future<$0.SubmitScoreResponse> submitScore_Pre($grpc.ServiceCall call, $async.Future<$0.SubmitScoreRequest> request) async {
-    return submitScore(call, await request);
+  $async.Future<$0.GetRankingResponse> getRanking_Pre($grpc.ServiceCall call, $async.Future<$0.GetRankingRequest> request) async {
+    return getRanking(call, await request);
   }
 
-  $async.Future<$0.SetPlayernameResponse> setPlayername($grpc.ServiceCall call, $0.SetPlayernameRequest request);
-  $async.Future<$0.LeaderboardResponse> getLeaderboard($grpc.ServiceCall call, $0.LeaderboardRequest request);
-  $async.Future<$0.SubmitScoreResponse> submitScore($grpc.ServiceCall call, $0.SubmitScoreRequest request);
+  $async.Future<$0.InsertRankigResponse> insertRanking_Pre($grpc.ServiceCall call, $async.Future<$0.InsertRankingResponse> request) async {
+    return insertRanking(call, await request);
+  }
+
+  $async.Future<$0.InsertPlayerResponse> insertPlayer($grpc.ServiceCall call, $0.InsertPlayerRequesr request);
+  $async.Future<$0.LoginPlayerResponse> loginPlayer($grpc.ServiceCall call, $0.LoginPlayerRequesr request);
+  $async.Future<$0.GetRankingResponse> getRanking($grpc.ServiceCall call, $0.GetRankingRequest request);
+  $async.Future<$0.InsertRankigResponse> insertRanking($grpc.ServiceCall call, $0.InsertRankingResponse request);
 }

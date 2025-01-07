@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package ranking;
+
+// プレイヤー追加
+message InsertPlayerRequesr {
+  string name = 1;
+  string password = 2;
+}
+
+message InsertPlayerResponse {
+  bool success = 1;
+  int32 user_id = 2;
+}
+
+// プレイヤーログイン
+message LoginPlayerRequesr {
+  string name = 1;
+  string password = 2;
+}
+
+message LoginPlayerResponse {
+  bool success = 1;
+  int32 user_id = 2;
+}
+
+// ランキングレコード型
+message Record {
+  string user_name = 1;
+  int32 score = 2;
+}
+
+// ランキング取得
+message GetRankingRequest {
+  int32 game_id = 1;
+}
+
+message GetRankingResponse {
+  repeated Record records = 1;
+}
+
+// ランキング登録
+message InsertRankingResponse {
+  int32 user_id = 1;
+  int32 game_id = 2;
+  int32 score = 3;
+}
+
+message InsertRankigResponse {
+  bool success = 1;
+}
+
+service RankingService {
+  rpc InsertPlayer(InsertPlayerRequesr) returns (InsertPlayerResponse);
+  rpc LoginPlayer(LoginPlayerRequesr) returns (LoginPlayerResponse);
+  rpc GetRanking(GetRankingRequest) returns (GetRankingResponse);
+  rpc InsertRanking(InsertRankingResponse) returns (InsertRankigResponse);
+}

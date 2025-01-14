@@ -1,8 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/etoquestion.dart';
 import 'hagaki.dart';
 import 'karuta.dart';
-import 'etoq.dart';
 import 'main.dart';
 import 'moti.dart';
 import 'escape.dart';
@@ -326,7 +326,7 @@ class _GameDetailState extends State<GameDetail> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const etoqpage()),
+                                  builder: (context) => const EtoQuestion()),
                             );
                           },
                         ),

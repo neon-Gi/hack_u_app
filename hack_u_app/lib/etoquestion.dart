@@ -1,106 +1,65 @@
 import 'dart:async';
 import 'dart:math';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import "select_game.dart";
+import 'package:hack_u_app/select_game.dart';
 
 String timerUrl = "assets/timer/time64_";
 
-class etoqpage extends StatefulWidget {
-  const etoqpage({super.key});
+List<String> imagePath = [
+  "assets/etoQ/animals/rat.png",
+  "assets/etoQ/animals/cow.png",
+  "assets/etoQ/animals/tiger.png",
+  "assets/etoQ/animals/rabbit.png",
+  "assets/etoQ/animals/dragon.png",
+  "assets/etoQ/animals/snake.png",
+  "assets/etoQ/animals/horse.png",
+  "assets/etoQ/animals/sheep.png",
+  "assets/etoQ/animals/monkey.png",
+  "assets/etoQ/animals/chicken.png",
+  "assets/etoQ/animals/dog.png",
+  "assets/etoQ/animals/boar.png",
+];
+
+class EtoQuestion extends StatefulWidget {
+  const EtoQuestion({super.key});
+
   @override
-  State<etoqpage> createState() => _etoqPageState();
+  State<EtoQuestion> createState() => _EtoQuestionState();
 }
 
-class _etoqPageState extends State<etoqpage> {
-  int count = 0;
+class _EtoQuestionState extends State<EtoQuestion> {
+  int timer = 0;
   int _timeCount = 0;
-  String _timeIndex = "assets/timer/time64_0.png";
-  bool isPlaying = false;
-  bool isMistake = false;
-  int answer_index = 7; // 答えの写真インデックス
-  int front_index = 6; // 答えの前の写真インデックス
-  int back_index = 8; // 答えの後の写真インデックス
-  int random_answer = 3; // 答えが格納される場所を決定
-  List<int> answer_button = [8, 10, 5, 7]; // 正解判定用のボタンリスト
-  int score = 0;
-  Timer? _timer; // タイムカウント
-  int timerSec = 30;
-  late AudioPlayer _bgmPlayer; // BGM用のAudioPlayer
+  String _timeIndex = "${timerUrl}0.png";
+  int point = 0;
+  int answerIndex = 12;
+  int frontIndex = 0;
+  int backIndex = 0;
+  List<int> buttonIndex = [0, 0, 0, 0];
+  bool answerPrepared = true;
+  bool wait = false;
+  Timer? _timer;
+  late AudioPlayer _bgmPlayer;
   late AudioPlayer _sePlayer;
 
   @override
   void initState() {
     super.initState();
+    prepare();
     _bgmPlayer = AudioPlayer();
     _sePlayer = AudioPlayer();
-    _bgmPlayer.setReleaseMode(ReleaseMode.loop);
-    prepare_question();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _readyDialog();
     });
   }
 
-  List<String> imagePath = [
-    "assets/etoQ/animals/rat.png",
-    "assets/etoQ/animals/cow.png",
-    "assets/etoQ/animals/tiger.png",
-    "assets/etoQ/animals/rabbit.png",
-    "assets/etoQ/animals/dragon.png",
-    "assets/etoQ/animals/snake.png",
-    "assets/etoQ/animals/horse.png",
-    "assets/etoQ/animals/sheep.png",
-    "assets/etoQ/animals/monkey.png",
-    "assets/etoQ/animals/chicken.png",
-    "assets/etoQ/animals/dog.png",
-    "assets/etoQ/animals/boar.png",
-  ];
-
-  void prepare_question() {
-    if (isMistake) {
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        setState(() {
-          isMistake = false;
-        });
-      });
-    }
-    count = 0;
-    random_answer = Random().nextInt(4); // 0~3の中で正解の絵柄が入るボタンの決定
-    answer_index = Random().nextInt(12); //0~11の間
-    front_index = answer_index - 1;
-    if (front_index == -1) {
-      front_index = 11;
-    }
-    back_index = answer_index + 1;
-    if (back_index == 12) {
-      back_index = 0;
-    }
-    for (var _ in answer_button) {
-      if (random_answer == count) {
-        answer_button[count] = answer_index;
-      } else {
-        answer_button[count] = Random().nextInt(12);
-        while (answer_button[count] == answer_index) {
-          answer_button[count] = Random().nextInt(12);
-        }
-      }
-      count++;
-    }
-  }
-
-  void answer_check(int index) {
-    if (!isPlaying) return;
-    if (index == random_answer) {
-      setState(() {
-        score++;
-      });
-      _stopSE();
-      _correctSE();
-    } else {
-      _stopSE();
-      _uncorrectSE();
-    }
-    prepare_question();
+  @override
+  void dispose() {
+    _bgmPlayer.dispose();
+    _sePlayer.dispose();
+    super.dispose();
   }
 
   // 準備ダイアログ
@@ -130,7 +89,7 @@ class _etoqPageState extends State<etoqpage> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      score = 0;
+                      point = 0;
                       Navigator.of(context).pop();
                       startGame();
                     },
@@ -143,6 +102,46 @@ class _etoqPageState extends State<etoqpage> {
         });
   }
 
+  // ゲーム開始
+  void startGame() {
+    _startSE();
+    _playBGM();
+    game();
+  }
+
+  // ゲーム中
+  void game() {
+    prepare();
+    timer = 30;
+    _timeCount = 0;
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      setState(() {
+        if (timer <= 0) {
+          endGame();
+        } else {
+          timer--;
+          if (timer <= 5) {
+            _timeIndex = "${timerUrl}12_${timer.toString()}.png";
+          } else if (timer % 3 == 0) {
+            _timeCount++;
+            _timeIndex = "$timerUrl${_timeCount.toString()}.png";
+          } else {
+            _timeIndex = "$timerUrl${_timeCount.toString()}.png";
+          }
+        }
+      });
+    });
+  }
+
+  // ゲーム終了
+  void endGame() {
+    _stopBGM();
+    _timer?.cancel();
+    _timer = null;
+    _endDailog();
+  }
+
+  // 終了ダイアログ
   Future<void> _endDailog() async {
     return showDialog<void>(
         context: context,
@@ -163,18 +162,8 @@ class _etoqPageState extends State<etoqpage> {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    "得点: ${score.toString()}点",
+                    "得点: ${point.toString()}点",
                     textAlign: TextAlign.center,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(0),
-                    alignment: Alignment.center,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        _errorDialog();
-                      },
-                      child: const Text("ランキング登録"),
-                    ),
                   ),
                   const SizedBox(height: 10),
                   Row(
@@ -222,41 +211,61 @@ class _etoqPageState extends State<etoqpage> {
         });
   }
 
-  Future<void> _errorDialog() async {
-    return showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text(
-                    '通信エラー',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    '通信または処理に失敗しました。',
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
+  // 出題準備
+  void prepare() {
+    setState(() {
+      answerIndex = Random().nextInt(12); // 0 ~ 11までのランダムに正解
+      frontIndex = answerIndex - 1;
+      if (frontIndex == -1) frontIndex = 11;
+      backIndex = answerIndex + 1;
+      if (backIndex == 12) backIndex = 0;
+      for (int i = 0; i < 4; i++) {
+        if ((Random().nextBool() && answerPrepared) ||
+            (answerPrepared && i == 3)) {
+          buttonIndex[i] = answerIndex;
+          answerPrepared = false;
+        } else {
+          int temp = Random().nextInt(12);
+          while (temp == answerIndex || buttonIndex.contains(temp)) {
+            temp = Random().nextInt(12);
+          }
+          buttonIndex[i] = temp;
+        }
+      }
+      answerPrepared = true;
+    });
+  }
+
+  // 正解チェック
+  void answer(int number) {
+    if (wait) return;
+    if (buttonIndex[number] == answerIndex) {
+      point++;
+      _correctSE();
+      prepare();
+    } else {
+      _uncorrectSE();
+      wait = true;
+      Future.delayed(const Duration(seconds: 2), () {
+        wait = false;
+        prepare();
+      });
+    }
+  }
+
+  // スタートSE
+  Future<void> _startSE() async {
+    await _sePlayer.play(AssetSource("se/start.mp3"));
+  }
+
+  // 正解SE
+  Future<void> _correctSE() async {
+    await _sePlayer.play(AssetSource("se/etoq/correct.mp3"));
+  }
+
+  // 不正解SE
+  Future<void> _uncorrectSE() async {
+    await _sePlayer.play(AssetSource("se/etoq/uncorrect.mp3"));
   }
 
   // BGM再生
@@ -270,65 +279,8 @@ class _etoqPageState extends State<etoqpage> {
     await _bgmPlayer.stop();
   }
 
-  // スタート
-  Future<void> _startSE() async {
-    await _sePlayer.play(AssetSource("se/start.mp3"));
-  }
-
-  // 正解
-  Future<void> _correctSE() async {
-    await _sePlayer.play(AssetSource("se/etoq/correct.mp3"));
-  }
-
-  // 不正解
-  Future<void> _uncorrectSE() async {
-    await _sePlayer.play(AssetSource("se/etoq/uncorrect.mp3"));
-  }
-
-  // SEストップ
-  Future<void> _stopSE() async {
-    await _sePlayer.stop();
-  }
-
-  void startGame() {
-    _startSE();
-    _playBGM();
-    prepare_question();
-    isPlaying = true;
-    _startTimer();
-  }
-
-  void endGame() {
-    _stopBGM();
-    _timer?.cancel();
-    _timer = null;
-    isPlaying = false;
-    _endDailog();
-  }
-
-  void _startTimer() {
-    timerSec = 30;
-    _timeCount = 0;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (timerSec <= 0) {
-          endGame();
-        } else {
-          timerSec--;
-          if (timerSec <= 5) {
-            _timeIndex = timerUrl + "12_" + timerSec.toString() + ".png";
-          } else if (timerSec % 3 == 0) {
-            _timeCount++;
-            _timeIndex = timerUrl + _timeCount.toString() + ".png";
-          } else {
-            _timeIndex = timerUrl + _timeCount.toString() + ".png";
-          }
-        }
-      });
-    });
-  }
-
   @override
+  // UI
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -352,21 +304,23 @@ class _etoqPageState extends State<etoqpage> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                // 前の画像
                 Container(
                   padding: const EdgeInsets.all(0),
                   alignment: Alignment.center,
                   child: Image.asset(
-                    imagePath[back_index],
+                    imagePath[backIndex],
                     fit: BoxFit.cover,
                     width: screenWidth * 0.26,
                   ),
                 ),
                 SizedBox(width: screenWidth * 0.37),
+                // 後の画像
                 Container(
                   padding: const EdgeInsets.all(0),
                   alignment: Alignment.center,
                   child: Image.asset(
-                    imagePath[front_index],
+                    imagePath[frontIndex],
                     fit: BoxFit.cover,
                     width: screenWidth * 0.26,
                   ),
@@ -374,6 +328,7 @@ class _etoqPageState extends State<etoqpage> {
               ],
             ),
             SizedBox(height: screenHeight * 0.2),
+            // タイマー
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -388,7 +343,6 @@ class _etoqPageState extends State<etoqpage> {
               ],
             ),
             SizedBox(height: screenHeight * 0.07),
-            // ボタン
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -399,12 +353,12 @@ class _etoqPageState extends State<etoqpage> {
                     alignment: Alignment.center,
                     child: IconButton(
                       icon: Image.asset(
-                        imagePath[answer_button[0]],
+                        imagePath[buttonIndex[0]],
                         fit: BoxFit.cover,
                         width: screenWidth * 0.25,
                       ),
                       onPressed: () {
-                        answer_check(0);
+                        answer(0);
                       },
                     )),
                 SizedBox(width: screenWidth * 0.1),
@@ -413,17 +367,17 @@ class _etoqPageState extends State<etoqpage> {
                     alignment: Alignment.center,
                     child: IconButton(
                       icon: Image.asset(
-                        imagePath[answer_button[1]],
+                        imagePath[buttonIndex[1]],
                         fit: BoxFit.cover,
                         width: screenWidth * 0.25,
                       ),
                       onPressed: () {
-                        answer_check(1);
+                        answer(1);
                       },
                     )),
               ],
             ),
-            SizedBox(height: screenHeight * 0.06),
+            SizedBox(height: screenHeight * 0.05),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
@@ -434,12 +388,12 @@ class _etoqPageState extends State<etoqpage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     icon: Image.asset(
-                      imagePath[answer_button[2]],
+                      imagePath[buttonIndex[2]],
                       fit: BoxFit.cover,
                       width: screenWidth * 0.25,
                     ),
                     onPressed: () {
-                      answer_check(2);
+                      answer(2);
                     },
                   ),
                 ),
@@ -449,12 +403,12 @@ class _etoqPageState extends State<etoqpage> {
                   alignment: Alignment.center,
                   child: IconButton(
                     icon: Image.asset(
-                      imagePath[answer_button[3]],
+                      imagePath[buttonIndex[3]],
                       fit: BoxFit.cover,
                       width: screenWidth * 0.25,
                     ),
                     onPressed: () {
-                      answer_check(3);
+                      answer(3);
                     },
                   ),
                 ),

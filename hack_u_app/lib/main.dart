@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/rankings.dart';
 import 'package:video_player/video_player.dart';
 import 'select_game.dart';
 
@@ -145,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
-                  null;
+                  Player().signup("あああ", "1");
                 },
                 icon: Image.asset("assets/title_screen/option.png"),
                 iconSize: 100,

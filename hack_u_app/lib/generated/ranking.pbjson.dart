@@ -108,9 +108,9 @@ final $typed_data.Uint8List getRankingResponseDescriptor = $convert.base64Decode
     'ChJHZXRSYW5raW5nUmVzcG9uc2USKQoHcmVjb3JkcxgBIAMoCzIPLnJhbmtpbmcuUmVjb3JkUg'
     'dyZWNvcmRz');
 
-@$core.Deprecated('Use insertRankingResponseDescriptor instead')
-const InsertRankingResponse$json = {
-  '1': 'InsertRankingResponse',
+@$core.Deprecated('Use insertRankingRequestDescriptor instead')
+const InsertRankingRequest$json = {
+  '1': 'InsertRankingRequest',
   '2': [
     {'1': 'user_id', '3': 1, '4': 1, '5': 5, '10': 'userId'},
     {'1': 'game_id', '3': 2, '4': 1, '5': 5, '10': 'gameId'},
@@ -118,10 +118,10 @@ const InsertRankingResponse$json = {
   ],
 };
 
-/// Descriptor for `InsertRankingResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List insertRankingResponseDescriptor = $convert.base64Decode(
-    'ChVJbnNlcnRSYW5raW5nUmVzcG9uc2USFwoHdXNlcl9pZBgBIAEoBVIGdXNlcklkEhcKB2dhbW'
-    'VfaWQYAiABKAVSBmdhbWVJZBIUCgVzY29yZRgDIAEoBVIFc2NvcmU=');
+/// Descriptor for `InsertRankingRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List insertRankingRequestDescriptor = $convert.base64Decode(
+    'ChRJbnNlcnRSYW5raW5nUmVxdWVzdBIXCgd1c2VyX2lkGAEgASgFUgZ1c2VySWQSFwoHZ2FtZV'
+    '9pZBgCIAEoBVIGZ2FtZUlkEhQKBXNjb3JlGAMgASgFUgVzY29yZQ==');
 
 @$core.Deprecated('Use insertRankigResponseDescriptor instead')
 const InsertRankigResponse$json = {

@@ -33,9 +33,9 @@ class RankingServiceClient extends $grpc.Client {
       '/ranking.RankingService/GetRanking',
       ($0.GetRankingRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetRankingResponse.fromBuffer(value));
-  static final _$insertRanking = $grpc.ClientMethod<$0.InsertRankingResponse, $0.InsertRankigResponse>(
+  static final _$insertRanking = $grpc.ClientMethod<$0.InsertRankingRequest, $0.InsertRankigResponse>(
       '/ranking.RankingService/InsertRanking',
-      ($0.InsertRankingResponse value) => value.writeToBuffer(),
+      ($0.InsertRankingRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.InsertRankigResponse.fromBuffer(value));
 
   RankingServiceClient($grpc.ClientChannel channel,
@@ -56,7 +56,7 @@ class RankingServiceClient extends $grpc.Client {
     return $createUnaryCall(_$getRanking, request, options: options);
   }
 
-  $grpc.ResponseFuture<$0.InsertRankigResponse> insertRanking($0.InsertRankingResponse request, {$grpc.CallOptions? options}) {
+  $grpc.ResponseFuture<$0.InsertRankigResponse> insertRanking($0.InsertRankingRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$insertRanking, request, options: options);
   }
 }
@@ -87,12 +87,12 @@ abstract class RankingServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetRankingRequest.fromBuffer(value),
         ($0.GetRankingResponse value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.InsertRankingResponse, $0.InsertRankigResponse>(
+    $addMethod($grpc.ServiceMethod<$0.InsertRankingRequest, $0.InsertRankigResponse>(
         'InsertRanking',
         insertRanking_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.InsertRankingResponse.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.InsertRankingRequest.fromBuffer(value),
         ($0.InsertRankigResponse value) => value.writeToBuffer()));
   }
 
@@ -108,12 +108,12 @@ abstract class RankingServiceBase extends $grpc.Service {
     return getRanking(call, await request);
   }
 
-  $async.Future<$0.InsertRankigResponse> insertRanking_Pre($grpc.ServiceCall call, $async.Future<$0.InsertRankingResponse> request) async {
+  $async.Future<$0.InsertRankigResponse> insertRanking_Pre($grpc.ServiceCall call, $async.Future<$0.InsertRankingRequest> request) async {
     return insertRanking(call, await request);
   }
 
   $async.Future<$0.InsertPlayerResponse> insertPlayer($grpc.ServiceCall call, $0.InsertPlayerRequesr request);
   $async.Future<$0.LoginPlayerResponse> loginPlayer($grpc.ServiceCall call, $0.LoginPlayerRequesr request);
   $async.Future<$0.GetRankingResponse> getRanking($grpc.ServiceCall call, $0.GetRankingRequest request);
-  $async.Future<$0.InsertRankigResponse> insertRanking($grpc.ServiceCall call, $0.InsertRankingResponse request);
+  $async.Future<$0.InsertRankigResponse> insertRanking($grpc.ServiceCall call, $0.InsertRankingRequest request);
 }

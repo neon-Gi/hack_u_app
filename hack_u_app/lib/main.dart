@@ -524,7 +524,6 @@ class _MyHomePageState extends State<MyHomePage> {
 // 未実装ダイアログを表示
 class AlertDialogSample extends StatelessWidget {
   const AlertDialogSample({super.key});
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -545,7 +544,6 @@ class AlertDialogSample extends StatelessWidget {
 // クレジットダイアログを表示
 class CreditDialog extends StatelessWidget {
   const CreditDialog({super.key});
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

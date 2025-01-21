@@ -475,7 +475,7 @@ Image please_image(bool omote) {
 }
 
 class Tategaki extends StatelessWidget {
-  Tategaki(
+  const Tategaki(
     this.text, {
     this.style,
     this.space = 12,

@@ -40,7 +40,7 @@ message GetRankingResponse {
 }
 
 // ランキング登録
-message InsertRankingResponse {
+message InsertRankingRequest {
   int32 user_id = 1;
   int32 game_id = 2;
   int32 score = 3;
@@ -54,5 +54,5 @@ service RankingService {
   rpc InsertPlayer(InsertPlayerRequesr) returns (InsertPlayerResponse);
   rpc LoginPlayer(LoginPlayerRequesr) returns (LoginPlayerResponse);
   rpc GetRanking(GetRankingRequest) returns (GetRankingResponse);
-  rpc InsertRanking(InsertRankingResponse) returns (InsertRankigResponse);
+  rpc InsertRanking(InsertRankingRequest) returns (InsertRankigResponse);
 }

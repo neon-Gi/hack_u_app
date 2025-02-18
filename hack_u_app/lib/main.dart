@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:hack_u_app/rankings.dart';
 import 'package:video_player/video_player.dart';
 import 'select_game.dart';
 
@@ -145,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: screenHeight * 0.1,
               child: IconButton(
                 onPressed: () {
-                  null;
+                  Player().signup("あああ", "1");
                 },
                 icon: Image.asset("assets/title_screen/option.png"),
                 iconSize: 100,
@@ -523,7 +524,6 @@ class _MyHomePageState extends State<MyHomePage> {
 // 未実装ダイアログを表示
 class AlertDialogSample extends StatelessWidget {
   const AlertDialogSample({super.key});
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -544,7 +544,6 @@ class AlertDialogSample extends StatelessWidget {
 // クレジットダイアログを表示
 class CreditDialog extends StatelessWidget {
   const CreditDialog({super.key});
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

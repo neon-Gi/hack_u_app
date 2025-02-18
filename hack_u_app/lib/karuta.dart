@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hack_u_app/select_game.dart';
 
 // い
-List<String> i_imagePath = [
+List<String> iImagePath = [
   "assets/karuta/i/inumoarukeba_bou.png",
   "assets/karuta/i/inuyama.png",
   "assets/karuta/i/inumoarukeba_bouzu.png",
@@ -16,7 +16,7 @@ List<String> i_imagePath = [
   "assets/karuta/i/inoshishi.png",
   "assets/karuta/i/isseki_nicho.png",
 ];
-List<String> i_keyword = [
+List<String> iKeyword = [
   "いぬもあるけばぼうにあたる",
   "いぬもあるけばやまとなる",
   "いぬもあるけばぼうずにあたる",
@@ -29,7 +29,7 @@ List<String> i_keyword = [
 ];
 
 // ろ
-List<String> ro_imagePath = [
+List<String> roImagePath = [
   "assets/karuta/ro/ron_shoko.png",
   "assets/karuta/ro/ron_dango.png",
   "assets/karuta/ro/ron_roba.png",
@@ -40,7 +40,7 @@ List<String> ro_imagePath = [
   "assets/karuta/ro/roba.png",
   "assets/karuta/ro/candle.png"
 ];
-List<String> ro_keyword = [
+List<String> roKeyword = [
   "ろんよりしょうこ",
   "ろんよりだんご",
   "ろんよりろば",
@@ -53,7 +53,7 @@ List<String> ro_keyword = [
 ];
 
 // は
-List<String> ha_imagePath = [
+List<String> haImagePath = [
   "assets/karuta/ha/flower_dango.png",
   "assets/karuta/ha/flower_shoko.png",
   "assets/karuta/ha/nose_flower.png",
@@ -64,7 +64,7 @@ List<String> ha_imagePath = [
   "assets/karuta/ha/niddle_bou.png",
   "assets/karuta/ha/niddle_string.png"
 ];
-List<String> ha_keyword = [
+List<String> haKeyword = [
   "はなよりだんご",
   "はなよりしょうこ",
   "はなよりはな",
@@ -87,7 +87,7 @@ class KarutaGamePage extends StatefulWidget {
 class _KarutaGamePageState extends State<KarutaGamePage> {
   bool _isPlaying = false; // ゲーム時間中
   bool _isFake = false; // フェイクか否か
-  int fake_count = 0;
+  int fakeCount = 0;
   int round = 1; // 1=い、2=ろ、3=は
   List<String> card_status = [
     "no",
@@ -126,7 +126,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   void reset() {
     _isPlaying = false;
     _isFake = false;
-    fake_count = 0;
+    fakeCount = 0;
     round = 1;
     card_status = ["no", "no", "no", "no", "no", "no", "no", "no", "no"];
     card_images = [];
@@ -139,20 +139,20 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
         continue;
       } else if (card_images.length <= 2) {
         setState(() {
-          card_images.add(i_imagePath[random_index]);
-          card_keyword.add(i_keyword[random_index]);
+          card_images.add(iImagePath[random_index]);
+          card_keyword.add(iKeyword[random_index]);
           correct_number.add(random_index);
         });
       } else if (card_images.length <= 5) {
         setState(() {
-          card_images.add(ro_imagePath[random_index]);
-          card_keyword.add(ro_keyword[random_index]);
+          card_images.add(roImagePath[random_index]);
+          card_keyword.add(roKeyword[random_index]);
           correct_number.add(random_index);
         });
       } else {
         setState(() {
-          card_images.add(ha_imagePath[random_index]);
-          card_keyword.add(ha_keyword[random_index]);
+          card_images.add(haImagePath[random_index]);
+          card_keyword.add(haKeyword[random_index]);
           correct_number.add(random_index);
         });
       }
@@ -213,7 +213,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   ElevatedButton(
                     onPressed: () {
                       _playBGM();
-                      if (fake_count < 5 || round == 8) {
+                      if (fakeCount < 5 || round == 8) {
                         _isFake = Random().nextBool();
                       } else {
                         _isFake = false;
@@ -273,11 +273,11 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
     int b = Random().nextInt(9);
     String fake_keyword = "";
     if (a == 0) {
-      fake_keyword = i_keyword[b];
+      fake_keyword = iKeyword[b];
     } else if (a == 1) {
-      fake_keyword = ro_keyword[b];
+      fake_keyword = roKeyword[b];
     } else {
-      fake_keyword = ha_keyword[b];
+      fake_keyword = haKeyword[b];
     }
     if (card_keyword.contains(fake_keyword)) {
       fake_prepare_question();
@@ -335,7 +335,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                   ElevatedButton(
                     onPressed: () {
                       if (_isFake) {
-                        fake_count++;
+                        fakeCount++;
                       }
                       round++;
                       Navigator.of(context).pop();
@@ -370,7 +370,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
-                  Text(
+                  const Text(
                     "得点: 9点",
                     textAlign: TextAlign.center,
                   ),
@@ -385,7 +385,7 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SelectPage(),
+                              builder: (context) => const SelectPage(),
                             ),
                           );
                         },
@@ -598,15 +598,13 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
   }
 
   void onPress(int index) {
-    print(
-        "press: ${card_index[index]}, answer:$answer_index, Playing:$_isPlaying, Fake:$_isFake");
     if (card_status[index] == "otetuki" || card_status[index] == "1") {
       return;
     } else if (answer_index == card_index[index] && _isPlaying && !_isFake) {
       _correctSE();
       _isPlaying = false;
       card_status[index] = "1";
-      if (round == 9 + fake_count) {
+      if (round == 9 + fakeCount) {
         _stopBGM();
         _endDialog();
       } else {
@@ -618,7 +616,6 @@ class _KarutaGamePageState extends State<KarutaGamePage> {
         card_status[index] = "otetuki";
       });
     }
-    print(card_status);
   }
 
   @override
@@ -847,20 +844,20 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
         continue;
       } else if (card_images.length <= 2) {
         setState(() {
-          card_images.add(i_imagePath[random_index]);
-          card_keyword.add(i_keyword[random_index]);
+          card_images.add(iImagePath[random_index]);
+          card_keyword.add(iKeyword[random_index]);
           correct_number.add(random_index);
         });
       } else if (card_images.length <= 5) {
         setState(() {
-          card_images.add(ro_imagePath[random_index]);
-          card_keyword.add(ro_keyword[random_index]);
+          card_images.add(roImagePath[random_index]);
+          card_keyword.add(roKeyword[random_index]);
           correct_number.add(random_index);
         });
       } else {
         setState(() {
-          card_images.add(ha_imagePath[random_index]);
-          card_keyword.add(ha_keyword[random_index]);
+          card_images.add(haImagePath[random_index]);
+          card_keyword.add(haKeyword[random_index]);
           correct_number.add(random_index);
         });
       }
@@ -926,11 +923,11 @@ class MultiKarutaGamePageState extends State<MultiKarutaGamePage> {
     int b = Random().nextInt(9);
     String fake_keyword = "";
     if (a == 0) {
-      fake_keyword = i_keyword[b];
+      fake_keyword = iKeyword[b];
     } else if (a == 1) {
-      fake_keyword = ro_keyword[b];
+      fake_keyword = roKeyword[b];
     } else {
-      fake_keyword = ha_keyword[b];
+      fake_keyword = haKeyword[b];
     }
     if (card_keyword.contains(fake_keyword)) {
       fake_prepare_question();

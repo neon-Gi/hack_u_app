@@ -263,6 +263,7 @@ class _EscapeGamePageState extends State<EscapeGamePage> {
 
   // フィードバックアラート
   void answerAlert(bool correct) {
+    _stopBGM();
     _timer?.cancel();
     if (correct) {
       _correctSE();
@@ -310,6 +311,7 @@ class _EscapeGamePageState extends State<EscapeGamePage> {
 
   // 最終点表示アラート
   void endAlert() {
+    _stopBGM();
     showDialog(
       context: context,
       barrierDismissible: false,

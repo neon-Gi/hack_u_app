@@ -432,8 +432,8 @@ class GetRankingResponse extends $pb.GeneratedMessage {
 }
 
 /// ランキング登録
-class InsertRankingResponse extends $pb.GeneratedMessage {
-  factory InsertRankingResponse({
+class InsertRankingRequest extends $pb.GeneratedMessage {
+  factory InsertRankingRequest({
     $core.int? userId,
     $core.int? gameId,
     $core.int? score,
@@ -450,11 +450,11 @@ class InsertRankingResponse extends $pb.GeneratedMessage {
     }
     return $result;
   }
-  InsertRankingResponse._() : super();
-  factory InsertRankingResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory InsertRankingResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  InsertRankingRequest._() : super();
+  factory InsertRankingRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory InsertRankingRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'InsertRankingResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'InsertRankingRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'ranking'), createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'userId', $pb.PbFieldType.O3)
     ..a<$core.int>(2, _omitFieldNames ? '' : 'gameId', $pb.PbFieldType.O3)
     ..a<$core.int>(3, _omitFieldNames ? '' : 'score', $pb.PbFieldType.O3)
@@ -465,22 +465,22 @@ class InsertRankingResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  InsertRankingResponse clone() => InsertRankingResponse()..mergeFromMessage(this);
+  InsertRankingRequest clone() => InsertRankingRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  InsertRankingResponse copyWith(void Function(InsertRankingResponse) updates) => super.copyWith((message) => updates(message as InsertRankingResponse)) as InsertRankingResponse;
+  InsertRankingRequest copyWith(void Function(InsertRankingRequest) updates) => super.copyWith((message) => updates(message as InsertRankingRequest)) as InsertRankingRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static InsertRankingResponse create() => InsertRankingResponse._();
-  InsertRankingResponse createEmptyInstance() => create();
-  static $pb.PbList<InsertRankingResponse> createRepeated() => $pb.PbList<InsertRankingResponse>();
+  static InsertRankingRequest create() => InsertRankingRequest._();
+  InsertRankingRequest createEmptyInstance() => create();
+  static $pb.PbList<InsertRankingRequest> createRepeated() => $pb.PbList<InsertRankingRequest>();
   @$core.pragma('dart2js:noInline')
-  static InsertRankingResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<InsertRankingResponse>(create);
-  static InsertRankingResponse? _defaultInstance;
+  static InsertRankingRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<InsertRankingRequest>(create);
+  static InsertRankingRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get userId => $_getIZ(0);

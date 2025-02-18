@@ -1,5 +1,6 @@
 # SHOGATU PARTY
 正月を題材とした数々のミニゲーム。少ない制限時間の中でハイスコアを目指せ！
+![gazou](hack_u_app/for_readme/shogatu_party.png)
 
 ## 対応機種
 Android デバイスのみ

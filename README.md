@@ -6,7 +6,7 @@
 Android デバイスのみ
 
 ## 実行方法
-`hack_u_app/apk_file`にある`app-release.apk`をデバイスにダウンロードし、実行してください。
+`apk_file`にある`app-release.apk`をデバイスにダウンロードし、実行してください。
 
 ## ライセンス
 * この作品はノタの森によるもので、

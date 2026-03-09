@@ -461,12 +461,14 @@ class _HagakiGamePageState extends State<HagakiGamePage> {
 
 Image clock_update(int milli_sec) {
   final sec = milli_sec ~/ 1000;
-  if (milli_sec < 55000)
+  if (milli_sec < 55000) {
     return Image.asset("assets/hagaki/image/clock/clock_${sec ~/ 5}.png");
-  else if (milli_sec < 60000)
+  } else if (milli_sec < 60000) {
     return Image.asset(
         "assets/hagaki/image/clock/clock_12_${60 - sec}left.png");
-  return Image.asset('assets/hagaki/image/clock/clock_12_0left.png');
+  } else {
+    return Image.asset('assets/hagaki/image/clock/clock_12_0left.png');
+  }
 }
 
 Image please_image(bool omote) {

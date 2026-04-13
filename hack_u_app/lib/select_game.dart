@@ -27,7 +27,7 @@ class _SelectPageState extends State<SelectPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     // ボタンのサイズを設定
-    double buttonSize = screenWidth * 0.3; // 幅と高さを画面幅の30%に設定
+    double buttonSize = screenWidth * 0.25; // 幅と高さを画面幅の30%に設定
     double buttonSpacing = screenHeight * 0.03; // ボタン間のスペースを画面幅の3%に設定
 
     return SafeArea(
@@ -38,11 +38,10 @@ class _SelectPageState extends State<SelectPage> {
               fit: BoxFit.cover),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: screenHeight * 0.05),
             // 1行目
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -461,316 +460,47 @@ class _GameDetailState extends State<GameDetail> {
                   ),
               },
               // ランキングボタン・戻るボタン
-              switch (widget.game) {
-                "moti" => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(2.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.4,
-                        child: IconButton(
-                          icon: Image.asset(
-                            "assets/select_screen/ranking_button.png",
-                            fit: BoxFit.cover,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(width: screenWidth * 0.7),
+                  Container(
+                    padding: const EdgeInsets.all(0.0),
+                    alignment: Alignment.center,
+                    width: screenWidth * 0.25,
+                    height: screenHeight * 0.1,
+                    child: IconButton(
+                      icon: Image.asset("assets/title_screen/return.png"),
+                      onPressed: () {
+                        playSound();
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) {
+                              return const SelectPage();
+                            },
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              final Animatable<Offset> tween = Tween(
+                                      begin: const Offset(-1.0, 0.0),
+                                      end: Offset.zero)
+                                  .chain(CurveTween(curve: Curves.easeInOut));
+                              final Animation<Offset> offsetAnimation =
+                                  animation.drive(tween);
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
                           ),
-                          onPressed: () {
-                            playSound();
-                          },
-                        ),
-                      ),
-                      SizedBox(width: screenWidth * 0.3),
-                      Container(
-                        padding: const EdgeInsets.all(0.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.25,
-                        height: screenHeight * 0.1,
-                        child: IconButton(
-                          icon: Image.asset("assets/title_screen/return.png"),
-                          onPressed: () {
-                            playSound();
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return const SelectPage();
-                                },
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  final Animatable<Offset> tween = Tween(
-                                          begin: const Offset(-1.0, 0.0),
-                                          end: Offset.zero)
-                                      .chain(
-                                          CurveTween(curve: Curves.easeInOut));
-                                  final Animation<Offset> offsetAnimation =
-                                      animation.drive(tween);
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                "etoq" => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(2.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.4,
-                        child: IconButton(
-                          icon: Image.asset(
-                            "assets/select_screen/ranking_button.png",
-                            fit: BoxFit.cover,
-                          ),
-                          onPressed: () {
-                            playSound();
-                          },
-                        ),
-                      ),
-                      SizedBox(width: screenWidth * 0.3),
-                      Container(
-                        padding: const EdgeInsets.all(0.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.25,
-                        height: screenHeight * 0.1,
-                        child: IconButton(
-                          icon: Image.asset("assets/title_screen/return.png"),
-                          onPressed: () {
-                            playSound();
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return const SelectPage();
-                                },
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  final Animatable<Offset> tween = Tween(
-                                          begin: const Offset(-1.0, 0.0),
-                                          end: Offset.zero)
-                                      .chain(
-                                          CurveTween(curve: Curves.easeInOut));
-                                  final Animation<Offset> offsetAnimation =
-                                      animation.drive(tween);
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                "karuta" => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(width: screenWidth * 0.7),
-                      Container(
-                        padding: const EdgeInsets.all(0.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.25,
-                        height: screenHeight * 0.1,
-                        child: IconButton(
-                          icon: Image.asset("assets/title_screen/return.png"),
-                          onPressed: () {
-                            playSound();
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return const SelectPage();
-                                },
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  final Animatable<Offset> tween = Tween(
-                                          begin: const Offset(-1.0, 0.0),
-                                          end: Offset.zero)
-                                      .chain(
-                                          CurveTween(curve: Curves.easeInOut));
-                                  final Animation<Offset> offsetAnimation =
-                                      animation.drive(tween);
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                "nengajo" => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(2.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.4,
-                        child: IconButton(
-                          icon: Image.asset(
-                            "assets/select_screen/ranking_button.png",
-                            fit: BoxFit.cover,
-                          ),
-                          onPressed: () {
-                            playSound();
-                          },
-                        ),
-                      ),
-                      SizedBox(width: screenWidth * 0.3),
-                      Container(
-                        padding: const EdgeInsets.all(0.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.25,
-                        height: screenHeight * 0.1,
-                        child: IconButton(
-                          icon: Image.asset("assets/title_screen/return.png"),
-                          onPressed: () {
-                            playSound();
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return const SelectPage();
-                                },
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  final Animatable<Offset> tween = Tween(
-                                          begin: const Offset(-1.0, 0.0),
-                                          end: Offset.zero)
-                                      .chain(
-                                          CurveTween(curve: Curves.easeInOut));
-                                  final Animation<Offset> offsetAnimation =
-                                      animation.drive(tween);
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                "riddle" => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(width: screenWidth * 0.7),
-                      Container(
-                        padding: const EdgeInsets.all(0.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.25,
-                        height: screenHeight * 0.1,
-                        child: IconButton(
-                          icon: Image.asset("assets/title_screen/return.png"),
-                          onPressed: () {
-                            playSound();
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return const SelectPage();
-                                },
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  final Animatable<Offset> tween = Tween(
-                                          begin: const Offset(-1.0, 0.0),
-                                          end: Offset.zero)
-                                      .chain(
-                                          CurveTween(curve: Curves.easeInOut));
-                                  final Animation<Offset> offsetAnimation =
-                                      animation.drive(tween);
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                _ => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(2.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.4,
-                        child: IconButton(
-                          icon: Image.asset(
-                            "assets/select_screen/ranking_button.png",
-                            fit: BoxFit.cover,
-                          ),
-                          onPressed: () {
-                            playSound();
-                          },
-                        ),
-                      ),
-                      SizedBox(width: screenWidth * 0.3),
-                      Container(
-                        padding: const EdgeInsets.all(0.0),
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.25,
-                        height: screenHeight * 0.1,
-                        child: IconButton(
-                          icon: Image.asset("assets/title_screen/return.png"),
-                          onPressed: () {
-                            playSound();
-                            Navigator.of(context).push(
-                              PageRouteBuilder(
-                                pageBuilder:
-                                    (context, animation, secondaryAnimation) {
-                                  return const SelectPage();
-                                },
-                                transitionsBuilder: (context, animation,
-                                    secondaryAnimation, child) {
-                                  final Animatable<Offset> tween = Tween(
-                                          begin: const Offset(-1.0, 0.0),
-                                          end: Offset.zero)
-                                      .chain(
-                                          CurveTween(curve: Curves.easeInOut));
-                                  final Animation<Offset> offsetAnimation =
-                                      animation.drive(tween);
-                                  return SlideTransition(
-                                    position: offsetAnimation,
-                                    child: child,
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
+                        );
+                      },
+                    ),
                   )
-              }
+                ],
+              ),
             ],
           ),
         ),

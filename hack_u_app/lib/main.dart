@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
             setState(() {});
           });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _showVideoDialog();
+      _showVideoDialog(context);
     });
   }
 
@@ -57,15 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
-  Future<void> _showVideoDialog() {
+  Future<void> _showVideoDialog(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           backgroundColor: Colors.transparent,
           content: SizedBox(
-            width: 900, // 幅を指定
-            height: 700, // 高さを指定
+            width: screenWidth * 0.7,
+            height: screenHeight * 0.8,
             child: VideoPlayer(_controller),
           ),
           actions: [
@@ -99,11 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: screenWidth * 1.2),
             // スタートボタン
             Container(
               padding: const EdgeInsets.all(0.0),

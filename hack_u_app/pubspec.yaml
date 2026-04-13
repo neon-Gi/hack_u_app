@@ -10,8 +10,6 @@ dependencies:
     sdk: flutter
   video_player: ^2.0.2
   audioplayers: ^6.1.0
-  grpc: ^5.1.0
-  protobuf: ^6.0.0
   shared_preferences: ^2.1.0
   toml: ^0.18.0
   crypto: ^3.0.2
